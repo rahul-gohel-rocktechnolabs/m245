@@ -1,0 +1,127 @@
+<?php $useLikeDislikeSymbol = $block->getProductQaHelper()->useLikeDislikeSymbol();?>
+
+<span class="question-title"><?php if (count($block->getQuestionsAnswer()) > 0):?>
+<?=/* @noEscape */   __('Answer:'); ?><?php endif;?></span>
+
+<div class="main-ans-content">
+<ul>
+<?php foreach ($block->getQuestionsAnswer() as $answer):?>
+    <li>
+        <div class="amswer" >
+            <div class="ansheader">
+                <div class="anstitle">
+                    <?=/* @noEscape */   $answer->getAnswer()?>
+                </div>
+                <div class="actions">
+                    <?php if ($useLikeDislikeSymbol):?>
+<a href="<?=/* @noEscape */ $block->getLikeActionUrl($answer->getId())?>" 
+class="like action"><img 
+src="<?=/* @noEscape */  $block->getViewFileUrl('Mageants_ProductQA::images/like_ans.png'); ?>">(<span 
+class="count" 
+id="<?=/* @noEscape */ $answer->getId(); ?>"><?=/* @noEscape */  $answer->getLikes()?></span>)
+</a>
+                        
+<a href="<?= /* @noEscape */ $block->getDislikeActionUrl($answer->getId())?>" 
+    class="dislike action"><img 
+    src="<?=/* @noEscape */ $block->getViewFileUrl('Mageants_ProductQA::images/dislike_ans.png'); ?>">(<span 
+    class="count" 
+    id="<?= /* @noEscape */ $answer->getId(); ?>"><?=/* @noEscape */  $answer->getDislikes()?></span>)
+</a>
+                    <?php endif; ?>
+                    </div>
+                <div class="date-n-customer-name">
+                    <div class="name">
+                        <span><?= /* @noEscape */ __('By ');?>
+                        <?= /* @noEscape */ $answer->getName()?></span>
+                    </div>
+                    <div class="date">
+                        <span><?=  /* @noEscape */ __(' on ');?>
+                        <?= /* @noEscape */date("j F, Y", strtotime($answer->getCreatedAt()));?></span>
+                    </div>                  
+                </div>
+            </div>
+        </div>
+    </li>
+<?php endforeach?>
+</ul>
+
+<?php if ($block->canShowLoadMore()):?>
+<div class="fieldset">
+    <div class="actions">
+        <button type="button" title="Load More..." 
+        class="  loadmoreanswerbutton" 
+        data-url="<?= /* @noEscape */ $block->getLoadMoreUrl()?>" >
+            <span><?= /* @noEscape */ __('Load More Answer...');?></span>
+        </button>
+    </div>
+</div>
+<?php endif?>
+
+<div class="fieldset">
+    <div class="actions">
+        <button type="submit" title="Ask Question?" 
+        class="action primary answerbutton" 
+        onclick='jQuery("#product-question-answer-<?= /* @noEscape */ $block->getQuestionId()?>").slideToggle()' >
+            <span><?= /* @noEscape */ __('Write Answer');?></span>
+        </button>
+    </div>
+</div>
+<div id="answer-message"></div>
+<div class="answer-form" id="product-question-answer-<?= /* @noEscape */ $block->getQuestionId()?>">
+    <form id="answer-form" action="<?= /* @noEscape */ $block->getFormUrl() ?>" 
+        method="post" class="question-answer-form" 
+        data-mage-init='{"validation": {}}'>
+        <input type="hidden" value="<?= /* @noEscape */ $block->getFormKey();?>" name="form_key"/>
+        <fieldset class="fieldset">                 
+            <div class="field required">
+                <label class="label" for="name"> <?= /* @noEscape */ __('Name')?> : </label>
+                <div class="control">
+                    <input type="text" id="name" class="input-text" 
+                    data-validate="{required:true}" value="<?= /* @noEscape */ trim($block->getCustomerName())?>" 
+                    name="name">
+                </div>                      
+            </div>
+            <div class="field required">
+                <label class="label" for="email"><?= /* @noEscape */__('Email')?>:</label> 
+                <div class="control">
+                    <input type="email" id="email" name="email" 
+                    class="input-text" data-validate="{required:true, 'validate-email':true}" 
+                    value="<?= /* @noEscape */ $block->getCustomerEmail()?>">                           
+                </div>
+            </div>
+            <div class="field required">
+                <label  class="label" for="question"><?= /* @noEscape */ __('Your Answer')?></label> 
+                <div class="control">
+                    <textarea name="answer" id="answer" 
+                    maxlength="255"  class="input-text" 
+                    data-validate="{required:true}" name="answer">
+                  </textarea>                   
+                </div>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar ">
+            <div class="primary actions-primary">
+                <button type="submit" id="submit" 
+                class="action submit primary">
+                <span><?= /* @noEscape */ __('Submit Answer')?></span></button>
+            </div>
+<div class="primary actions-primary">
+<button type="button" 
+class=" submit " 
+onclick='jQuery("#product-question-answer-<?= /* @noEscape */ $block->getQuestionId()?>").slideToggle()'>
+<span><?= /* @noEscape */ __('Cancel')?></span></button>
+</div>
+        </div>
+    </form>
+</div>
+</div>
+<script>
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+ 
+   var dataForm = $('#answer-form');
+   dataForm.mage('validation', {}); 
+});
+</script>

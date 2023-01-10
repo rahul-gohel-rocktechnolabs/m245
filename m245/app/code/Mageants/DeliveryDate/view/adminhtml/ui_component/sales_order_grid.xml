@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <columns name="sales_order_columns">
+        <column name="delivery_date" class="Mageants\DeliveryDate\Ui\DeliveryDate">
+            <argument name="data" xsi:type="array">                
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Date</item>
+                    <item name="sortOrder" xsi:type="number">1</item>
+                </item>
+            </argument>
+        </column>
+        <column name="delivery_timeslot" class="Mageants\DeliveryDate\Ui\DeliveryTime">
+            <argument name="data" xsi:type="array">                
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Timeslot</item>
+                    <item name="sortOrder" xsi:type="number">2</item>
+                </item>
+            </argument>
+        </column>
+        <column name="delivery_comment" class="Mageants\DeliveryDate\Ui\DeliveryComment">
+            <argument name="data" xsi:type="array">                
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Comment</item>
+                    <item name="sortOrder" xsi:type="number">3</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

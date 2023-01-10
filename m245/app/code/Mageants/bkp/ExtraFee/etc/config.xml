@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mageants_extrafee>
+        	<extrafee_setting>
+                <enable>1</enable>
+                <prd_title>Additional Product Fees</prd_title>
+                <cat_title>Additional Categories Fees</cat_title>
+                <shipping_title>Additional Shipping Fees</shipping_title>
+                <ord_title>Additional Order Fees</ord_title>
+                <cod_fee></cod_fee>
+            </extrafee_setting>
+        </mageants_extrafee>
+    </default>
+</config>

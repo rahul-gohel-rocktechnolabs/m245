@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="order_place_before" instance="Mageants\OrderApprovalRules\Observer\OrderPlaceAfter" />
+    </event>
+    <event name="controller_action_predispatch_checkout_index_index">
+        <observer name="customcheckout_before_dispatch" instance="Mageants\OrderApprovalRules\Observer\Dispatch" />
+    </event>
+    <event name="sales_order_place_before">
+        <observer name="mageants_sales_order_place_before" instance="Mageants\OrderApprovalRules\Observer\QuoteSubmitBefore" />
+    </event>
+    <event name="checkout_cart_save_before">
+      <observer name="to_check_order_product" instance="Mageants\OrderApprovalRules\Observer\CartSaveBefore" shared="false" />
+  </event>
+</config>

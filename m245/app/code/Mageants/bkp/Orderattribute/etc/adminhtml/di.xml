@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\Sales\Model\Order\Pdf\Invoice" type="Mageants\Orderattribute\Model\Order\Pdf\Invoice" />
+    <preference for="Magento\Sales\Model\Order\Pdf\Shipment" type="Mageants\Orderattribute\Model\Order\Pdf\Shipment" />
+    <preference for="Mageants\Orderattribute\Ui\Component\Listing\Attribute\RepositoryInterface" type="Mageants\Orderattribute\Ui\Component\Listing\Attribute\Repository"/>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Info">
+        <plugin name="Mageants_Orderattribute::OrderEditAttributesList" type="Mageants\Orderattribute\Plugin\Order\Adminhtml\Attributes" />
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Form\Account">
+        <plugin name="Mageants_Orderattribute::CreateOrderAttributesForm" type="Mageants\Orderattribute\Plugin\Order\Adminhtml\Attributes\Form" />
+    </type>
+
+    <type name="Magento\Sales\Model\AdminOrder\Create">
+        <plugin name="Mageants_Orderattribute::SaveOrderAttributesForm" type="Mageants\Orderattribute\Plugin\Order\Adminhtml\CreateOrder" />
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <plugin name="Mageants_Orderattribute::OrderAddAttributesToCollection" type="Mageants\Orderattribute\Plugin\Order\SearchResult" />
+    </type>
+
+    <type name="Magento\Ui\Component\Listing\Columns">
+        <plugin name="Mageants_Orderattribute::OrderAddAttributesGridColumns" type="Mageants\Orderattribute\Plugin\Ui\Component\Listing\Columns" />
+    </type>
+
+    <!--type name="Magento\Ui\Component\Filters\Type\Select">
+        <plugin name="Mageants_Orderattribute::CheckboxFilterApply" type="Mageants\Orderattribute\Plugin\Order\Adminhtml\Grid\Filter\CheckboxesFilter" />
+    </type-->
+</config>

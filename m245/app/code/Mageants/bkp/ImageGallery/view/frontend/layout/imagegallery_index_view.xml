@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <css  src="Mageants_ImageGallery::css/justifiedGallery.min.css" />
+        <css  src="Mageants_ImageGallery::css/magnific-popup.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block name="imagegallery" template="Mageants_ImageGallery::gallery/galleryresult.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Mageants\ImageGallery\ViewModel\Data</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

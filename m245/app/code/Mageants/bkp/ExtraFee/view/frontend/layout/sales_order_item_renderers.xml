@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+         <referenceBlock name="sales.order.items.renderers">
+            <block class="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer" name="sales.order.items.renderers.default" as="default" template="Mageants_ExtraFee::order/items/renderer/default.phtml">
+                <arguments>
+                    <argument name="viewModel" xsi:type="object">
+                        Mageants\ExtraFee\ViewModel\ViewHelperData
+                    </argument>
+                </arguments>
+            </block>
+
+            <block class="Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable" 
+                name="sales.order.items.renderer.downloadable" as="downloadable" 
+                template="Mageants_ExtraFee::sales/order/items/renderer/downloadable.phtml">
+                <arguments>
+                    <argument name="viewModel" xsi:type="object">
+                        Mageants\ExtraFee\ViewModel\ViewHelperData
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>        
+        <referenceBlock name="sales.order.items.renderers.bundle">
+            <action method="setTemplate">
+                <argument name="template" translate="true" xsi:type="string">Mageants_ExtraFee::sales/order/items/renderer.phtml
+                </argument>
+            </action>
+            <arguments>
+                    <argument name="viewModel" xsi:type="object">
+                        Mageants\ExtraFee\ViewModel\ViewHelperData
+                    </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Image gallery';
+  src:  url('../fonts/gallery.eot?c8tpcq');
+  src:  url('../fonts/gallery.eot?c8tpcq#iefix') format('embedded-opentype'),
+    url('../fonts/gallery.ttf?c8tpcq') format('truetype'),
+    url('../fonts/gallery.woff?c8tpcq') format('woff'),
+    url('../fonts/gallery.svg?c8tpcq#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body .admin__menu .item-imagegallery.parent.level-0 > a:before {
+	font-family: 'Image gallery';
+	content: "\e90e";
+}

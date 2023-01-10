@@ -1,0 +1,58 @@
+<?php
+/**
+ * @category Mageants PricePerCustomer
+ * @package Mageants_PricePerCustomer
+ * @copyright Copyright (c) 2020 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+
+<?php
+    $filepath = $block->getViewFileUrl('Mageants_PricePerCustomer/csvfile/sample.csv');
+?>
+<div class="importcouponbytemplate">
+    <form class="admin__fieldset" action="<?= /* @noEscape */ $block->getUrl('pricepercustomer/import/importprice');?>"
+        method="post" enctype="multipart/form-data">
+        <?= $block->getBlockHtml('formkey')?>
+
+        <div class="admin__field field required _required with-note" style="display: block;">
+            <label class="label admin__field-label" data-ui-id="store-view-labels-fieldset-element-text-pattern-label">
+                <span>Import</span>
+            </label>
+
+            <div class="admin__field-control control">
+                <input type="file" name="file" id="file" required class="input-large required-entry" accept=".csv">
+                <input type="hidden" name="ruleid" value ="" />
+                <button type="submit" id="submit" name="import" class="btn-submit">Import</button>
+            </div>
+        </div>
+    </form>
+    <form class="admin__fieldset" action="<?= /* @noEscape */ $block->getUrl('pricepercustomer/export/exportprice'); ?>"
+        method="post" enctype="multipart/form-data">
+        <?= $block->getBlockHtml('formkey')?>
+
+        <div class="admin__field field required _required with-note" style="display: block;">
+            <label class="label admin__field-label" data-ui-id="store-view-labels-fieldset-element-text-pattern-label">
+                <span>Export</span>
+            </label>
+
+            <div class="admin__field-control control">
+                <button type="submit" id="submit" name="export" class="btn-submit">Export</button>
+            </div>
+        </div>
+    </form>
+    <form class="admin__fieldset" action="<?= /* @noEscape */ $block->getUrl('couponimport/import/code'); ?>"
+        method="post" enctype="multipart/form-data">
+        <?= $block->getBlockHtml('formkey')?>
+
+        <div class="admin__field field required _required with-note" style="display: block;">
+            <label class="label admin__field-label" data-ui-id="store-view-labels-fieldset-element-text-pattern-label">
+                <span> Download example CSV file</span>
+            </label>
+
+            <div class="admin__field-control control">
+                <a href="<?= /* @noEscape */ $filepath; ?>" download>Download Sample CSV</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,19 @@
+{
+    "name": "mageants/orderattribute",
+    "description": "Order Attributes by Mageants",
+    "type": "magento2-module",
+    "version": "2.0.2",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "require": {
+        "php": "~7.0.13||~7.1.0||~7.2.0||~7.3.0||~7.4.0||~8.1.0"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "Mageants\\Orderattribute\\": ""
+        }
+    }
+}

@@ -1,0 +1,47 @@
+<?php if ($block->IsSampleProduct()): ?>
+    <?php
+    if ($block->getOfferSampleCost()) {
+            $offersamplecost = $block->getOfferSampleCost();
+    } else {
+            $offersamplecost = 0;
+    }
+    ?>
+<input type="hidden" name="sample-price" value="<?php   echo $offersamplecost; ?>">
+<input type="hidden" id="isSample" name="isSample" value="0">
+<button type="submit" title="<?php /* @escapeNotVerified */ echo __('Order Sample') ?>" id="buy-now" class="action primary tosample" name="sampleorder" value="sampleorder">
+    <span><?php /* @escapeNotVerified */ echo __('Order Sample') ?></span>
+</button>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $("#buy-now").click(function(){
+        $("#isSample").val("1");
+    });
+    $("#product-addtocart-button").click(function(){
+        $("#isSample").val("0");
+    });
+});
+</script>
+    <?php
+endif;
+?>
+
+<style type="text/css">
+button#buy-now{
+background: #1979c3;
+    border: 1px solid #1979c3;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    max-width: 49%;
+    padding: 14px 17px;
+    min-height: 52px;
+    font-size: 1.8rem;
+}
+
+button#buy-now:hover{
+    background: #006bb4;
+    border: 1px solid #006bb4;
+    color: #ffffff;
+}
+</style>

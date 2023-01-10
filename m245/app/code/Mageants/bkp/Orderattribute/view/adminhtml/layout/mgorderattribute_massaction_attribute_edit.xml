@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Massaction\Attributes"
+                   name="order_attribute" template="Mageants_Orderattribute::massaction/attribute/form.phtml" />
+
+            <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Massaction\Buttons" name="attribute" template=""/>
+        </referenceContainer>
+    </body>
+</page>

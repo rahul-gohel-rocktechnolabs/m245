@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" translate="label" sortOrder="10">
+            <label>Mageants</label>
+        </tab>
+        <section id="age_verification" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Age Verification</label>
+            <tab>mageants</tab>
+            <resource>Mageants_AgeVerification::ageVerification_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="verification_based_on" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Verification Based on</label>
+                    <source_model>Mageants\AgeVerification\Model\Config\Source\VerificationBasedOn</source_model>
+                </field>
+                <field id="verification_pages" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Verification Pages</label>
+                    <source_model>Mageants\AgeVerification\Model\Config\Source\Cms</source_model>
+                    <depends>
+                        <field id="verification_based_on">specific-pages</field>
+                    </depends>
+                </field>
+                
+                <field id="verification_age" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Verification Age(Minimum)</label>
+                </field>
+                <field id="cookie_interval" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cookie Interval</label>
+                    <comment>Cookie expiration time (In hours)</comment>
+                </field>
+                
+            </group>
+            <group id="age_verification_popup_templates" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Age Verification Popup Templates</label>
+                <field id="select_template" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Template</label>
+                    <source_model>Mageants\AgeVerification\Model\Config\Source\TemplateOption</source_model>
+                </field>
+            </group>
+            <group id="popup_personalization" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Popup Personalization</label>
+                <group id="logo" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Logo</label>
+                    <field id="image" translate="label" type="image" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Select Image</label>
+                        <backend_model>Mageants\AgeVerification\Model\Config\Backend\TemplateLogoImage</backend_model>
+                        <base_url type="media" scope_info="1">templatelogo</base_url>
+                    </field>
+                </group>                
+                <group id="text" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text</label>
+                    <field id="popup_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Title</label>
+                    </field>
+                    <field id="popup_content_text" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Content Text</label>
+                    </field>
+                    <field id="checkBoxenable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Check Box Enable/Disable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="checkbox_verify_text" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Checkbox Verify Text</label>
+                    </field>
+                </group>
+                <group id="date_of_birth_fields" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Date Of Birth Fields</label>
+                    <field id="Dateenable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                    <field id="select_patterns" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Select Patterns</label>
+                        <source_model>Mageants\AgeVerification\Model\Config\Source\DateOfBirthFields</source_model>
+                    </field>
+                </group> 
+                <group id="buttons" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Buttons</label>
+                    <field id="popup_leave_button_label" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Leave Button Label</label>
+                    </field>
+                    
+                    <field id="popup_leave_button_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Leave Button Url</label>
+                    </field>
+
+                    <field id="popup_enter_button_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Enter Button Url</label>
+                    </field>
+
+                    <field id="popup_enter_button_label" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Enter Button Label</label>
+                    </field>
+                </group> 
+                <group id="appearance" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Appearance</label>
+                    <field id="popup_border_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Border Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_background_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Background Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_content_text_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Content Text Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_title_background_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Title Background Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_title_text_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Title Text Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_button_background_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Button Background Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_button_text_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Button Text Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="loader_color" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Loader Color</label>
+                        <frontend_model>Mageants\AgeVerification\Block\Color</frontend_model>
+                    </field>
+                    <field id="popup_animation" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Popup Animation</label>
+                        <source_model>Mageants\AgeVerification\Model\Config\Source\PopupAnimation</source_model>
+                        <comment>How popup will appear? Default Zoom In</comment>
+                    </field>
+                </group>
+            </group>
+            <group id="google_captcha_configuration" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google Captcha Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>You can generate site key and secret key here </comment>
+                </field>
+                <field id="google_recaptcha_type" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Recaptcha Type</label>
+                    <source_model>Mageants\AgeVerification\Model\Config\Source\CaptchaType</source_model>
+                </field>
+                <field id="visible_site_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Site Key</label>
+                    <comment>Site key for visible reCAPTCHA</comment>
+                    <depends>
+                        <field id="google_recaptcha_type">1</field>
+                    </depends>
+                </field>
+                 <field id="visible_secret_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Secret Key</label>
+                    <comment>Secret key for visible reCAPTCHA</comment>
+                    <depends>
+                        <field id="google_recaptcha_type">1</field>
+                    </depends>
+                </field>
+                <field id="invisible_site_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Site Key</label>
+                    <comment>Site key for invisible reCAPTCHA</comment>
+                    <depends>
+                        <field id="google_recaptcha_type">0</field>
+                    </depends>
+                </field>
+                 <field id="invisible_secret_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Secret Key</label>
+                    <comment>Secret key for invisible reCAPTCHA</comment>
+                    <depends>
+                        <field id="google_recaptcha_type">0</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

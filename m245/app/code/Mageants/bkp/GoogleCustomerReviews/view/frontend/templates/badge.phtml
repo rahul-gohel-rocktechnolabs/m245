@@ -1,0 +1,28 @@
+<?php 
+    
+if($block->isBadge() == true): ?>
+    
+    <script src="https://apis.google.com/js/platform.js?onload=renderBadge" async defer></script>
+    <script>
+        window.renderBadge = function() {
+            var ratingBadgeContainer = document.createElement("div");
+            document.body.appendChild(ratingBadgeContainer);
+            window.gapi.load('ratingbadge', function() {
+                window.gapi.ratingbadge.render(
+                ratingBadgeContainer, {
+                    "merchant_id": <?php echo $block->getMerchantId() ?>,
+                    "position": "<?php echo $block->getPosition() ?>"
+                });
+            });
+        }
+    </script>
+    
+    <?php if ($block->getLanguage()): ?>
+        <script>
+            window.___gcfg = {
+                lang: "<?php echo $block->getLanguage() ?>"
+            };
+        </script>
+    <?php endif; ?>
+
+<?php endif; ?>

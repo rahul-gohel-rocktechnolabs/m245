@@ -1,0 +1,236 @@
+<?php /**@var Mageants\AdvancedSearch\Block\Autocomplete $block  */?>
+
+<?php
+$result = [];
+$productCollection = $block->getrecentsearch()->setOrder('updated_at', 'ASC');
+foreach ($productCollection as $product) {
+    $result[] = $product->getdata('query_text');
+}
+$recent = array_reverse($result);
+
+$limit = $block->recentnumber();
+$result1 = [];
+foreach (array_slice($recent, 0, $limit) as $box1) {
+    $result1[] = $box1;
+}
+
+$urlnumber = count($result1);
+for ($i=0; $i < $urlnumber; $i++) {
+    $visit[] = $block->getrecenturl($result1[$i]);
+}
+
+$enable = $block->recentenable();
+$number = count($result1);
+$visit1 = [];
+$Recentserach = [];
+if ($enable == 1) {
+    for ($i=0; $i < $number; $i++) {
+        $Recentserach[] = [ 'url'=>"$visit[$i]",'name'=>"$result1[$i]"];
+    }
+}
+$recentlength = count($Recentserach);
+$bestlength = $block->getBestSellerData();
+$bestsellerlen =  count($bestlength);
+
+$first = [];
+foreach (array_slice($recent, 0, 5) as $box1) {
+    $first[] = $box1;
+}
+$firstlenght = count($first);
+for ($i=0; $i < $firstlenght; $i++) {
+    $visitfirst[] = $block->getrecenturl($first[$i]);
+}
+
+$Recentserachnoptfound = [];
+for ($i=0; $i < $firstlenght; $i++) {
+    $Recentserachnoptfound[] = [ 'url'=>"$visitfirst[$i]",'name'=>"$recent[$i]"];
+}
+
+$bestSellerData = [];
+$bestseller = $block->bestsellerenable();
+if ($bestseller == 1) {
+    $bestSellerData = $block->getBestSellerData();
+}
+ 
+?>
+
+<div id="myclick" style="display:none;">
+<div style="background: white 0% 0%; width: 250px; height: 160px; position: absolute; top: 50px;">
+<div>
+    <?php
+    $a = $block->firstclick();
+    $block->flushCache();
+    ?>
+
+<div class="firstclick"><?= $block->escapeHtml(__('RECENT SEARCHES')) ?></div>
+<?php /* @noEscape */
+for ($i = 0; $i < $firstlenght; $i++) {
+    echo '<a  href ='. $visitfirst[$i] .'>
+             <span class="firstclickname">' . $recent[$i] . '</span> 
+           </a>';
+}
+ 
+?>
+</div>
+</div>
+</div>
+<div data-bind="scope: 'AdvancedSearch_form'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "AdvancedSearch_form": {
+                    "component": "Mageants_AdvancedSearch/js/popup",
+                    "config": {
+                        "ajaxurl": "<?= /* @noEscape */ $block->getUrl('Mageants_AdvancedSearch/Ajax/Addtocart')?>"
+                    }
+                },
+                "AdvancedSearchBindEvents": {
+                    "component": "Mageants_AdvancedSearch/js/Action",
+                    "config": {
+                        "searchFormSelector": "#search_mini_form",
+                        "searchButtonSelector": "button.search",
+                        "inputSelector": "#search, #mobile_search, .minisearch input[type=\"text\"]",
+                        "searchDelay": "<?= /* @noEscape */ $block->escapeHtml($block->getSearchDelay()) ?>",
+                        "minimum":"<?= /* @noEscape */ $block->minimumsearch()?>",
+                        "addcart":".addcart"
+                    }
+                },
+                "AdvancedSearchDataProvider": {
+                    "component": "Mageants_AdvancedSearch/js/Mydata",
+                    "config": {
+                        "url": "<?= /* @noEscape */ $block->escapeUrl($block->getSearchUrl()) ?>"
+                    }
+                }
+            }
+        }
+    }
+}
+</script>
+
+<style type="text/css">
+    .searchsuite-autocomplete{
+   width: <?= /* @noEscape */ $block->popupwidth() ?>px;
+  }
+    .firstclick{
+     padding: 10px 15px 10px;
+     color: #000;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: 700;
+    font-size: 15px;
+}
+.firstclickname{
+  padding: 15px;
+  line-height: 2em;
+}
+
+input[type=text] {
+  -webkit-transition: width .90s ease-out-in;
+  transition: width .90s ease-in-out;
+  float: right;
+}
+<?php
+$customlayout = $block->customlayoutenable();
+if ($customlayout == 1) {
+    ?>
+.searchsuite-autocomplete {
+     background-color: <?= /* @noEscape */ $block->backgroundcolor() ?>;
+    }
+    .searchsuite-autocomplete ul li:hover{
+         background-color: <?= /* @noEscape */ $block->hovercolor() ?>;
+    }
+
+  .searchsuite-autocomplete .product ul li {
+    border-bottom: 1px solid <?= /* @noEscape */ $block->bordercolor() ?>;
+}
+
+ .qs-option-title a{
+    color:  <?= /* @noEscape */ $block->textcolor() ?>;
+ }
+
+ .qs-option-title a:hover{
+    color:<?= /* @noEscape */ $block->hovertext() ?>;
+
+ }
+    <?php
+}
+?>
+<?php 
+$Bestseller = $block->len();
+$bestsellerenble = $block->bestsellerenable();
+if ($Bestseller >= 2 && $bestsellerenble == 1 && $bestsellerlen >=2) { ?>
+.bestover{
+    overflow: auto;
+    height: 280px;
+}
+<?php 
+} 
+$pro = $block->productLength();
+if ($pro >= 2 ) { ?>
+ .searchsuite-autocomplete .product {
+    margin: 0;
+    overflow-y: auto;
+    height: 350px;
+}
+<?php }
+?>
+
+</style>
+<script type="text/javascript">
+     var producttitle = <?= /* @noEscape */ json_encode($block->producttitle()); ?>; 
+     var suggestiontitle = <?= /* @noEscape */ json_encode($block->suggestiontitle()); ?>;
+     var bestsellertitle = <?= /* @noEscape */ json_encode($block->bestsellertitle()); ?>; 
+     var recenttitle = <?= /* @noEscape */ json_encode($block->recenttitle()); ?>; 
+     var category_title =<?= /* @noEscape */ json_encode($block->categorytitle()); ?>; 
+     var recentsearch = <?= /* @noEscape */ json_encode($Recentserach); ?>; 
+     var Recentserachnoptfound = <?= /* @noEscape */ json_encode($Recentserachnoptfound); ?>; 
+     var cate = <?= /* @noEscape */ json_encode($bestSellerData); ?>;
+    var recentlength = <?= /* @noEscape */ json_encode($recentlength); ?>;
+   
+
+require(['jquery', 'jquery/ui'], function($){ 
+var a = <?= /* @noEscape */ json_encode($a); ?>;
+if ( a == 1 && recentlength >= 1) {
+$("#search").keyup(function(){
+    $("#myclick").hide();
+  });
+
+   $("#search").click(function(){
+     $("#myclick").show();
+  });
+   
+   $("#search").focusout(function(){
+    $("#myclick").fadeOut();
+  });
+   }
+
+  
+ });
+
+
+var Search = <?= /* @noEscape */ $block->searchtype(); ?>;
+   if (Search == 1) {
+  var width = <?= /* @noEscape */ $block->popupwidth(); ?>;
+   var x = document.getElementById("search_mini_form");
+x.addEventListener("keyup", myFocusFunction, true);
+x.addEventListener("blur", myBlurFunction, true);
+
+function myFocusFunction() {
+  document.getElementById("search").style.width = "<?= /* @noEscape */ $block
+    ->popupwidth() ?>px";   
+  }
+
+function myBlurFunction() {
+  document.getElementById("search").style.width = "250px";  
+}
+ }
+
+
+</script>
+
+

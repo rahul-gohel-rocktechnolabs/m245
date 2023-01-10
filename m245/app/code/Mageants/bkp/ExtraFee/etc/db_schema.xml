@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="mageants_extrafee" resource="default" engine="innodb" comment="ExtraFee table">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="varchar" name="feesname" nullable="false" length="250" comment="Feesname"/>
+    <column xsi:type="varchar" name="type" nullable="false" length="10" comment="Type"/>
+    <column xsi:type="decimal" name="amount" scale="2" precision="10" unsigned="false" nullable="false" comment="Amount"/>
+    <column xsi:type="varchar" name="apply_to" nullable="true" length="25" comment="Apply_to"/>
+    <column xsi:type="varchar" name="category_ids" nullable="true" length="255" comment="Category_ids"/>
+    <column xsi:type="varchar" name="is_mandatory" nullable="true" length="25" comment="Is_mandatory"/>
+    <column xsi:type="varchar" name="estatus" nullable="true" length="25" comment="Estatus"/>
+    <column xsi:type="varchar" name="store_id" nullable="false" length="255" default="0" comment="Store_id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <index referenceId="FTI_630081EAF643D85456F10BA5BC07AC39" indexType="fulltext">
+      <column name="feesname"/>
+      <column name="type"/>
+      <column name="apply_to"/>
+      <column name="is_mandatory"/>
+      <column name="estatus"/>
+      <column name="store_id"/>
+    </index>
+  </table>
+  <table name="quote_address" resource="default">
+    <column xsi:type="float" name="fee" scale="2" precision="10" unsigned="false" nullable="true" default="0" comment="Fee"/>
+  </table>
+  <table name="quote" resource="default">
+    <column xsi:type="float" name="fee" scale="2" precision="10" unsigned="false" nullable="true" default="0" comment="Fee"/>
+  </table>
+  <table name="quote_item" resource="default">
+    <column xsi:type="text" name="extrafee" nullable="true" comment="Fee Content"/>
+  </table>
+  <table name="sales_order" resource="default">
+    <column xsi:type="float" name="fee" scale="2" precision="10" unsigned="false" nullable="true" default="0" comment="Fee"/>
+    <column xsi:type="text" name="efeeids" nullable="true" comment="FeeIds"/>
+    <column xsi:type="text" name="extrafeecomment" nullable="true" comment="extrafee comment"/>
+    <column xsi:type="text" name="categoryfeelable" nullable="true" comment="Category fee lable"/>
+    <column xsi:type="text" name="productfeelable" nullable="true" comment="Product fee lable"/>
+    <column xsi:type="text" name="categoryfeeapplyprdid" nullable="true" comment="Category fee Apply product id"/>
+    <column xsi:type="text" name="productfeeapplyprdid" nullable="true" comment="Product fee Apply product id"/>
+  </table>
+  <table name="sales_invoice" resource="default">
+    <column xsi:type="float" name="fee" scale="2" precision="10" unsigned="false" nullable="true" default="0" comment="Fee"/>
+  </table>
+  <table name="sales_creditmemo" resource="default">
+    <column xsi:type="float" name="fee" scale="2" precision="10" unsigned="false" nullable="true" default="0" comment="Fee"/>
+  </table>
+</schema>

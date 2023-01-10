@@ -1,0 +1,180 @@
+<?php
+/**
+ * @category Mageants ImageGallery
+ * @package Mageants_ImageGallery
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+$viewModel = $block->getData('view_model');
+$helper = $viewModel->getHelper();
+$id = $block->getRequest()->getParam('category_id');
+$collection = $helper->getCategoryById($id);
+$headerTitle = '';
+if (count($collection->getData()) >= 1) {
+    $collection = $collection->getData();
+    $headerTitle = $collection[0]['category_name'];
+}?>
+<div class="page-title"><span><h3 
+    style="background-color: <?= /* @noEscape */ $helper->getHeaderBgColor();?>; 
+    color:<?= /* @noEscape */ $helper->getHeaderForeColor();?>;">
+    <?= /* @noEscape */ __($headerTitle); ?></h3></span></div>
+<div class="gallery-action">
+<a id="back" style="display:block"><?= /* @noEscape */ __("Back")?></a>
+<a class="images_gallery_button" id="<?= /* @noEscape */ $id;?>" 
+    style="display:block"><?= /* @noEscape */ __("Images")?></a>
+<a class="videos_gallery_button" id="<?= /* @noEscape */ $id;?>" 
+    style="display:block;"><?= /* @noEscape */  __("Videos")?></a>
+</div>
+<div id="images_gallery">
+<div class="zoom-gallery">    
+    <div id="mygallery">
+        <?php
+        if ($block->getRequest()->getParam('category_id')) {
+            $Id=$block->getRequest()->getParam('category_id');
+            $collection=$helper->getCategoryById($Id);
+            if ($collection) {
+                foreach ($collection as $category) {
+                    if (!empty($category['image_id'])) {
+                            
+                        $imageids=$helper->getCategorieImageIds($category['category_id']);
+                        
+                        foreach ($imageids as $imageid) {
+                            if ($helper->getGalleryImageUrl($imageid)) { ?>
+                                <?php $result=$helper->getGalleryImageUrl($imageid);
+                                ?>
+                                <a href="<?= /* @noEscape */ $result['url'] ; ?>" 
+                                    data-source="<?= /* @noEscape */ $result['url'] ; ?>" 
+                                    title="<?= /* @noEscape */ $result['title'] ; ?>" 
+                                    style="width:193px;height:125px;">
+                                    <img src="<?= /* @noEscape */ $result['url'] ; ?>" 
+                                    width="193" height="125">
+                                </a>                    
+                    <?php	}
+                        }
+                    } else { ?>
+                        <?= /* @noEscape */ __("Sorry !! We don't have any selected Images for this image gallery");
+                    }
+                }
+            }?>
+            <br/>
+        <?php } ?>    
+    </div>
+</div>
+</div>
+<div id="gallery_image" class="displayval">
+    <?php $url = '' ?>
+    <?php $collection=$helper->getCategories();
+    
+    if (count($collection) > 0) {
+        foreach ($collection as $category) {
+            $categoryid=$category['category_id'];
+            $url = preg_replace('#[^0-9a-z]+#i', '-', $category['url_key']);
+            $url = $block->getBaseUrl()."imagegallery/".$url.".html";
+
+            ?>
+            <div class="uniq">
+                <a id="<?= /* @noEscape */ $category['category_id']; ?>">    
+                    <img id="image_id" src='<?= /* @noEscape */ $helper->getCategoryImageUrl($categoryid); ?>' 
+                    alt='' width="300" />
+                </a>
+                <input type="hidden" class="category_url" value="<?= /* @noEscape */ $url?>" />
+                <h2><a id="<?= /* @noEscape */ $category['category_id']; ?>" 
+                    href="javascript:void(0)"><?= /* @noEscape */ $category['category_name']; ?></a>
+                    <input type="hidden" class="category_url" value="<?= /* @noEscape */ $url?>" />
+                </h2>
+            </div>
+            <?php
+        }
+    } else {
+        echo 'No Image Category Found';
+    }?>
+</div>
+<div class="loader"></div>
+<div id="myModal" class="modal" style="display:none">
+    <img class="modal-content zoomIn animated" id="imagegallery">    
+</div>    
+<script>
+    require(['jquery'],function($){
+        $(document).ready(function(){
+            var imageUrl="<?=/* @noEscape */ $block->getViewFileUrl('Mageants_ImageGallery::images/hour.gif'); ?>";
+            $('.loader').css({'background':'url(' + imageUrl + ') 50% 50% no-repeat rgb(249,249,249)',
+                'display':'none'});
+            $('#back').click(function() {
+                $('.page-title span h3').text("<?= /* @noEscape */ __("Image Gallery"); ?>");
+                $('#images_gallery').html('');
+                $('#gallery_image').removeClass('displayval');
+                $(this).css("display","none");
+                $('.images_gallery_button').css("display","none");
+                $('.videos_gallery_button').css("display","none");
+                $url = '<?= /* @noEscape */ $block->getBaseUrl()."imagegallery/"; ?>';
+                window.location.href = $url;    
+            });
+
+            $('.images_gallery_button').click(function() {
+                var id = $(this).attr('id');
+                $('.loader').css("display","block");
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= /* @noEscape */ $block->getUrl('imagegallery/index/index'); ?>',
+                    data: { categoryid: id},
+                    success: function(response) {
+                        $('#images_gallery').html(response);
+                    },
+                    complete: function(){
+                        $('.loader').css("display","none");
+                    }
+                });
+            });
+
+            $('.videos_gallery_button').click(function() {
+                var id = $(this).attr('id');
+                $('.loader').css("display","block");
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= /* @noEscape */ $block->getUrl('imagegallery/index/videos'); ?>',
+                    data: { categoryid: id},
+                    success: function(response) {
+                        $('#images_gallery').html(response);
+                    },
+                    complete: function(){
+                        $('.loader').css("display","none");
+                    }
+                });
+            });        
+        });
+         
+    });
+</script>    
+<script>
+    require(['jquery','jquery/ui','justifiedGallery','magnificpopup'],function(jQuery){
+        jQuery(document).ready(function(){
+            jQuery("#mygallery").justifiedGallery({
+                margins : 8
+            });
+            jQuery('.zoom-gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                closeOnContentClick: false,
+                closeBtnInside: false,
+                mainClass: 'mfp-with-zoom mfp-img-mobile',
+                image: {
+                    verticalFit: true,
+                    titleSrc: function(item) {
+                    }
+                },
+                gallery: {
+                    enabled: true
+                },
+                zoom: {
+                    enabled: true,
+                    duration: 300, // don't foget to change the duration also in CSS
+                    opener: function(element) {
+                        return element.find('img');
+                    }
+                }
+                
+            });
+            
+        });    
+    });
+</script>

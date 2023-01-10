@@ -1,0 +1,162 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+<?php $_order = $block->getOrder() ?>
+<?php
+
+$helper= $block->getHelperFunction();
+$productFactory = $block->productDetails();
+$orderId= $_order->getId();
+$displatAt = $helper->getCustomModelData($orderId);
+
+?>
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= /* @noEscape */  __('Order Information') ?></strong>
+    </div>
+    <div class="block-content">
+    <?php if (!$_order->getIsVirtual()): ?>
+        <div class="box box-order-shipping-address">
+            <strong class="box-title">
+                <span><?= /* @noEscape */  __('Shipping Address') ?></span>
+            </strong>
+            <div class="box-content">
+                <address><?= /* @noEscape */  $block->getFormattedAddress($_order->getShippingAddress()) ?></address>
+            </div>
+        </div>
+
+
+        <div class="box box-order-shipping-method">
+            <strong class="box-title">
+                <span><?= /* @noEscape */  __('Shipping Method') ?></span>
+            </strong>
+            <div class="box-content">
+            <?php if ($_order->getShippingDescription()): ?>
+                <?= $block->escapeHtml($_order->getShippingDescription()) ?>
+
+            <?php else: ?>
+                <?= /* @noEscape */  __('No shipping information available') ?>
+            <?php endif; ?>
+            </div>
+             <?php
+                if ($_order->getData('delivery_date')):
+                    if ($displatAt == 3) {
+                        $dateDeliveryData = [];
+                        $deliverydate = json_decode($_order->getDeliveryDate());
+                        $deliverytime = json_decode($_order->getDeliveryTimeslot());
+                        $deliverycomment = json_decode($_order->getDeliveryComment());
+                        foreach ($deliverydate as $key => $productId) {
+                            $product = $productFactory->getById($deliverydate[$key]->item_id);
+                            $dateDeliveryData[$key]['productId'] =  $product->getId();
+                            $dateDeliveryData[$key]['productName'] =  $product->getName();
+                            $dateDeliveryData[$key]['deliverydate'] = $deliverydate[$key]->delivery_date;
+                            $dateDeliveryData[$key]['deliverytime'] = $deliverytime[$key]->delivery_timeslot;
+                            $dateDeliveryData[$key]['deliverycomment'] = $deliverycomment[$key]->delivery_comment;
+                        }
+                        ?>
+                   <strong class="box-title"><span><?=/* @noEscape */ __('Delivery Info')?></span></strong>
+                        <?php
+                        foreach ($dateDeliveryData as $key => $value) {
+                            ?>
+                    <div class="box-content">
+                        <p><strong>
+                            <span>
+                            <?=/* @noEscape */ __('Product Name: ')?>
+                            </strong>
+                            <?=/* @noEscape */ $dateDeliveryData[$key]['productName']?>
+                        </p>
+                        <p><strong>
+                            <span><?=/* @noEscape */ __('Delivery Date: ')?>
+                            </strong>
+                            <?=/* @noEscape */ $dateDeliveryData[$key]['deliverydate']?>
+                        </p>
+                        <p><strong>
+                            <span><?=/* @noEscape */ __('Delivery Time Slot: ')?>
+                            </strong>
+                            <?=/* @noEscape */ $dateDeliveryData[$key]['deliverytime']?>
+                        </p>
+                                <?php
+                                if ($dateDeliveryData[$key]['deliverycomment']):
+                                    ?>
+                        <p><strong><span><?=/* @noEscape */ __('Comment: ')?></strong>
+                                    <?php
+                                    if ($dateDeliveryData[$key]['deliverycomment']):
+                                        ?>
+                                        <?=/* @noEscape */ $dateDeliveryData[$key]['deliverycomment']?></p>
+                                        <?php
+                                else:
+                                    ?>
+                                    <?=/* @noEscape */ __('No comment')?>
+                                    <?php
+                                endif;
+                                ?>
+                                    <?php
+                                     endif;
+                                ?>
+                            </p>
+                            <br>
+                    </div>
+                             <?php } } else {
+                        ?>
+                         <strong class="box-title"><span><?=/* @noEscape */ __('Delivery Info')?></span></strong>
+                          <div class="box-content">
+                                <p><strong>
+                                    <span><?=/* @noEscape */ __('Delivery Date: ')?>
+                                    </strong>
+                                    <?=/* @noEscape */$_order->getData('delivery_date')?>
+                                </p>
+                                <p><strong>
+                                    <span><?=/* @noEscape */ __('Delivery Time Slot: ')?>
+                                    </strong>
+                                    <?=/* @noEscape */$_order->getData('delivery_timeslot')?>
+                                </p>
+                                <?php
+                                if ($_order->getData('delivery_comment')):
+                                    ?>
+                                <p><strong><span><?=/* @noEscape */ __('Comment: ')?></strong>
+                                    <?php
+                                    if ($_order->getData('delivery_comment')):
+                                        ?>
+                                        <?=/* @noEscape */$_order->getData('delivery_comment')?></p>
+                                            <?php
+                                        else:
+                                            ?>
+                                            <?=/* @noEscape */ __('No comment')?>
+                                            <?php
+                                        endif;
+                                        ?>
+                                    <?php
+                                    endif;
+                                ?>
+                                    </p>
+                            </div>
+                    <?php } ?>
+                    <?php
+                    endif;
+                ?>
+        
+        </div>
+    <?php endif; ?>
+
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span><?= /* @noEscape */  __('Billing Address') ?></span>
+            </strong>
+            <div class="box-content">
+                <address><?= /* @noEscape */  $block->getFormattedAddress($_order->getBillingAddress()) ?></address>
+            </div>
+        </div>
+        <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span><?= /* @noEscape */  __('Payment Method') ?></span>
+            </strong>
+            <div class="box-content">
+                <?= $block->getPaymentInfoHtml() ?>
+            </div>
+        </div>
+    </div>
+</div>

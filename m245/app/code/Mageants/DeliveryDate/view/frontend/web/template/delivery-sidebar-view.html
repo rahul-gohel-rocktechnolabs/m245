@@ -1,0 +1,87 @@
+<div class="delivery_info" data-bind="if: isConfigurationProduct">
+
+<div id="payment-delivery" data-bind="foreach: productData">
+	<div class="label">
+		<span><h3><u>Delivery Information</u></h3></span>
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span><b>Product Name : </b></span>
+			</th>
+			<td>
+				<span id="productname" data-bind="text: $data.productName"></span>
+			</td>
+		</tr>
+		
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span><b>Delivery Date : </b></span>
+			</th>
+			<td>
+				<span data-bind="text: $data.deliverydate"></span>
+			</td>
+		</tr>
+		
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span><b>Delivery TimeSlot : </b></span>
+			</th>
+			<td>
+				<span data-bind="text: $data.deliverytime"></span>
+			</td>
+		</tr>
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span data-bind="if: $data.deliverycomment"><b>Delivery Comment : </b></span>
+			</th>
+			<td>
+				<span data-bind="text: $data.deliverycomment"></span>
+			</td>
+		</tr>
+	</div>
+	<br>
+</div>
+</div>
+<div id="payment-delivery" data-bind="if: isNotConfigurationProduct" style="display: none">
+	<div class="label">
+		<span><h3><u>Delivery Information</u></h3></span>
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span>Delivery Date : </span>
+			</th>
+			<td>
+				<span id="date"></span>
+			</td>
+		</tr>
+		
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span>Delivery TimeSlot : </span>
+			</th>
+			<td>
+				<span id="timeslot"></span>
+			</td>
+		</tr>
+	</div>
+	<div>
+		<tr>
+			<th>
+				<span style="display: none">Delivery Comment : </span>
+			</th>
+			<td>
+				<span id="comment"></span>
+			</td>
+		</tr>
+	</div>
+</div>

@@ -1,0 +1,183 @@
+<?php
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+?>
+<?php $_invoice = $block->getInvoice() ?>
+<?php $_order = $_invoice->getOrder() ?>
+<?= $block->getChildHtml('order_info') ?>
+<?php
+$viewModel = $block->getData('view_model');
+$orderId = $_order->getId();
+$displayAt = $viewModel->getDisplayPosition($orderId);
+$isEnable = $viewModel->getPluginEnable();
+$taxValues = $viewModel->getTaxModel();
+$productData = $viewModel->productData();
+?>
+
+<section class="admin__page-section order-view-billing-shipping">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */ __('Payment &amp; Shipping Method') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-payment-method
+        <?php if ($_order->getIsVirtual()): ?> order-payment-method-virtual<?php endif; ?>
+             admin__fieldset-wrapper">
+            <?php /*Billing Address */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */ __('Payment Information') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div class="order-payment-method-title">
+                    <?=/* @noEscape */ $block->getChildHtml('order_payment') ?>
+                </div>
+                <div class="order-payment-currency">
+                    <?= /* @noEscape */ __('The order was placed using %1.', $_order->getOrderCurrencyCode()) ?>
+                </div>
+                <div class="order-payment-additional">
+                    <?=/* @noEscape */ $block->getChildHtml('order_payment_additional') ?>
+                </div>
+            </div>
+        </div>
+
+        <?php if (!$_order->getIsVirtual()): ?>
+            <div class="admin__page-section-item order-shipping-address">
+                <?php /*Shipping Address */ ?>
+                <div class="admin__page-section-item-title">
+                    <span class="title"><?= /* @noEscape */ __('Shipping Information') ?></span>
+                </div>
+                <div class="admin__page-section-item-content shipping-description-wrapper">
+                    <div class="shipping-description-title">
+                        <?= $block->escapeHtml($_order->getShippingDescription()) ?>
+                    </div>
+                    <div class="shipping-description-content">
+                        <?= /* @noEscape */ __('Total Shipping Charges') ?>:
+
+                        <?php if ($taxValues->displayShippingPriceIncludingTax()): ?>
+                            <?php $_excl = $block->displayShippingPriceInclTax($_order); ?>
+                        <?php else: ?>
+                            <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                        <?php endif; ?>
+                        <?php $_incl = $block->displayShippingPriceInclTax($_order); ?>
+
+                        <?= /* @noEscape */ $_excl ?>
+                        <?php if ($taxValues->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?= /* @noEscape */ __('Incl. Tax') ?> <?= /* @noEscape */ $_incl ?>)
+                        <?php endif; ?>
+                        <div><?= /* @noEscape */ $block->getChildHtml('shipment_tracking') ?></div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+    </div>
+</section>
+<?php if ($isEnable) { ?>
+    <section class="admin__page-section order-view-billing-shipping">
+        <div class="admin__page-section-title">
+            <span class="title"><?= /* @noEscape */ __('Delivery Date Information') ?></span>
+        </div>
+        <?php if ($displayAt == 3) {
+            $dateDeliveryData = [];
+            $deliverydate = json_decode($_order->getDeliveryDate());
+            $deliverytime = json_decode($_order->getDeliveryTimeslot());
+            $deliverycomment = json_decode($_order->getDeliveryComment());
+            foreach ($deliverydate as $key => $productId) {
+                $product = $productData->getById($deliverydate[$key]->item_id);
+                $dateDeliveryData[$key]['productId'] =  $product->getId();
+                $dateDeliveryData[$key]['productName'] =  $product->getName();
+                $dateDeliveryData[$key]['deliverydate'] = $deliverydate[$key]->delivery_date;
+                $dateDeliveryData[$key]['deliverytime'] = $deliverytime[$key]->delivery_timeslot;
+                $dateDeliveryData[$key]['deliverycomment'] = $deliverycomment[$key]->delivery_comment;
+            }
+            foreach ($dateDeliveryData as $key => $value) {
+
+                ?>
+                <div class="admin__page-section-item-title">
+                    <span class="title">Delivery Date</span>
+                </div>
+                <div id="product-name123">
+                    <strong><?= /* @noEscape */ __('Product Name') ?> : </strong>
+                    <span class="price"><?= /* @noEscape */ __($dateDeliveryData[$key]['productName']) ?></span>
+                </div>
+                <div id="delivery-date123">
+                    <strong><?= /* @noEscape */ __('Shipping Arrival Date') ?> : </strong>
+                    <span class="price"><?= /* @noEscape */ __($dateDeliveryData[$key]['deliverydate']) ?></span>
+                </div>
+                <?php if ($dateDeliveryData[$key]['deliverytime'] != null
+                    || $dateDeliveryData[$key]['deliverytime'] != ''
+                ) { ?>
+                    <div id="delivery-timeslot123">
+                        <strong><?= /* @noEscape */ __('Shipping Arrival Timeslot') ?> : </strong>
+                        <span class="price"><?= /* @noEscape */ $dateDeliveryData[$key]['deliverytime'] ?></span>
+                    </div>
+                <?php } ?>
+                <?php if ($dateDeliveryData[$key]['deliverycomment'] != null) { ?>
+                    <div id="delivery-comment123">
+                        <strong><?= /* @noEscape */ __('Shipping Arrival Comment') ?> : </strong>
+                        <span class="price"><?= /* @noEscape */ $dateDeliveryData[$key]['deliverycomment'] ?></span>
+                    </div>
+                <?php } ?>
+                <br>
+            <?php }
+        } else {
+            ?>
+            <div class="admin__page-section-item-title">
+                <span class="title">Delivery Date</span>
+            </div>
+
+            <div id="delivery-date123">
+                <strong><?= /* @noEscape */ __('Shipping Arrival Date') ?> : </strong>
+                <span class="price"><?= /* @noEscape */ __($_order->getDeliveryDate()) ?></span>
+            </div>
+            <?php if ($_order->getDeliveryTimeslot() != null || $_order->getDeliveryTimeslot() != '') { ?>
+                <div id="delivery-timeslot123">
+                    <strong><?= /* @noEscape */ __('Shipping Arrival Timeslot') ?> : </strong>
+                    <span class="price"><?= /* @noEscape */ $_order->getDeliveryTimeslot() ?></span>
+                </div>
+            <?php } ?>
+            <?php if ($_order->getDeliveryComment() != null) { ?>
+                <div id="delivery-comment123">
+                    <strong><?= /* @noEscape */ __('Shipping Arrival Comment') ?> : </strong>
+                    <span class="price"><?=/* @noEscape */ $_order->getDeliveryComment() ?></span>
+                </div>
+            <?php } ?>
+        <?php } ?>
+    </section>
+
+<?php } ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */ __('Items Invoiced') ?></span>
+    </div>
+
+    <div id="invoice_item_container" class="admin__page-section-content">
+        <?= $block->getChildHtml('invoice_items') ?>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @noEscape */ __('Order Total') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */ __('Invoice History') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <?= $block->getChildHtml('order_comments') ?>
+            </div>
+        </div>
+
+        <div id="history_form" class="admin__page-section-item order-totals">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= /* @noEscape */ __('Invoice Totals') ?></span>
+            </div>
+            <?= $block->getChildHtml('invoice_totals') ?>
+        </div>
+    </div>
+</section>

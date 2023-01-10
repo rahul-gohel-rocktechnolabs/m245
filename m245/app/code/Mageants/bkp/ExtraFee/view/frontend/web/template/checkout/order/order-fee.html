@@ -1,0 +1,17 @@
+<div>
+   	<strong><span data-bind="visible: shouldShowMessage, html: getOrderFeeLabel()"></span></strong>
+   	<span data-bind="html: getMandatoryOrderFeeLabel()"></span>
+   	<select id="orderFee" class="shipping-extra-fees" data-bind="
+   		visible: shouldShowField,
+   		options: getCustomFeeAmount,
+	    optionsText: 'feesname',
+	    optionsValue: 'price',
+	    optionsCaption: 'Select Additional Order',
+	    event:{ change:removePlace},
+	    optionsAfterRender: function(option, item) {	
+			if (item) {
+			ko.applyBindingsToNode(option, {attr: {'data-id': item.id,'data-tax': item.tax}}, item);
+			}
+		} ">
+	</select>
+</div>

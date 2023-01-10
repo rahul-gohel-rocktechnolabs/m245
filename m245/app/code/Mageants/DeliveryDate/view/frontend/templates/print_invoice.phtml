@@ -1,0 +1,90 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<?php $_order = $block->getOrder(); ?>
+<div class="order-details-items invoice">
+<?php
+$viewModel = $block->getData('view_model');
+$includeinto=$viewModel->getPluginIncludeInto($_order->getStoreId());
+$displayAt = $viewModel->getDisplayPosition($_order->getId());
+$productData = $viewModel->productData();
+if (strpos($includeinto, '5') !== false) {
+    if ($displayAt == 3) {
+        $dateDeliveryData = [];
+        $deliverydate = json_decode($_order->getDeliveryDate());
+        $deliverytime = json_decode($_order->getDeliveryTimeslot());
+        $deliverycomment = json_decode($_order->getDeliveryComment());
+        foreach ($deliverydate as $key => $productId) {
+            $product = $productData->getById($deliverydate[$key]->item_id);
+            $dateDeliveryData[$key]['productId'] =  $product->getId();
+            $dateDeliveryData[$key]['productName'] =  $product->getName();
+            $dateDeliveryData[$key]['deliverydate'] = $deliverydate[$key]->delivery_date;
+            $dateDeliveryData[$key]['deliverytime'] = $deliverytime[$key]->delivery_timeslot;
+            $dateDeliveryData[$key]['deliverycomment'] = $deliverycomment[$key]->delivery_comment;
+        }
+        ?>
+        <table>
+            <tr>
+                <div>
+                    <span><h3>Delivery Information</h3></span>
+                </div>
+            </tr>
+            <?php
+            foreach ($dateDeliveryData as $key => $value) {
+                ?>
+            <tr>
+                <td>Product Name : </td>
+                <td><?= /* @noEscape */  $dateDeliveryData[$key]['productName'];?></td>
+            </tr>
+            <tr>
+                <td>Delivery Date : </td>
+                <td><?= /* @noEscape */  $dateDeliveryData[$key]['deliverydate'];?></td>
+            </tr>
+            <tr>
+                <td>Delivery Timeslot : </td>
+                <td><?= /* @noEscape */  $dateDeliveryData[$key]['deliverytime'];?></td>
+            </tr>
+                <?php if ($dateDeliveryData[$key]['deliverycomment'] != null) {?>
+            <tr>
+                <td>Delivery Comment : </td>
+                <td><?= /* @noEscape */  $dateDeliveryData[$key]['deliverycomment'];?></td>
+            </tr>
+            <?php } ?>
+            <tr><td></td></tr>
+            <?php } ?>
+        </table>
+        <?php
+    } else {
+        ?>
+<table>
+    <tr>
+        <div>
+            <span><h3>Delivery Information</h3></span>
+        </div>
+    </tr>
+    <hr>
+    <tr>
+        <td  style = "float: left;">Delivery Date : </td>
+        <td style = "float: left;"><?= /* @noEscape */  $_order->getDeliveryDate();?></td>
+    </tr>
+    <tr>
+        <td style = "float: left;">Delivery Timeslot : </td>
+        <td style = "float: left;"><?= /* @noEscape */  $_order->getDeliveryTimeslot();?></td>
+    </tr>
+        <?php if ($_order->getDeliveryComment() != null) { ?>
+    <tr>
+        <td style = "float: left;">Delivery Comment : </td>
+        <td style = "float: left;"><?= /* @noEscape */  $_order->getDeliveryComment();?></td>
+    </tr>
+    <?php } ?>
+</table>
+
+</div>
+        <?php
+    }
+}
+?>

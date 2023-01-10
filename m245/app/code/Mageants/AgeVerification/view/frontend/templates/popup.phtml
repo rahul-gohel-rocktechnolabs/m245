@@ -1,0 +1,694 @@
+<?php
+/**
+ * @category Mageants AgeVerification
+ * @package Mageants_AgeVerification
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <info@mageants.com>
+ */
+// @codingStandardsIgnoreFile
+/** @var \Mageants\AgeVerification\Block\Popup $block */
+
+?>
+<?php
+    $config_template = $block->getHelperData()->getTemplate();
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+    $base_url =$storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+    $getCatVerification = 0;
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $request = $objectManager->get('\Magento\Framework\App\Request\Http');
+    if ($request->getFullActionName() == 'catalog_category_view') {
+        //you are on the category page
+        $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category 
+        $categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
+        $categoryData = $categoryFactory->create()->load($category->getId());
+
+        $getCatVerification = $categoryData->getData('age_verification'); //is_home_page = your attribute code
+    }
+
+?>
+<head>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+</head>
+<div class="ageVerification_popup">
+<?php if ($config_template == 0) { ?>
+    <div class="default_popup">
+        <div class="title"><strong><?= $block->getHelperData()->getPopupTitle() ?></strong></div>
+        <?php
+            $logo_path = $block->getHelperData()->getLogoImage();
+            $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+            $currentStore = $storeManager->getStore();
+            $mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        ?>  
+        <div class="popup_logo"><img src="<?= $mediaUrl.'templatelogo/'.$logo_path; ?>"></div>
+        <?php
+            if ($block->getHelperData()->getCaptchaType() == 1 || $block->getHelperData()->getCaptchaEnable() ==0) {
+                $onsubmit_data = 'return verifyAgeDefault()';
+            } else {
+                $onsubmit_data = '';
+            }
+        ?>
+        <form class="form ageVerification"
+            onsubmit="<?= $onsubmit_data;?>"
+            method="post"
+            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+            id="ageVerification-detail">
+            <div id="default_notAllow"></div>
+            <div class="field">
+                <label class="label content_text" for="ageVerification">
+                    <span><?= $block->getHelperData()->getContentText() ?></span>
+                </label>
+                <div class="control">
+                     <?php 
+                    $checkEnable = $block->getHelperData()->getCheckboxEnable();
+                    if($checkEnable==1)
+                    {
+                    ?>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="ageVerification_check" id="ageVerification_check" class="ageVerification_checkbox"/>
+                        <span class="checkbox_verifytext"><?= $block->getHelperData()->getCheckboxVerifyText() ?></span>
+                    </div>
+                    <?php }?>
+                    <div class="ageVerification-dob">
+                        <?php
+                            $dobEnable = $block->getHelperData()->getDobEnable();
+                            if($dobEnable==1)
+                            {
+                            $dobFormate = $block->getHelperData()->getDobPattern();
+                            $verification_age = $block->getHelperData()->getVerificationAge();
+                        ?>
+                        <div id="custom_notAllow"></div>
+                        <input type="hidden" id="verification_age" value="<?= $verification_age; ?>">
+                        <div class="dob_label"><?= __("Date of birth:"); ?></div>
+                        <input type="hidden" id="dob_date_formate" value="<?= $dobFormate; ?>">
+                        <input type="text" id="dob" name="dob" class="input-text dob required-entry" readonly="true">   
+                    <?php }?>
+                    </div>
+                </div>
+
+                <div class="ageVerification_captcha">
+                <?php   
+                    if ($block->getHelperData()->getCaptchaEnable() ==1) {
+                        if ($block->getHelperData()->getCaptchaType() == 0) { ?>                    
+                            <button 
+                                class="g-recaptcha" name="recaptcha" id="recaptcha"
+                                data-sitekey="<?= $block->getHelperData()->getCaptchaInvisibleSiteKey(); ?>"
+                                onclick="return verifyAgeDefault()" >
+                                <?= __('Submit'); ?>
+                            </button>
+                            <button type="button" class="leave_button" value="<?= $block->getHelperData()->getLeaveBtnLabel() ?>" onclick="leavePopup(this)"><?= $block->getHelperData()->getLeaveBtnLabel() ?></button>
+                        <?php } elseif ($block->getHelperData()->getCaptchaType() == 1) {?>
+                           <div class="g-recaptcha"  name="recaptcha" id="recaptcha" data-sitekey="<?= $block->getHelperData()->getCaptchaVisibleSiteKey(); ?>"></div>
+                           <div class="actions">
+                               <button type="submit" class="enter_button action primary" value="<?= $block->getHelperData()->getEnterBtnLabel() ?>" data-callback="verifyAgeDefault"><?= $block->getHelperData()->getEnterBtnLabel() ?></button>
+                                <button type="button" class="leave_button action red-button" value="<?= $block->getHelperData()->getLeaveBtnLabel() ?>" onclick="leavePopup(this)"><?= $block->getHelperData()->getLeaveBtnLabel() ?></button>
+                           </div>
+                        <?php }
+                    } else { ?>
+                        <div class="actions">
+                            <button type="submit" class="enter_button action primary" value="<?= $block->getHelperData()->getEnterBtnLabel() ?>" data-callback="verifyAgeDefault"><?= $block->getHelperData()->getEnterBtnLabel() ?></button>
+                            <button type="button" class="leave_button action red-button" value="<?= $block->getHelperData()->getLeaveBtnLabel() ?>" onclick="leavePopup(this)"><?= $block->getHelperData()->getLeaveBtnLabel() ?></button>
+                        </div>
+              <?php }  ?>
+            </div>
+            </div>
+        </form>
+    </div>
+    <?php } else { ?>
+        <?php    $template_data = $block->getTemplateData()->addFieldToFilter('template_id', ['eq', $config_template]);
+            foreach ($template_data as $tdata) {
+                $popup_title = $tdata->getTemplateName();
+                $content_text = $tdata->getContent();
+            }
+        ?>
+        <div class="custom_popup">
+            <div class="title"><strong><?= $popup_title; ?></strong></div>
+            
+            <?php
+                $logo_path = $block->getHelperData()->getLogoImage();
+                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+                $currentStore = $storeManager->getStore();
+                $mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+            ?> 
+            <div class="popup_logo"><img src="<?= $mediaUrl.'templatelogo/'.$logo_path; ?>"> 
+            </div>
+            <div id="custom_notAllow"></div>
+            <div class="field">
+                <div class="label content_text" for="ageVerification">
+                    <?= $content_text; ?>
+                </div>
+            </div>
+            <?php
+            if ($block->getHelperData()->getCaptchaType() == 1 || $block->getHelperData()->getCaptchaEnable() ==0)
+            {
+                $onsubmit_data = 'return verifyAgeCustom()' ;
+            }
+            else 
+            {
+                $onsubmit_data = '';
+            }
+            ?>
+            <form class="form ageVerification" 
+                onsubmit="<?= $onsubmit_data;?>" 
+                method="post"
+                data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                id="ageVerification-detail">
+                <div class="control">
+                     <?php 
+                    $checkEnable = $block->getHelperData()->getCheckboxEnable();
+                    if($checkEnable==1)
+                    {
+                    ?>
+                     <div class="checkbox-option">
+                         <input type="checkbox" name="ageVerification_check" id="ageVerification_check" class="ageVerification_checkbox"/>
+                         <span class="checkbox_verifytext"><?= $block->getHelperData()->getCheckboxVerifyText() ?></span>
+                     </div>
+                    <?php }?>
+                <div class="ageVerification-dob">
+                    <?php
+                        $dobEnable = $block->getHelperData()->getDobEnable();
+                        if($dobEnable==1)
+                        {
+                    $dobFormate = $block->getHelperData()->getDobPattern();
+                    $verification_age = $block->getHelperData()->getVerificationAge();
+                    ?>
+                    <input type="hidden" id="verification_age" value="<?= $verification_age; ?>">
+                    <div class="dob_label"><?= __("Date of birth:"); ?></div>
+                    <input type="hidden" id="dob_date_formate" value="<?= $dobFormate; ?>">
+                    <input type="text" id="dob" name="dob" class="input-text dob required-entry" readonly="true">
+                    <?php }?>
+                </div>
+            </div>
+                <div class="ageVerification_captcha">
+                <?php
+                    if ($block->getHelperData()->getCaptchaEnable() ==1) { 
+                ?>
+                    <input type="hidden" name="captcha_type" id="captcha_type" value="<?= $block->getHelperData()->getCaptchaType(); ?>">
+                    <?php if ($block->getHelperData()->getCaptchaType() == 0) {?>                    
+                        <button 
+                            class="g-recaptcha" name="recaptcha" id="recaptcha"
+                            data-sitekey="<?= $block->getHelperData()->getCaptchaInvisibleSiteKey(); ?>"
+                            onclick="return verifyAgeCustom()" ><?= $block->getHelperData()->getEnterBtnLabel() ?></button>
+                        <button type="button" class="leave_button action red-button" value="<?= $block->getHelperData()->getLeaveBtnLabel() ?>" onclick="leavePopup(this)"><?= $block->getHelperData()->getLeaveBtnLabel() ?></button>
+                    <?php } elseif ($block->getHelperData()->getCaptchaType() == 1) {?>
+                        <div class="g-recaptcha" name="recaptcha" id="recaptcha" data-sitekey="<?= $block->getHelperData()->getCaptchaVisibleSiteKey(); ?>"></div>
+                        <div class="actions">
+                            <button type="submit" class="enter_button action primary" value="<?= $block->getHelperData()->getEnterBtnLabel() ?>" onsubmit="leavePopup(this)"><?= $block->getHelperData()->getEnterBtnLabel() ?></button>
+                             <button type="button" class="leave_button  action red-button" value="<?= $block->getHelperData()->getLeaveBtnLabel() ?>" onclick="leavePopup(this)"><?= $block->getHelperData()->getLeaveBtnLabel() ?></button>
+                        </div>
+                    <?php } ?>
+                <?php   } else {?>
+                        <div class="actions">
+                            <button type="submit" class="enter_button action primary" value="<?= $block->getHelperData()->getEnterBtnLabel() ?>" onsubmit="leavePopup(this)"><?= $block->getHelperData()->getEnterBtnLabel() ?></button>
+                             <button type="button" class="leave_button action red-button" value="<?= $block->getHelperData()->getLeaveBtnLabel() ?>" onclick="leavePopup(this)"><?= $block->getHelperData()->getLeaveBtnLabel() ?></button>
+                        </div>
+                <?php } ?>
+                </div>
+                
+            </form>
+        </div>
+<?php } ?>  
+</div> 
+<script>
+    require(
+        [
+            'jquery',
+            'jquery/ui'
+        ],
+        function(
+            jQuery
+        ) {
+            var config_template = '<?php echo $config_template; ?>';
+            var checkDob = '<?php echo $dobEnable; ?>';
+            if(checkDob==1)
+            {  
+                var dob_date_formate = document.getElementById('dob_date_formate').value;
+                jQuery("#dob").datepicker({
+                    dateFormat : dob_date_formate,
+                    changeMonth: true,
+                    changeYear :true,
+                    numberOfMonths: 1,
+                    maxDate: 0,
+                    yearRange: "1900:+nn"
+                });
+            }
+    });
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'mage/cookies',
+            'domReady!'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                modalClass: 'age_verification_popup',
+                clickableOverlay: false,
+                innerScroll: true,
+            };
+            // console.log("call");
+            var popup = modal(options, $('.ageVerification_popup'));
+            var verification_basedOn = '<?php echo $block->getHelperData()->getVerificationBasedOn(); ?>';
+            var cookie_interval = '<?php echo $block->getHelperData()->getCookieInterval(); ?>';
+            var cat_verify = '<?php echo $getCatVerification; ?>';
+            //alert(verification_basedOn);
+            if(verification_basedOn == 'global'){
+                
+                // solution of while delelte product at that time popup buttons are not display
+                jQuery("header.modal-header, footer.modal-footer").css("display","none"); 
+                if(jQuery.cookie("Age_verification") == 1){
+                   
+                }else{
+                    $( document ).ready(function() {
+                        var popup_animation = '<?php echo $block->getHelperData()->getPopupAnimation(); ?>';
+                        var cookie_interval = '<?php echo $block->getHelperData()->getCookieInterval(); ?>';
+                        var interval_time = cookie_interval * (60000 * 60);
+                        var verification_basedOn = '<?php echo $block->getHelperData()->getVerificationBasedOn(); ?>';
+                        
+                        if(popup_animation == "zoomIn" || popup_animation == "fadeIn"){                
+                            $('.modal-inner-wrap').addClass('popup_position');
+                        }
+                        $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                        $('.ageVerification_popup').modal('openModal'); 
+                    }); 
+                } 
+            }else if(verification_basedOn == 'category' && cat_verify == '1'){
+                // solution of while delelte product at that time popup buttons are not display
+                jQuery("header.modal-header, footer.modal-footer").css("display","none"); 
+                if(jQuery.cookie("Age_verification") == 1){
+                   
+                }else{
+                    $( document ).ready(function() {
+                        var popup_animation = '<?php echo $block->getHelperData()->getPopupAnimation(); ?>';
+                        var cookie_interval = '<?php echo $block->getHelperData()->getCookieInterval(); ?>';
+                        var interval_time = cookie_interval * (60000 * 60);
+                        var verification_basedOn = '<?php echo $block->getHelperData()->getVerificationBasedOn(); ?>';
+                        
+                        if(popup_animation == "zoomIn" || popup_animation == "fadeIn"){                
+                                $('.modal-inner-wrap').addClass('popup_position');
+                            }
+                            $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                            $('.ageVerification_popup').modal('openModal'); 
+                    }); 
+                } 
+            }
+            else{
+                    // solution of while delelte product at that time popup buttons are not display
+                    jQuery("header.modal-header, footer.modal-footer").css("display","none");
+                    
+                    <?php
+                    $objectManagerCms = \Magento\Framework\App\ObjectManager::getInstance();
+                    $cmsPage = $objectManagerCms->get('\Magento\Cms\Model\Page');
+                    ?>
+                    var verification_page = '<?php echo $block->getHelperData()->getVerificationPage(); ?>';
+                    var current_page = "<?php echo $cmsPage->getIdentifier(); ?>";
+                    $( document ).ready(function() {
+                    if(verification_page == current_page){
+                        var interval_time = cookie_interval * (60000 * 60);
+                        openVerificationPopup();
+                        setInterval(openVerificationPopup, interval_time);
+                    }
+                });            
+            }   
+    });
+
+function openVerificationPopup() {
+    require(
+        [
+            'jquery',
+            'jquery/ui'
+        ],
+        function($) {
+            var popup_animation = '<?php echo $block->getHelperData()->getPopupAnimation(); ?>';
+            var verification_basedOn = '<?php echo $block->getHelperData()->getVerificationBasedOn(); ?>';
+            var verification_page = '<?php echo $block->getHelperData()->getVerificationPage(); ?>';
+            var current_page = "<?php echo $cmsPage->getIdentifier(); ?>";
+            var cookie_interval = '<?php echo $block->getHelperData()->getCookieInterval(); ?>';
+            var interval_time = cookie_interval * (60000 * 60);
+            var cat_verify = '<?php echo $getCatVerification; ?>';
+            //alert(verification_basedOn);
+                if(verification_basedOn == 'global')
+                {                        
+                    if(jQuery.cookie("Age_verification") == 0)
+                    {
+                        if(popup_animation == "zoomIn" || popup_animation == "fadeIn"){                
+                            $('.modal-inner-wrap').addClass('popup_position');
+                        }
+                        jQuery.cookie("Age_verification",0);
+                        $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                        $('.ageVerification_popup').modal('openModal'); 
+                    }
+                }else if(verification_basedOn == 'category' && cat_verify == '1'){
+                    if(jQuery.cookie("Age_verification") == 0)
+                    {
+                        if(popup_animation == "zoomIn" || popup_animation == "fadeIn"){                
+                            $('.modal-inner-wrap').addClass('popup_position');
+                        }
+                        jQuery.cookie("Age_verification",0);
+                        $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                        $('.ageVerification_popup').modal('openModal'); 
+                    }
+                }
+                else
+                {
+                    if(current_page == verification_page)
+                    {
+                        if(jQuery.cookie("Age_verification_specific") == null || jQuery.cookie("Age_verification_specific") == 0)
+                        {
+                            if(popup_animation == "zoomIn" || popup_animation == "fadeIn")
+                            {                
+                                $('.modal-inner-wrap').addClass('popup_position');
+                            }
+                            // jQuery.cookie("Age_verification",0);
+                            $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                            $('.ageVerification_popup').modal('openModal'); 
+                            // return false;
+                        }
+                    }
+                }
+        });
+}
+
+function verifyAgeDefault(){
+    
+    var exists = document.getElementById("g-recaptcha-response");
+    if(exists != null){
+        
+        var check = document.getElementById("g-recaptcha-response").value;
+        if(check=='' || check == null){
+            document.getElementById("recaptcha").style.border = "1px solid #ea0e0e";
+            return false;
+        }
+    }
+    var checkBox = '<?php echo $checkEnable; ?>';
+    if(checkBox==1)
+        {
+            
+        var ageVerification_check = document.getElementById("ageVerification_check").checked;
+        alert(ageVerification_check);
+        if(ageVerification_check == 0){
+            
+                var content = 'Not allowed';
+              document.getElementById("default_notAllow").innerHTML = content;
+              if(exists != null){
+                grecaptcha.reset();
+              }       
+        }else{ 
+            leavePopup('submit');
+                    $('.ageVerification_popup').modal('closeModal'); 
+                    jQuery.cookie("Age_verification",1,interval_time);
+           document.getElementById("default_notAllow").innerHTML = "";
+        }
+    }
+      var checkDob = '<?php echo $dobEnable; ?>';
+        if(checkDob==1)
+        {
+            
+            var dob = document.getElementById("dob").value;
+            if(dob == ''){ 
+                 var content = 'Please enter your Date Of Birth';
+                  document.getElementById("custom_notAllow").innerHTML = content;
+                  if(exists != null){
+                    grecaptcha.reset();
+                  }
+            }
+        }
+    else{
+        require(
+            [
+                'jquery',
+                'jquery/ui'
+            ],
+            function($){
+                var checkDob = '<?php echo $dobEnable; ?>';
+                if(checkDob==1)
+                {
+                    var verification_age = $('#verification_age').val();
+
+                    var dob_date_formate = document.getElementById('dob_date_formate').value;
+                    if( dob_date_formate == "dd/mm/yy"){
+                        var b_date = dob.split("/").reverse().join("/");
+                        date = new Date(b_date);
+                    }else{
+                        date = new Date(dob);
+                    }
+                    var today = new Date();
+                    var age = Math.floor((today-date) / (365.25 * 24 * 60 * 60 * 1000));
+                    // var ageVerification_check = 1;
+                    
+                    if(age >= verification_age ){
+                        var content = '';
+                        $('#custom_notAllow').html(content);
+                    }
+                    else{
+                        var content = 'Not allowed';
+                        $('#custom_notAllow').html(content);
+                        if(exists != null){
+                            grecaptcha.reset();
+                          }
+                    }
+                    var checkBox = '<?php echo $checkEnable; ?>';
+                    if(checkBox==1)
+                    {
+                        var ageVerification_check = document.getElementById("ageVerification_check").checked;
+                        if(age >= verification_age && ageVerification_check == 1){
+                            leavePopup('submit');
+                            $('.ageVerification_popup').modal('closeModal'); 
+                        }
+                    }
+                    else
+                    {
+                       if(age >= verification_age){
+                       leavePopup('submit');
+                       $('.ageVerification_popup').modal('closeModal'); 
+                       }
+                    }
+                }
+                else
+                {
+                     leavePopup('submit');
+                    $('.ageVerification_popup').modal('closeModal'); 
+                }
+            });
+    }
+   return false; 
+
+}
+function leavePopup(popUpObject){
+    require(
+    [
+        'jquery',
+        'jquery/ui',
+        'jquery/jquery.cookie'
+    ],
+    function($){
+       $('.ageVerification_popup').modal('closeModal'); 
+        var cookie_interval = '<?php echo $block->getHelperData()->getCookieInterval(); ?>';
+        var interval_time = cookie_interval * (60000 * 60);
+        var verification_basedOn = '<?php echo $block->getHelperData()->getVerificationBasedOn(); ?>';
+        var cancel = '<?php echo $block->getHelperData()->getLeaveBtnLabel(); ?>';
+        var submit = '<?php echo $block->getHelperData()->getEnterBtnLabel(); ?>';
+
+        var popup_animation = '<?php echo $block->getHelperData()->getPopupAnimation(); ?>';
+        var cat_verify = '<?php echo $getCatVerification; ?>';
+        if(verification_basedOn == 'global')
+        {
+            if(cancel == popUpObject.value) 
+            {
+                jQuery.cookie("Age_verification", 0);
+                if(popup_animation == "zoomIn" || popup_animation == "fadeIn")
+                {                
+                    $('.modal-inner-wrap').addClass('popup_position');
+                }
+                $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                $('.ageVerification_popup').modal('openModal');
+                <?php
+                    $leaveUrl = $base_url.$block->getHelperData()->getLeaveBtnUrl();
+                ?>
+                window.location.href = '<?php echo $leaveUrl; ?>';
+            }
+            else {
+                    <?php
+                        $enterUrl = $base_url.$block->getHelperData()->getEnterBtnUrl();
+                    ?>
+                    jQuery.cookie("Age_verification",1,interval_time);
+                    window.location.href = '<?php echo $enterUrl; ?>'; 
+                }    
+        }else if(verification_basedOn == 'category' && cat_verify == '1'){
+            if(cancel == popUpObject.value) 
+            {
+                jQuery.cookie("Age_verification", 0);
+                if(popup_animation == "zoomIn" || popup_animation == "fadeIn")
+                {                
+                    $('.modal-inner-wrap').addClass('popup_position');
+                }
+                $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                $('.ageVerification_popup').modal('openModal');
+                <?php
+                    $leaveUrl = $base_url.$block->getHelperData()->getLeaveBtnUrl();
+                ?>
+                window.location.href = '<?php echo $leaveUrl; ?>';
+            }
+            else {
+                <?php
+                    $enterUrl = $base_url.$block->getHelperData()->getEnterBtnUrl();
+                ?>
+                jQuery.cookie("Age_verification",1,interval_time);
+                window.location.href = '<?php echo $enterUrl; ?>'; 
+            }    
+        }
+        
+        else
+        {       
+            if(cancel == popUpObject.value) 
+            {
+                jQuery.cookie("Age_verification_specific", 0);
+                if(popup_animation == "zoomIn" || popup_animation == "fadeIn")
+                {                
+                    $('.modal-inner-wrap').addClass('popup_position');
+                }
+                $('.modal-inner-wrap').addClass('animated '+popup_animation);
+                $('.ageVerification_popup').modal('openModal');
+                <?php
+                    $leaveUrl = $base_url.$block->getHelperData()->getLeaveBtnUrl();
+                ?>
+                window.location.href = '<?php echo $leaveUrl; ?>';
+            } else {
+                <?php
+                    $enterUrl = $base_url.$block->getHelperData()->getEnterBtnUrl();
+                ?>
+                jQuery.cookie("Age_verification_specific",1,interval_time);
+                window.location.href = '<?php echo $enterUrl; ?>';
+            }   
+        }   
+    });
+}
+function verifyAgeCustom(){
+    var exists = document.getElementById("g-recaptcha-response");
+    var captcha_type = '<?php echo $block->getHelperData()->getCaptchaType(); ?>';
+    // console.log(captcha_type);
+    // leavePopup('submit');
+    // $('.ageVerification_popup').modal('closeModal'); 
+    if(captcha_type == 0){
+        var checkDob = '<?php echo $dobEnable; ?>';
+        if(checkDob==1)
+        {
+        var dob = document.getElementById("dob").value;
+        if(dob == ''){ 
+            var content = 'Please enter your Date Of Birth';
+            document.getElementById("custom_notAllow").innerHTML = content;
+            if(exists != null){
+                grecaptcha.reset();
+            }
+        }
+        else{
+            require(
+                [
+                    'jquery',
+                    'jquery/ui'
+                ],
+                function($){
+                var checkDob = '<?php echo $dobEnable; ?>';
+                if(checkDob==1)
+                {
+                    var verification_age = $('#verification_age').val();
+                    var dob_date_formate = document.getElementById('dob_date_formate').value;
+                    if( dob_date_formate == "dd/mm/yy"){
+                        var b_date = dob.split("/").reverse().join("/");
+                        date = new Date(b_date);
+                    }else{
+                        date = new Date(dob);
+                    }
+                    var today = new Date();
+                    var age = Math.floor((today-date) / (365.25 * 24 * 60 * 60 * 1000));
+                    if(age >= verification_age){
+                        leavePopup('submit');
+                        $('.ageVerification_popup').modal('closeModal'); 
+                    }
+                    else{
+                        var content = 'Not allowed';
+                        $('#custom_notAllow').html(content);
+                        if(exists != null){
+                            grecaptcha.reset();
+                          }
+                    }
+                }else
+                {
+                    leavePopup('submit');
+                    $('.ageVerification_popup').modal('closeModal'); 
+
+                }
+            });
+        }
+        }
+        else{
+            leavePopup('submit');
+            $('.ageVerification_popup').modal('closeModal'); 
+        }
+    }
+    else{
+        if(exists != null){
+            var check = document.getElementById("g-recaptcha-response").value;
+            if(check=='' || check == null){
+                document.getElementById("recaptcha").style.border = "1px solid #ea0e0e";
+                return false;
+            }
+        }
+        var checkDob = '<?php echo $dobEnable; ?>';
+        if(checkDob==1)
+        {
+        var dob = document.getElementById("dob").value;
+        if(dob == ''){ 
+            var content = 'Please enter your Date Of Birth';
+            document.getElementById("custom_notAllow").innerHTML = content;
+            if(exists != null){
+                grecaptcha.reset();
+            }
+        }
+        else{
+            require(
+                [
+                    'jquery',
+                    'jquery/ui'
+                ],
+                function($){
+                    var verification_age = $('#verification_age').val();
+                    var dob_date_formate = document.getElementById('dob_date_formate').value;
+                    if( dob_date_formate == "dd/mm/yy"){
+                        var b_date = dob.split("/").reverse().join("/");
+                        date = new Date(b_date);
+                    }else{
+                        date = new Date(dob);
+                    }
+                    var today = new Date();
+                    var age = Math.floor((today-date) / (365.25 * 24 * 60 * 60 * 1000));
+                    if(age >= verification_age){
+                        leavePopup('submit');
+                        $('.ageVerification_popup').modal('closeModal'); 
+                    }
+                    else{
+                        var content = 'Not allowed';
+                        $('#custom_notAllow').html(content);
+                        if(exists != null){
+                            grecaptcha.reset();
+                          }
+                    }
+                });
+        }
+    }else{
+       leavePopup('submit');
+        $('.ageVerification_popup').modal('closeModal'); 
+    }
+        return false;
+    }
+}
+</script>

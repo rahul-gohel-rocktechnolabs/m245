@@ -1,0 +1,58 @@
+<?php
+/**
+ * @category Mageants AgeVerification
+ * @package Mageants_AgeVerification
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <info@mageants.com>
+ */
+// @codingStandardsIgnoreFile
+/** @var \Mageants\AgeVerification\Block\Popup $block */
+?>
+<style type="text/css">
+.default_popup button.enter_button, .custom_popup button.enter_button, .ageVerification_captcha button#recaptcha, button.leave_button{
+    background-color:<?php echo $block->getHelperData()->getButtonBackgroundColor(); ?>;
+    color: <?php echo $block->getHelperData()->getButtonTextColor(); ?>;
+    margin: 10px;
+}
+.ageVerification_popup .title{
+    background-color:<?php echo $block->getHelperData()->getTitleBackgroundColor(); ?>;
+    color: <?php echo $block->getHelperData()->getTitleTextColor(); ?>;
+    padding: 10px 0;
+}
+.default_popup .content_text{
+    color: <?php echo $block->getHelperData()->getContentTextColor(); ?>;
+}
+.default_popup .ageVerification_checkbox{
+    color: <?php echo $block->getHelperData()->getContentTextColor(); ?>;
+}
+aside.modal-popup.modal-slide._inner-scroll._show .modal-inner-wrap{
+    background-color:<?php echo $block->getHelperData()->getPopupBackgroundColor(); ?>; 
+    border: 5px solid <?php echo $block->getHelperData()->getPopupBorderColor(); ?>; 
+}
+
+#ui-datepicker-div{
+    min-width: 300px;
+}
+</style>
+<?php
+$config_template = $block->getHelperData()->getTemplate();
+if ($config_template != 0) {
+    $template_data = $block->getTemplateData()->addFieldToFilter('template_id', ['eq', $config_template]);
+    foreach ($template_data as $tdata) {
+        $popup_css = $tdata->getPopupCss();
+        $popup_script = $tdata->getPopupScript();
+    }
+    ?>
+    <style type="text/css">
+        <?php
+        echo $popup_css;
+        ?> 
+    </style>
+    <script type="text/javascript">
+        <?php
+        echo $popup_script;
+        ?> 
+    </script>
+<?php
+}
+?>

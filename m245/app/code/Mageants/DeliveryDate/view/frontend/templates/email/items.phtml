@@ -1,0 +1,196 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php $_order = $block->getOrder() ?>
+
+<?php
+$oId = $_order->getId();
+$dDate = json_decode($_order->getDeliveryDate());
+$viewModel = $block->getData('view_model');
+$isEnable = $viewModel->getPluginEnable();
+$includeinto = $viewModel->getPluginIncludeInto($_order->getStoreId());
+$productData = $viewModel->productData();
+$displayAt = $viewModel->getDisplayPosition($oId);
+$gift = $viewModel->giftMessage();
+if ($isEnable) {
+    if (strpos($includeinto, '2') !== false) {
+        if ($displayAt == 3) {
+            $dateDeliveryData = [];
+            $deliverydate = json_decode($_order->getDeliveryDate());
+            $deliverytime = json_decode($_order->getDeliveryTimeslot());
+            $deliverycomment = json_decode($_order->getDeliveryComment());
+            foreach ($deliverydate as $key => $productId) {
+                $product = $productData->getById($deliverydate[$key]->item_id);
+                $dateDeliveryData[$key]['productId'] =  $product->getId();
+                $dateDeliveryData[$key]['productName'] =  $product->getName();
+                $dateDeliveryData[$key]['deliverydate'] = $deliverydate[$key]->delivery_date;
+                $dateDeliveryData[$key]['deliverytime'] = $deliverytime[$key]->delivery_timeslot;
+                $dateDeliveryData[$key]['deliverycomment'] = $deliverycomment[$key]->delivery_comment;
+            }
+            ?>
+        <table>
+            <tr>
+                <div>
+                    <span><h3>Delivery Information</h3></span>
+                </div>
+            </tr>
+            <?php
+            foreach ($dateDeliveryData as $key => $value) {
+                ?>
+            <tr>
+                <td>Product Name</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['productName'];?></td>
+            </tr>
+            <tr>
+                <td>Delivery Date</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['deliverydate'];?></td>
+            </tr>
+                <?php if ($dateDeliveryData[$key]['deliverytime'] != null
+                || $dateDeliveryData[$key]['deliverytime'] != '') { ?> 
+            <tr>
+                <td>Delivery Timeslot</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['deliverytime'];?></td>
+            </tr>
+        <?php } ?>
+                <?php if ($dateDeliveryData[$key]['deliverycomment'] != null) { ?>
+            <tr>
+                <td>Delivery Comment</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['deliverycomment'];?></td>
+            </tr>
+            <?php } ?>
+            <tr><td></td></tr>
+            <?php } ?>
+        </table>
+            <?php
+        } elseif (isset($dDate)) {
+            if ($displayAt =='') {
+                $dateDeliveryData = [];
+                $deliverydate = json_decode($_order->getDeliveryDate());
+                $deliverytime = json_decode($_order->getDeliveryTimeslot());
+                $deliverycomment = json_decode($_order->getDeliveryComment());
+                foreach ($deliverydate as $key => $productId) {
+                    $product =$productData->getById($deliverydate[$key]->item_id);
+                    $dateDeliveryData[$key]['productId'] =  $product->getId();
+                    $dateDeliveryData[$key]['productName'] =  $product->getName();
+                    $dateDeliveryData[$key]['deliverydate'] = $deliverydate[$key]->delivery_date;
+                    $dateDeliveryData[$key]['deliverytime'] = $deliverytime[$key]->delivery_timeslot;
+                    $dateDeliveryData[$key]['deliverycomment'] = $deliverycomment[$key]->delivery_comment;
+                }
+                ?>
+        <table>
+            <tr>
+                <div>
+                    <span><h3>Delivery Information</h3></span>
+                </div>
+            </tr>
+                <?php
+                foreach ($dateDeliveryData as $key => $value) {
+                    ?>
+            <tr>
+                <td>Product Name</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['productName'];?></td>
+            </tr>
+            <tr>
+                <td>Delivery Date</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['deliverydate'];?></td>
+            </tr>
+                    <?php if ($dateDeliveryData[$key]['deliverytime'] != null
+                     || $dateDeliveryData[$key]['deliverytime'] != '') { ?> 
+            <tr>
+                <td>Delivery Timeslot</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['deliverytime'];?></td>
+            </tr>
+        <?php } ?>
+                    <?php if ($dateDeliveryData[$key]['deliverycomment'] != null) { ?>
+            <tr>
+                <td>Delivery Comment</td>
+                <td>:<?= /* @noEscape */  $dateDeliveryData[$key]['deliverycomment'];?></td>
+            </tr>
+            <?php } ?>
+            <tr><td></td></tr>
+            <?php } ?>
+        </table>
+                <?php
+            }
+        } else {
+            ?>
+<table>
+    <tr>
+        <div>
+            <span><h3>Delivery Information</h3></span>
+        </div>
+    </tr>
+    <tr>
+        <td>Delivery Date</td>
+        <td>:<?= /* @noEscape */  $_order->getDeliveryDate();?></td>
+    </tr>
+            <?php if ($_order->getDeliveryTimeslot() != null || $_order->getDeliveryTimeslot() != '') { ?>
+    <tr>
+        <td>Delivery Timeslot</td>
+        <td>:<?= /* @noEscape */  $_order->getDeliveryTimeslot();?></td>
+    </tr>
+<?php } ?>
+            <?php if ($_order->getDeliveryComment() != null) { ?>
+    <tr>
+        <td>Delivery Comment</td>
+        <td>:<?= /* @noEscape */  $_order->getDeliveryComment();?></td>
+    </tr>
+    <?php } ?>
+</table>
+            <?php
+        }
+    }
+}
+
+?>
+
+<?php if ($_order): ?>
+    <?php $_items = $_order->getAllItems(); ?>
+    <table class="email-items">
+        <thead>
+            <tr>
+                <th class="item-info">
+                    <?=  /* @noEscape */   __('Items') ?>
+                </th>
+                <th class="item-qty">
+                    <?=  /* @noEscape */   __('Qty') ?>
+                </th>
+                <th class="item-price">
+                    <?=  /* @noEscape */   __('Price') ?>
+                </th>
+            </tr>
+        </thead>
+        <?php foreach ($_items as $_item): ?>
+            <?php if (!$_item->getParentItem()): ?>
+                <tbody>
+                    <?= $block->getItemHtml($_item) ?>
+                </tbody>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <tfoot class="order-totals">
+            <?= $block->getChildHtml('order_totals') ?>
+        </tfoot>
+    </table>
+    <?php if ($gift->isMessagesAllowed('order', $_order, $_order->getStore()) && $_order->getGiftMessageId()): ?>
+        <?php $_giftMessage = $gift->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage): ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?=  /* @noEscape */   __('Gift Message for this Order') ?></h3>
+                        <strong><?=  /* @noEscape */   __('From:') ?></strong>
+                         <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?=  /* @noEscape */   __('To:') ?></strong>
+                         <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?=  /* @noEscape */   __('Message:') ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

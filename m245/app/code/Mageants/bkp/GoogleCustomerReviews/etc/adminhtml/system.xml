@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" translate="label" sortOrder="10">
+            <label>Mageants</label>
+        </tab>
+        <section id="googlecustomerreviews" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Google Customer Reviews</label>
+            <tab>mageants</tab>
+            <resource>Mageants_GoogleCustomerReviews::googlecustomerreviews_config</resource>
+
+            <!-- General -->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="merchant_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Google Merchant ID</label>
+                    <validate>required-entry validate-number validate-length maximum-length-9</validate>
+                </field>
+                <field id="language" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Language</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale</source_model>
+                </field>
+            </group>
+
+            <!-- Survey Opt-In -->
+            <group id="survey" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+               <label>Survey Opt-In</label>
+               <field id="customer_group" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable for Selected Customer Groups</label>
+                    <validate>required-entry</validate>
+                    <source_model>Mageants\GoogleCustomerReviews\Model\Config\Source\Customerlist</source_model>
+                </field>
+                <field id="postition_popup" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Position of Popup on Order Success Page</label>
+                    <source_model>Mageants\GoogleCustomerReviews\Model\Config\Source\PostionPopup</source_model>
+                </field>
+            </group>
+
+            <!-- Badge -->
+            <group id="badge" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>Badge</label>
+                <field id="show" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Show</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="position_badge" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                    <label>Position</label>
+                    <source_model>Mageants\GoogleCustomerReviews\Model\Config\Source\PostionBadge</source_model>
+                    <depends>
+                        <field id="show">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

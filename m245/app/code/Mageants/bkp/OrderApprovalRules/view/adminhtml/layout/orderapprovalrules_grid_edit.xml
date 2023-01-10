@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+    </head>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+        	<block class="Magento\Framework\View\Element\Template" name="grid.edit.script" before="-" template="Mageants_OrderApprovalRules::script.phtml" />
+            <block class="Mageants\OrderApprovalRules\Block\Adminhtml\Grid\Edit" name="orderapprovalrule_grid_edit"/>
+			<!-- <block class="Mageants\OrderApprovalRules\Block\Adminhtml\Grid\Edit\Products" name="product.edit.products"/>
+	        <block class="Magento\Backend\Block\Widget\Grid\Serializer" name="products_grid_serializer">
+	            <arguments>
+	                <argument name="grid_block" xsi:type="string">product.edit.tab.products</argument>
+	                <argument name="callback" xsi:type="string">getSelectedProducts</argument>
+	                <argument name="input_element_name" xsi:type="string">productids</argument>
+	                <argument name="reload_param_name" xsi:type="string">grid_products</argument>
+	            </arguments>
+	        </block> -->
+	        <!-- <block class="Mageants\OrderApprovalRules\Block\Adminhtml\Grid\Edit\Tab\Conditions" name="rules.edit.tab.conditions"/> -->
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Mageants\OrderApprovalRules\Block\Adminhtml\Grid\Edit\Tabs" name="orderapprovalrule_grid_edit_tabs">
+				<block class="Mageants\OrderApprovalRules\Block\Adminhtml\Grid\Edit\Tab\General" name="orderapprovalrule_grid_edit_tab_general"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">general_section</argument>
+                    <argument name="block" xsi:type="string">orderapprovalrule_grid_edit_tab_general</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">select_products</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Select Products</item>
+                        <item name="title" xsi:type="string">Select Products</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\OrderApprovalRules\Helper\Data::getProductsGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">set_custom_rule</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Set Custom Rule</item>
+                        <item name="title" xsi:type="string">Set Custom Rule</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\OrderApprovalRules\Helper\Data::getCustomRuleUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+			</block>
+        </referenceContainer>
+    </body>
+</page>

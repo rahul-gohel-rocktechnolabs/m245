@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mgorderattribute>
+            <checkout>
+                <progress>1</progress>
+                <hide_empty>1</hide_empty>
+                <email>1</email>
+                <!-- <send_on_shipping_step>1</send_on_shipping_step> -->
+                <subscribe>subscribe_box</subscribe>
+            </checkout>
+            <pdf>
+                <shipment>1</shipment>
+                <invoice>1</invoice>
+            </pdf>
+            <invoices_shipments>
+                <invoice_grid>1</invoice_grid>
+                <invoice_create>1</invoice_create>
+                <invoice_view>1</invoice_view>
+                <shipment_grid>1</shipment_grid>
+                <shipment_create>1</shipment_create>
+                <shipment_view>1</shipment_view>
+            </invoices_shipments>
+        </mgorderattribute>
+    </default>
+</config>

@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<?php $_order = $block->getOrder(); ?>
+
+<table>
+    <tr>
+        <div>
+            <span><h3>Delivery Information</h3></span>
+        </div>
+    </tr>
+    <tr>
+        <td>Delivery Date : </td>
+        <td><?=  /* @noEscape */  $_order->getDeliveryDate();?></td>
+    </tr>
+    <tr>
+        <td>Delivery Timeslot : </td>
+        <td><?=  /* @noEscape */  $_order->getDeliveryTimeslot();?></td>
+    </tr>
+    <tr>
+        <td>Delivery Comment : </td>
+        <td><?=  /* @noEscape */  $_order->getDeliveryComment();?></td>
+    </tr>
+</table>

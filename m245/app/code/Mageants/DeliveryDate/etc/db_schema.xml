@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="quote" resource="default">
+    <column xsi:type="text" name="delivery_date" nullable="true" comment="Delivery Date"/>
+    <column xsi:type="text" name="delivery_timeslot" nullable="true" comment="Delivery Timeslot"/>
+    <column xsi:type="text" name="delivery_comment" nullable="true" comment="Delivery Comment"/>
+  </table>
+  <table name="quote_item" resource="default">
+    <column xsi:type="text" name="delivery_date" nullable="true" comment="Delivery Date"/>
+    <column xsi:type="text" name="delivery_timeslot" nullable="true" comment="Delivery Timeslot"/>
+    <column xsi:type="text" name="delivery_comment" nullable="true" comment="Delivery Comment"/>
+  </table>
+  <table name="sales_order" resource="default">
+    <column xsi:type="text" name="delivery_date" nullable="true" comment="Delivery Date"/>
+    <column xsi:type="text" name="delivery_timeslot" nullable="true" comment="Delivery Timeslot"/>
+    <column xsi:type="text" name="delivery_comment" nullable="true" comment="Delivery Comment"/>
+    <column xsi:type="text" name="delivery_status" nullable="true" comment="Delivery Status"/>
+  </table>
+  <table name="sales_order_grid" resource="default">
+    <column xsi:type="text" name="delivery_date" nullable="true" comment="Delivery Date"/>
+    <column xsi:type="text" name="delivery_timeslot" nullable="true" comment="Delivery Timeslot"/>
+    <column xsi:type="text" name="delivery_comment" nullable="true" comment="Delivery Comment"/>
+  </table>
+  <table name="mageants_order_info" resource="default" engine="innodb" comment="Order Info Table">
+    <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="varchar" name="order_id" nullable="false"  length="255"/>
+    <column xsi:type="varchar" name="configuration_display_at" nullable="true" length="255" comment="Display At"/>
+    <column xsi:type="varchar" name="date_format" nullable="true" length="255" comment="Date Format"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>

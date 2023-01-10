@@ -1,0 +1,54 @@
+<?php
+/**
+ * @category Mageants OrderApprovalRules
+ * @package Mageants_OrderApprovalRules
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants <support@mageants.com>
+ */
+?>
+<script>
+     require([ 'jquery', 'jquery/ui'], function($){
+
+         $(document).ready(function (){
+             if($('#apply_to').val() == 'specific_products'){
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_select_products').css('display','block');
+            }
+            else{
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_select_products').css('display','none');
+            }
+            if($('#apply_to').val() == 'custom'){
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_set_custom_rule').css('display','block');
+            }
+            else{
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_set_custom_rule').css('display','none');
+            }
+        }); 
+        $('#apply_to').on('change',function(){
+            if(this.value == 'specific_products'){
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_select_products').css('display','block');
+            }
+            else{
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_select_products').css('display','none');
+            }
+            if(this.value == 'custom'){
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_set_custom_rule').css('display','block');
+            }
+            else{
+                $('.orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_set_custom_rule').css('display','none');
+            }
+        });
+    });
+</script>
+<style type="text/css">
+    .orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_select_products {
+        display: none;
+    }
+    .orderapprovalrules-grid-edit #orderapprovalrule_grid_tabs_set_custom_rule{
+        display: none;
+    }
+    /*.orderapprovalrules-grid-edit .entry-edit.form-inline
+    {
+        padding: 0 0 0 25.7%;    
+    }*/
+    
+</style>

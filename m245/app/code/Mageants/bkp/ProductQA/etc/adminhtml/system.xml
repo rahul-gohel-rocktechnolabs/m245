@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Product Question Answser
+ * @package   Mageants_ProductQA
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+	<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+		<system>
+			<tab id="mageants" translate="label" sortOrder="10">
+				<label>Mageants</label>
+			</tab>
+			<section id="mageants_productqa" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Product Q/A</label>
+				<tab>mageants</tab>
+				<resource>Mageants_ProductQA::mageants_productqa</resource>
+				<group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>General</label>
+					<field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Enable Product Q/A</label>
+						<source_model>Mageants\ProductQA\Model\Source\StatusExtention</source_model>
+						<comment>
+							`Enable Product Q/A` setting.
+						</comment>
+					</field>
+					<field id="use_like_symbol" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Use like and dislike symbol for question answer from frontend</label>
+						<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+						<comment>
+							If set yes then use like and dislike symbol other wise use yes or no button.
+						</comment>
+					</field>
+					<field id="qpaze_size" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Question Page Size</label>                    
+						<comment>
+							Product Question Load Per Page Size. Enter number in range from 1 to 10.
+						</comment>
+						<validate>required-entry validate-digits validate-not-negative-number validate-digits-range digits-range-1-10</validate>
+					</field>
+					<field id="max_question_lenght" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Question Max Char</label>                    
+						<comment>
+							Max character allow in question
+						</comment>
+					</field>
+					<field id="captcha" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Enable Captcha</label>
+						<source_model>Mageants\ProductQA\Model\Source\StatusExtention</source_model>
+						<comment>
+							Captcha for frontend question answer post
+						</comment>
+					</field>
+					<field id="sendemail" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Enable Send E-mail </label>                    
+						<source_model>Mageants\ProductQA\Model\Source\StatusExtention</source_model>
+						<comment>
+							if enable then email send to user who is connected with question else not send mail to anyone.
+						</comment>
+					</field>				
+					<field id="email_subject" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>E-mail Subject</label>
+						 <depends>
+							<field id="sendemail" >1</field>
+						</depends>
+						<comment>
+							set email subject here						
+						</comment>
+					</field>
+					<field id="email_template" translate="label comment" type="editor" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>E-mail template</label>
+						 <depends>
+							<field id="sendemail" >1</field>
+						</depends>
+						<frontend_model>Mageants\ProductQA\Block\Adminhtml\System\Config\Editor</frontend_model>
+						<comment>
+							set design of email template. You can also use module pre define shortcode in template.
+							short code are {{var question}}, {{var question_username}},{{var question_date}}, 
+							  {{var new_answer}}, {{var new_answer_username}}, {{var new_answer_date}},
+							  {{var product_url}},{{var product_name}},{{var product_image}}
+						</comment>
+					</field>
+					<field id="email_template_css" translate="label comment" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>E-mail Css</label>
+						 <depends>
+							<field id="sendemail" >1</field>
+						</depends>
+						<comment>
+							set you email template css here
+						</comment>
+					</field>
+				</group>
+				<group id="admin_email" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Admin Notifications</label>
+                <field id="enable_notify" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify admin of a new question</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="send_to" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send e-mail to</label>
+                    <depends>
+                        <field id="enable_notify">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Email Template</label>
+                    <depends>
+                        <field id="enable_notify">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="enable_notify_foranswer" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notify admin of a new answer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+               <field id="send_to_foranswer" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send e-mail to</label>
+                    <depends>
+                        <field id="enable_notify_foranswer">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="template_foranswer" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Email Template</label>
+                    <depends>
+                        <field id="enable_notify_foranswer">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field> 
+            	</group>
+            	
+	            <group id="user_email" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+	                <label>User Notifications</label>
+	                <field id="user_notify" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+	                    <label>Notify user via email</label>
+	                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+	                </field>
+	                <field id="sender" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+	                    <label>Email Sender</label>
+	                    <depends>
+	                        <field id="user_notify">1</field>
+	                    </depends>
+	                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+	                </field>
+	                <field id="template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+	                    <label>Email Template</label>
+	                    <depends>
+	                        <field id="user_notify">1</field>
+	                    </depends>
+	                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+	                </field>
+	            </group>
+	            <group id="email_to_answered_users" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+	            	<label>Notify Answered Users</label>
+		            <field id="enable_email_to_answered_users" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+	                    <label>Send Email to user who answered</label>
+	                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+	                    <comment>If enable then email send to user who answered previous questions else not send mail to anyone.</comment>
+	                </field>
+	                <field id="sender" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+	                    <label>Email Sender</label>
+	                    <depends>
+	                        <field id="enable_email_to_answered_users">1</field>
+	                    </depends>
+	                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+	                </field>
+	                <field id="template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+	                    <label>Email Template</label>
+	                    <depends>
+	                        <field id="enable_email_to_answered_users">1</field>
+	                    </depends>
+	                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+	                </field>
+	            </group>
+			</section>
+		</system>
+	</config>

@@ -1,0 +1,31 @@
+<!--@subject New Question Post@-->
+<!--@vars {
+"var product_image":"Customer Name",
+"var customer_name":"Customer Name",
+"var customer_email":"Customer Email",
+"var question":"Customer Question",
+"var product_link":"Link to Product where was question asked",
+"var product_name":"Product Name where was question asked"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td valign="top">
+            <p>{{trans "Customer Name: %name," name=$customer_name}}</p>
+            <p>{{trans "Customer Email: %email," email=$customer_email}}</p>
+            <p>{{trans "Customer Question: %question" question=$question}}</p>
+            {{depend product_link}}
+            <div class="product" style="display: flex; align-items: center;">
+                <div class="pimage" style="display: inline-block; float: left;"><img src='{{var product_image}}'></div>
+                <div class="title" style="display: inline-block; float: left;">
+                    <a href="{{var product_link}}">{{var product_name}}</a>
+                </div>
+            </div>
+       
+            {{/depend}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

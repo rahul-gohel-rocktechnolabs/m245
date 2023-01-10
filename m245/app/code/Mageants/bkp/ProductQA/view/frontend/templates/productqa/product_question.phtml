@@ -1,0 +1,203 @@
+<?php if ($block->hasProductQAEnable()):?>
+    <?php $questions = $block->getProductQuestions();?>
+    <?php $useLikeDislikeSymbol = $block->getProductQaHelper()->useLikeDislikeSymbol();?>
+<div class="questionqa" id="questionqa">
+    <div class="box-addanswer">
+        <div class="fieldset">
+            <div class="actions">
+                <button type="submit" title="Ask Question?" class="action primary" 
+                id="product-askquestion-button" 
+                onclick='jQuery(".question-form").slideToggle()'>
+                    <span><?= /* @noEscape */ __('Ask Question?');?></span>
+                </button>
+            </div>
+        </div>
+        <div class="fieldset sortorder">
+            <div class="qsearch-form fieldset">
+                
+                <div class="field">
+                    <label class="label" for="qasort"><?= /* @noEscape */ __('Search');?></label>
+                    <div class="control">
+                        <input type="text" name="q" id="qaq" placeholder="Have a question? Search for answers" />
+                    </div>
+                </div>
+                 </div>
+        </div>
+        
+        <div class="sortorder last">
+            <div class="sorder-content fieldset">
+                <div class="field">
+                <label class="label" for="qasort">
+                    <?= /* @noEscape */ __('Sort By :');?></label>
+                    <select name="qasort" id="qasort" >
+                    <option value="<?= /* @noEscape */ $block->getSortUrl('latest')?>">
+                        <?= /* @noEscape */ __('Latest First')?></option>
+                    <option value="<?= /* @noEscape */ $block->getSortUrl('oldest')?>">
+                        <?= /* @noEscape */__('Oldest First')?></option>
+                    <option value="<?= /* @noEscape */$block->getSortUrl('mostlike')?>">
+                        <?= /* @noEscape */ __('Most Like')?></option>
+                    <option value="<?= /* @noEscape */$block->getSortUrl('mostdislike')?>">
+                        <?= /* @noEscape */ __('Most Dislike')?></option>                    
+                    </select>
+                </div>
+            </div>
+        </div>
+      <div id="question-message" class="messages"></div>
+        <div class="fotorama__spinner"></div>
+        <div class="question-form">
+            <form id="question-form" action="<?= /* @noEscape */ $block->getFormUrl()?>" 
+                method="post" id="question-form" data-mage-init='{"validation": {}}'>
+                <input type="hidden" value="<?= /* @noEscape */$block->getFormKey();?>" name="form_key"/>
+                <fieldset class="fieldset">                    
+                    <legend class="legend "><span><?= /* @noEscape */__('Your Question')?> : </span><strong>
+                        <?= /* @noEscape */$block->getProduct()->getName()?></strong></legend>
+                    
+                    <div class="field required">
+                        <label class="label" for="name"> <?= /* @noEscape */__('Name')?> : </label>
+                        <div class="control">
+                            <input type="text" id="name" class="input-text" data-validate="{required:true}" 
+                            value="<?= /* @noEscape */ trim($block->getCustomerName())?>" name="name">
+                        </div>                        
+                    </div>
+                    <div class="field required">
+                        <label class="label" for="email"><?= /* @noEscape */__('Email')?>:</label> 
+                        <div class="control">
+                            <input type="email" id="email" name="email" 
+                            class="input-text" data-validate="{required:true, 'validate-email':true}"  
+                            value="<?= /* @noEscape */ $block->getCustomerEmail()?>">                            
+                        </div>
+                    </div>
+                    <div class="field required">
+                        <label  class="label" for="question"><?= /* @noEscape */ __('Your Question')?></label> 
+                        <div class="control">
+                            <textarea name="question" id="question" 
+                            maxlength="<?= /* @noEscape */ $block->getQuestionMaxCharacter()?>" 
+                            class="input-text" data-validate="{required:true}" 
+                            aria-required="true" name="question">
+                         </textarea>                    
+                        </div>
+                    </div>
+                </fieldset>
+                <?= /* @noEscape */  $block->getChildHtml('qacaptcha'); ?>
+                <div class="actions-toolbar"> 
+                    <div class="primary actions-primary">
+                        <button type="submit" required class="submit primary action"><span>
+                        <?= /* @noEscape */ __('Submit Question')?></span></button>
+                    </div>
+                     <div class="primary actions-primary">
+                        <button type="button" class="submit primary action" 
+                        onclick='jQuery(".question-form").slideToggle()'><span>
+                        <?= /* @noEscape */ __('Cancel')?></span></button>
+                    </div>
+                </div>
+            </form>            
+        </div>
+    </div>
+    <div id="qasortquestion" class="questions-list">
+        <div id="productquestions" class="questions">
+            
+            <?php foreach ($block->getProductQuestions() as $question):?>
+            <div class="productquestion" id="productquestion-<?= /* @noEscape */ $question->getId() ?>">
+                    <div id="general-message" class="messages"></div>
+                    <div class="qheader">
+                        <span class="question-title"><?= /* @noEscape */ __('Question:'); ?></span>
+                        <div class="main-question-content">
+                        <div class="qtitle">
+                            <h3><?= /* @noEscape */$question->getQuestion()?></h3>
+                        </div>
+                        <div class="actions">
+                            <?php if ($useLikeDislikeSymbol):?>
+<a href="<?= /* @noEscape */ $block->getLikeActionUrl($question->getId())?>" 
+class="like action"><img 
+src="<?= /* @noEscape */ $block->getViewFileUrl('Mageants_ProductQA::images/likes1.png'); ?>">(<span 
+class="count" 
+id="<?= /* @noEscape */ $question->getId(); ?>">
+                                <?= /* @noEscape */ $question->getLikes()?></span>)</a>
+<a href="<?= /* @noEscape */  $block->getDislikeActionUrl($question->getId())?>" 
+class="dislike action" ><img 
+src="<?= /* @noEscape */  $block->getViewFileUrl('Mageants_ProductQA::images/dislike.png'); ?>">(<span 
+class="count" 
+id="<?= /* @noEscape */  $question->getId(); ?>"><?= /* @noEscape */   $question->getDislikes()?>
+</span>)</a>
+                            
+                            <?php else: ?>
+                                <a href="<?= /* @noEscape */  $block->getLikeActionUrl($question->getId())?>" 
+                                    class="like action"><?= /* @noEscape */ __('Yes ');?>
+                                    <?= /* @noEscape */ __('(')?><span 
+                                    class="count" id="<?= /* @noEscape */ $question->getId(); ?>">
+                                    <?= /* @noEscape */ $question->getLikes()?></span><?= /* @noEscape */ __(')')?></a>
+                                <a href="<?= /* @noEscape */ $block->getDislikeActionUrl($question->getId())?>" 
+                                    class="dislike action" ><?= /* @noEscape */ __('No ');?>
+                                    <?= /* @noEscape */ __('(')?><span class="count" 
+                                    id="<?= /* @noEscape */ $question->getId(); ?>">
+                                    <?= /* @noEscape */   $question->getDislikes()?></span>
+                                    <?= /* @noEscape */ __(')')?></a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="date-n-customer-name">
+                            <div class="name">
+                                <span><?= /* @noEscape */ __('By ');?><?=/* @noEscape */  $question->getName()?></span>
+                            </div>
+                            <div class="date">
+                                <span><?=  /* @noEscape */ __(' on ');?>
+                                <?=/* @noEscape */  date("j F, Y", strtotime($question->getCreatedAt()));?>
+                                </span>
+                            </div>    
+                        </div>
+                    </div>
+                    </div>
+                    <div class="answers">
+                        <?=/* @noEscape */  $block->getQuestionsAnswer($question->getId()); ?>
+                    </div>
+            </div>    
+            <?php endforeach?>
+            <?php if (!count($questions)):?>
+            <div class="no-result"><?=/* @noEscape */  __('No question found!');?></div>
+            <?php endif ?>
+        </div>
+    
+        <div class="loadmorequestion questions"></div>
+    </div>
+    <?php if ($block->canShowLoadMore()):?>
+    <div class="fieldset">
+        <div class="actions">
+            <button type="button" title="Load More..." 
+            class="  loadmorequestionbutton" 
+            data-totalpage="<?=/* @noEscape */  $block->getTotalPage()?>" 
+            data-url="<?=/* @noEscape */ $block->getLoadMoreUrl()?>" >
+                <span><?=/* @noEscape */  __('Load More Question...');?></span>
+            </button>
+        </div>
+    </div>
+    <?php endif?>
+</div>
+<script>
+require(['productqa'],function($){});
+</script>
+<?php endif?>
+
+<script>
+    require(["jquery"], function ($) {
+        $(window).bind("load", function() {      
+            $("#product-askquestion-button").click( function(){
+                $('body').trigger('processStart');    
+                setTimeout(function () {                    
+                    jQuery(".action.captcha-reload").trigger("click");
+                }, 500);    
+                setTimeout(function () {                    
+                    $('body').trigger('processStop');
+                }, 2000); 
+            });           
+        });
+    });
+</script>
+<script>
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+ 
+   var dataForm = $('#question-form');
+   dataForm.mage('validation', {}); 
+});
+</script>

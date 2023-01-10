@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!-- /**
+ * @category Mageants OrderApprovalRules
+ * @package Mageants_OrderApprovalRules
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants <support@mageants.com>
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageants_OrderApprovalRules::order_approval" title="Order Approval Rules" translate="title" module="Mageants_OrderApprovalRules" parent="Magento_CatalogRule::promo" sortOrder="40" action="orderapprovalrules/grid/" resource="Magento_Backend::marketing"/>
+        <add id="Mageants_OrderApprovalRules::pending_orders" 
+             title="Pending Orders" 
+             translate="title" 
+             module="Mageants_OrderApprovalRules" 
+             parent="Magento_Sales::sales" 
+             sortOrder="10" 
+             dependsOnModule="Mageants_OrderApprovalRules"
+             resource="Mageants_OrderApprovalRules::order_approval_rules"/>
+        <add id="Mageants_OrderApprovalRules::order_pending" 
+             title="Pending Orders" 
+             translate="title" 
+             module="Mageants_OrderApprovalRules" 
+             parent="Mageants_OrderApprovalRules::pending_orders" 
+             sortOrder="40" 
+             action="orderapprovalrules/rules/index" 
+             resource="Mageants_OrderApprovalRules::order_approval_rules"/>
+    </menu>
+</config>

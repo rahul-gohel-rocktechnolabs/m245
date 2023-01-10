@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Product Question Answser
+ * @package   Mageants_ProductQA
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Store/etc/config.xsd">
+    <default>
+        <mageants_productqa>
+            <general>
+                <enable>0</enable>
+                <qpaze_size>5</qpaze_size>
+                <max_question_lenght>255</max_question_lenght>
+                <sendemail>0</sendemail>
+            </general>	
+            <admin_email>
+                <enable_notify>0</enable_notify>
+                <send_to>general</send_to>
+                <template>mageants_productqa_admin_email_template</template>
+                
+                <enable_notify_foranswer>0</enable_notify_foranswer>
+                <send_to_foranswer>general</send_to_foranswer>
+                <template_foranswer>mageants_productqa_admin_email_template_foranswer</template_foranswer>
+            </admin_email>	
+            <user_email>
+                <user_notify>0</user_notify>
+                <sender>general</sender>
+                <template>mageants_productqa_user_email_template</template>
+            </user_email>
+            <email_to_answered_users>
+                <enable_email_to_answered_users>0</enable_email_to_answered_users>
+                <sender>general</sender>
+                <template>mageants_productqa_email_to_answered_users_template</template>
+            </email_to_answered_users>        		
+        </mageants_productqa>
+        <customer>
+            <captcha>
+                <shown_to_logged_in_user>
+                    <qa_captcha_form_1>1</qa_captcha_form_1>
+                </shown_to_logged_in_user>
+                <always_for>
+                    <qa_captcha_form_1>1</qa_captcha_form_1>
+                </always_for>
+            </captcha>
+        </customer>
+        <captcha translate="label">
+            <frontend>
+                <areas>
+                    <qa_captcha_form_1>
+                        <label>Question / Answer Form </label>
+                    </qa_captcha_form_1>
+                </areas>
+            </frontend>
+        </captcha>
+
+    </default>
+</config>

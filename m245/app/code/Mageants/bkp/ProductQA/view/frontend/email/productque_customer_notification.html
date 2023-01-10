@@ -1,0 +1,29 @@
+<!--@subject Your Question @-->
+<!--@vars {
+"var product_image":"Customer Name",
+"var customer_name":"Customer Name",
+"var question":"Customer Question",
+"var product_link":"Link to Product where was question asked",
+"var product_name":"Product Name where was question asked"
+} @-->
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td valign="top">
+            <p>{{trans "Dear %name," name=$customer_name}}</p>
+            <p>{{trans "Thank you for asking question. Please wait until admin approve your question."}}</p>
+            <p>{{trans "Your Question: %question" question=$question}}</p>
+            {{depend product_link}}
+            <div class="product" style="display: flex; align-items: center;">
+                <div class="pimage" style="display: inline-block; float: left;"><img src='{{var product_image}}'></div>
+                <div class="title" style="display: inline-block; float: left;">
+                    <a href="{{var product_link}}">{{var product_name}}</a>
+                </div>
+            </div>
+            {{/depend}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

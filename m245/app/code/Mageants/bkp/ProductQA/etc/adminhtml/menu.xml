@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  Mageants Product Question Answser
+ * @package   Mageants_ProductQA
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+			<add id="Mageants_ProductQA::productqa" title="Product Question / Answer" module="Mageants_ProductQA" 
+				sortOrder="51" resource="Mageants_ProductQA::productqa" parent="Magento_Catalog::catalog" />
+				
+			<add id="Mageants_ProductQA::productquestion" title="Questions" module="Mageants_ProductQA" 
+				sortOrder="10" action="mageants_productqa/productquestion" resource="Mageants_ProductQA::productquestion" 
+				parent="Mageants_ProductQA::productqa"/>
+				
+			<add id="Mageants_ProductQA::productquestionanswer" title="Answers" module="Mageants_ProductQA" 
+				sortOrder="10" action="mageants_productqa/productquestionanswer" resource="Mageants_ProductQA::productquestionanswer" 
+				parent="Mageants_ProductQA::productqa"/>
+
+    </menu>
+</config>
+

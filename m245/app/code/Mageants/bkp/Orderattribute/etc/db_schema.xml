@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="mageants_orderattribute_order_attribute_value" resource="default" engine="innodb" comment="mageants_orderattribute_order_attribute_value">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="order_entity_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Order Id" onCreate="migrateDataFrom(order_entity_id)"/>
+    <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="true" identity="false" comment="customer Id"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="int" name="quote_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Quote Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="FK_3EF09DF88B4AA44839E53D24FB2A72B6" table="mageants_orderattribute_order_attribute_value" column="order_entity_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+    <constraint xsi:type="foreign" referenceId="3EF09DF88B4AA44839E53D24FB2A72B6" disabled="true"/>
+    <constraint xsi:type="unique" referenceId="MAGEANTS_ORDERATTRIBUTE_ORDER_ATTRIBUTE_VALUE_ORDER_ENTITY_ID" >
+      <column name="order_entity_id"/>
+      <column name="order_entity_id"/>
+    </constraint>
+    <index referenceId="MAGEANTS_ORDERATTRIBUTE_ORDER_ATTRIBUTE_VALUE_CREATED_AT" indexType="btree">
+      <column name="created_at"/>
+    </index>
+    <index referenceId="MAGEANTS_ORDERATTRIBUTE_ORDER_ATTRIBUTE_VALUE_CUSTOMER_ID" indexType="btree">
+      <column name="customer_id"/>
+    </index>
+  </table>
+  <table name="mageants_orderattribute_shipping_methods" resource="default" engine="innodb" comment="mageants_orderattribute_shipping_methods">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="smallint" name="attribute_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Attribute Id"/>
+    <column xsi:type="text" name="shipping_method" nullable="false"  comment="Shipping Method"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" comment="Created At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="MAGEANTS_ORDERATTR_SHPP_METHODS_ATTR_ID_EAV_ATTR_ATTR_ID" table="mageants_orderattribute_shipping_methods" column="attribute_id" referenceTable="eav_attribute" referenceColumn="attribute_id" onDelete="CASCADE"/>
+    <index referenceId="MAGEANTS_ORDERATTRIBUTE_SHIPPING_METHODS_CREATED_AT" indexType="btree">
+      <column name="created_at"/>
+    </index>
+    <index referenceId="MAGEANTS_ORDERATTRIBUTE_SHIPPING_METHODS_ATTRIBUTE_ID" indexType="btree">
+      <column name="attribute_id"/>
+    </index>
+  </table>
+  <table name="mageants_orderattribute_order_eav_attribute" resource="default" engine="innodb" comment="mageants_orderattribute_order_eav_attribute">
+    <column xsi:type="smallint" name="attribute_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Attribute Id"/>
+    <column xsi:type="smallint" name="is_visible_on_front" padding="5" unsigned="true" nullable="true" identity="false" comment="Visible on Frontend"/>
+    <column xsi:type="smallint" name="is_visible_on_back" padding="5" unsigned="true" nullable="true" identity="false" comment="Visible on Backend"/>
+    <column xsi:type="smallint" name="sorting_order" padding="5" unsigned="true" nullable="true" identity="false" comment="Sorting Order"/>
+    <column xsi:type="smallint" name="checkout_step" padding="5" unsigned="true" nullable="true" identity="false" comment="Checkout Step"/>
+    <column xsi:type="smallint" name="is_used_in_grid" padding="5" unsigned="true" nullable="true" identity="false" comment="Show on Order Grid"/>
+    <column xsi:type="text" name="store_ids" nullable="false"  comment="Store Ids"/>
+    <column xsi:type="smallint" name="save_selected" padding="5" unsigned="true" nullable="true" identity="false" comment="Save Selected"/>
+    <column xsi:type="smallint" name="include_pdf" padding="5" unsigned="true" nullable="true" identity="false" comment="include_pdf"/>
+    <column xsi:type="smallint" name="apply_default" padding="5" unsigned="true" nullable="true" identity="false" comment="Apply default"/>
+    <column xsi:type="text" name="customer_groups" nullable="false" comment="Customer Groups"/>
+    <column xsi:type="int" name="size_text" padding="10" unsigned="true" nullable="true" identity="false" comment="Size Text"/>
+    <column xsi:type="smallint" name="required_on_front_only" padding="5" unsigned="true" nullable="true" identity="false" comment="Required on fronted"/>
+    <column xsi:type="smallint" name="include_html_print_order" padding="5" unsigned="true" nullable="true" identity="false" comment="Include on html print"/>
+    <column xsi:type="smallint" name="customer_group_enabled" padding="5" unsigned="true" nullable="true" identity="false" comment="Enable customer group"/>
+    <column xsi:type="int" name="validate_length_count" padding="11" unsigned="false" nullable="true" identity="false" default="25" comment="Validation Length"/>
+    <column xsi:type="boolean" name="include_api" nullable="true" comment="Include to API"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="attribute_id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="MAGEANTS_ORDERATTR_ORDER_EAV_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID" table="mageants_orderattribute_order_eav_attribute" column="attribute_id" referenceTable="eav_attribute" referenceColumn="attribute_id" onDelete="CASCADE"/>
+  </table>
+  <table name="mageants_orderattribute_attributes_relation" resource="default" engine="innodb" comment="Mageants Customer Attributes Relation">
+    <column xsi:type="int" name="relation_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Relation Id"/>
+    <column xsi:type="text" name="name" nullable="false"  comment="Name"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="relation_id"/>
+    </constraint>
+  </table>
+  <table name="mageants_orderattribute_attributes_relation_details" resource="default" engine="innodb" comment="Mageants Customer Attributes Relation Details">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Details Id"/>
+    <column xsi:type="smallint" name="attribute_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Attribute Id"/>
+    <column xsi:type="int" name="option_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Option Id"/>
+    <column xsi:type="smallint" name="dependent_attribute_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Dependent Attribute Id"/>
+    <column xsi:type="int" name="relation_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Relation Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="FK_A476131AF04F9E8DA578E9FA011D9C23" table="mageants_orderattribute_attributes_relation_details" column="attribute_id" referenceTable="eav_attribute_option" referenceColumn="attribute_id" onDelete="CASCADE"/>
+    <constraint xsi:type="foreign" referenceId="FK_904875A2F348ED4D886F6DAEB9FC6302" table="mageants_orderattribute_attributes_relation_details" column="dependent_attribute_id" referenceTable="eav_attribute" referenceColumn="attribute_id" onDelete="CASCADE"/>
+    <constraint xsi:type="foreign" referenceId="FK_4602B1B9CF4965AD280869F4B8593722" table="mageants_orderattribute_attributes_relation_details" column="relation_id" referenceTable="mageants_orderattribute_attributes_relation" referenceColumn="relation_id" onDelete="CASCADE"/>
+    <index referenceId="MAGEANTS_ORDERATTRIBUTE_ATTRIBUTES_RELATION_DETAILS_ATTRIBUTE_ID" indexType="btree">
+      <column name="attribute_id"/>
+    </index>
+    <index referenceId="MAGEANTS_ORDERATTR_ATTRS_RELATION_DETAILS_DEPENDENT_ATTR_ID" indexType="btree">
+      <column name="dependent_attribute_id"/>
+    </index>
+    <index referenceId="MAGEANTS_ORDERATTRIBUTE_ATTRIBUTES_RELATION_DETAILS_RELATION_ID" indexType="btree">
+      <column name="relation_id"/>
+    </index>
+  </table>
+  <table name="sales_order_int" resource="default" engine="innodb" comment="sales_order_int_delete_options_value">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="attribute_id" padding="10" unsigned="true" comment="Attribute ID"/>
+    <column xsi:type="int" name="value" padding="10" unsigned="true"  comment="Customer ID"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>

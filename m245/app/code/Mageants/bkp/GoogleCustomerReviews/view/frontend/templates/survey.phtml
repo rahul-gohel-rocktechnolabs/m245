@@ -1,0 +1,38 @@
+<?php 
+
+$data = $block->getOrderData();
+// $data['created']
+$current_date = date("Y-m-d");
+// $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+// $msg = $objectManager->create('\Magento\Framework\Message\ManagerInterface');
+
+?>
+
+<script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+<script>
+    window.renderOptIn = function () {
+        window.gapi.load('surveyoptin', function () {
+            window.gapi.surveyoptin.render(
+            {
+                "merchant_id": "<?php echo $block->getMerchantId() ?>",
+                "order_id": "<?php echo $data['order_id'] ?>",
+                "email": "<?php echo $data['email'] ?>",
+                "delivery_country": "<?php echo $data['delivery_country'] ?>",
+                "estimated_delivery_date": "<?php echo $current_date ?>",
+                "opt_in_style": "<?php echo $block->getSurveyPosition() ?>"
+            });
+        });
+    };
+</script>
+
+<?php if ($block->getLanguage()): ?>
+    <script>
+        window.___gcfg = {
+            lang: "<?php echo $block->getLanguage() ?>"
+        };
+    </script>
+<?php endif; 
+$message = "Thank You for Submit. The Survey email will arrive in approximately 3-5 days";
+$block->showSuccessMsg($message);
+// $msg->addSuccess(__("Thank You for Submit. The Survey email will arrive in approximately 3-5 days"));
+?>

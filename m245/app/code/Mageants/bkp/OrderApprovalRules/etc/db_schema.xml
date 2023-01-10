@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="mageants_orderapprovalrules" resource="default" engine="innodb" comment="mageants_orderapprovalrules">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Rule Id"/>
+    <column xsi:type="varchar" name="rule_name" nullable="true" length="255" comment="Rule Name"/>
+    <column xsi:type="varchar" name="orderstatus" nullable="true" length="255" comment="Status"/>
+    <column xsi:type="varchar" name="apply_to" nullable="true" length="255" comment="Apply to"/>
+    <column xsi:type="varchar" name="category_ids" nullable="true" length="255" comment="Category Ids"/>
+    <column xsi:type="varchar" name="product_ids" nullable="true" length="255" comment="Product Ids"/>
+    <column xsi:type="varchar" name="country_ids" nullable="true" length="255" comment="Country Ids"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="mageants_orderapprovalrules_order" resource="default" engine="innodb" comment="mageants_orderapprovalrules_order">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="int" name="order_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Order Id"/>
+    <column xsi:type="varchar" name="increment_id" nullable="true" length="255" comment="Increment Id"/>
+    <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Purchase Point"/>
+    <column xsi:type="varchar" name="purchase_date" nullable="true" length="255" comment="Purchase Date"/>
+    <column xsi:type="varchar" name="bill_to_name" nullable="true" length="255" comment="Bill-To Name"/>
+    <column xsi:type="varchar" name="ship_to_name" nullable="true" length="255" comment="Ship-To Name"/>
+    <column xsi:type="varchar" name="grand_total_base" nullable="true" length="255" comment="Grand Total(Base)"/>
+    <column xsi:type="varchar" name="grand_total_purchased" nullable="true" length="255" comment="Grand Total(Purchased)"/>
+    <column xsi:type="varchar" name="status" nullable="true" length="255" comment="Status"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+  <table name="quote_item" resource="default">
+    <column xsi:type="smallint" name="reserved_order_id" padding="6" unsigned="false" nullable="true" identity="false"/>
+  </table>
+</schema>

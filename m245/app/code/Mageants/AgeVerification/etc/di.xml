@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">    
+    <virtualType name="Mageants\AgeVerification\Model\ResourceModel\PopupTemplate\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">popup_template</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\AgeVerification\Model\ResourceModel\PopupTemplate</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ageverification_template_listing_data_source" xsi:type="string">Mageants\AgeVerification\Model\ResourceModel\PopupTemplate\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

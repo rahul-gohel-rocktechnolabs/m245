@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">orderapprovalrules_rules_grid.grid_record_grid_list_data_source</item>
+            <item name="deps" xsi:type="string">orderapprovalrules_rules_grid.grid_record_grid_list_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">grid_records_columns</item>
+    </argument>
+    <dataSource name="grid_record_grid_list_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="cacheRequests" xsi:type="boolean">false</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="grid_record_grid_list_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+                <item name="stickyTmpl" xsi:type="string">ui/grid/sticky/toolbar</item>
+            </item>
+        </argument> 
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <exportButton name="export_button"/>
+        <filterSearch name="fulltext">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="provider" xsi:type="string">orderapprovalrules_rules_grid.grid_record_grid_list_data_source</item>
+                    <item name="chipsProvider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.listing_top.listing_filters_chips</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.search</item>
+                    </item>
+                </item>
+            </argument>
+        </filterSearch>
+        <filters name="listing_filters">
+            <filterSelect name="purchase_point" provider="${ $.parentName }">
+                <settings>
+                    <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+                    <caption translate="true">All Store Views</caption>
+                    <label translate="true">Purchase Point</label>
+                    <dataScope>purchase_point</dataScope>
+                    <imports>
+                        <link name="visible">ns = ${ $.ns }, componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+        </filters>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.grid_records_columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+            <action name="approve">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">approve</item>
+                        <item name="label" xsi:type="string" translate="true">Order Approved</item>
+                        <item name="url" xsi:type="url" path="orderapprovalrules/rules/orderapprove"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Order Approve</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to Approve selected Order ?</item>
+                        </item>
+                    </item>
+                </argument>
+              </action>
+              <action name="disapprove">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">disapprove</item>
+                        <item name="label" xsi:type="string" translate="true">Order Disapproved</item>
+                        <item name="url" xsi:type="url" path="orderapprovalrules/rules/orderdisapprove"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Order Disapproved</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to Disapproved selected Order ?</item>
+                        </item>
+                    </item>
+                </argument>
+              </action>
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.grid_records_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+    <columns name="grid_records_columns">
+       <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="storageConfig" xsi:type="array">
+                <item name="provider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.listing_top.bookmarks</item>
+                <item name="namespace" xsi:type="string">current</item>
+                </item>
+                <item name="editorConfig" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">orderapprovalrules_rules_grid.orderapprovalrules_rules_grid.grid_records_columns.ids</item>
+                    <item name="enabled" xsi:type="boolean">true</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="indexField" xsi:type="string">id</item>
+                   <item name="sorting" xsi:type="string">desc</item>
+                   <item name="sortOrder" xsi:type="number">0</item>
+               </item>
+           </argument>
+       </selectionsColumn>
+       <column name="increment_id">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="filter" xsi:type="string">textRange</item>
+                <item name="sorting" xsi:type="string">desc</item>
+                <item name="label" xsi:type="string" translate="true">ID</item>
+                <item name="sortOrder" xsi:type="number">1</item>
+                </item>
+        </argument>
+      </column>
+       <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">select</item>
+                   <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                   <item name="sortable" xsi:type="boolean">false</item>
+                   <item name="label" xsi:type="string" translate="true">Purchase Point</item>
+                  <item name="sortOrder" xsi:type="number">2</item>
+               </item>
+           </argument>
+       </column>
+       <column name="purchase_date" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Purchase Date</item>
+                    <item name="sortOrder" xsi:type="number">3</item>
+               </item>
+           </argument>
+       </column>
+       <column name="bill_to_name" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Bill-To Name</item>
+                  <item name="sortOrder" xsi:type="number">4</item>
+               </item>
+           </argument>
+       </column>
+       <column name="ship_to_name" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Ship-To Name</item>
+                  <item name="sortOrder" xsi:type="number">5</item>
+               </item>
+           </argument>
+       </column>
+       <column name="grand_total_base" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">false</item>
+                   <item name="label" xsi:type="string" translate="true">Grand Total(Base)</item>
+                  <item name="sortOrder" xsi:type="number">6</item>
+               </item>
+           </argument>
+       </column>
+       <column name="grand_total_purchased" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">false</item>
+                   <item name="label" xsi:type="string" translate="true">Grand Total(Purchased)</item>
+                  <item name="sortOrder" xsi:type="number">7</item>
+               </item>
+           </argument>
+       </column>
+       <column name="status" >
+           <argument name="data" xsi:type="array">
+               <item name="options" xsi:type="object">Mageants\OrderApprovalRules\Model\Status</item>
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">select</item>
+                   <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                   <item name="dataType" xsi:type="string">select</item>
+                   <item name="label" xsi:type="string" translate="true">Status</item>
+                  <item name="sortOrder" xsi:type="number">8</item>
+               </item>
+           </argument>
+       </column>
+       <actionsColumn class="Mageants\OrderApprovalRules\Ui\Component\Listing\Column\Actions" name="actions" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="resizeEnabled" xsi:type="boolean">false</item>
+                   <item name="resizeDefaultWidth" xsi:type="string">107</item>
+                   <item name="indexField" xsi:type="string">id</item>
+                   <item name="sortOrder" xsi:type="number">9</item>
+               </item>
+           </argument>
+       </actionsColumn>
+    </columns>
+</listing>

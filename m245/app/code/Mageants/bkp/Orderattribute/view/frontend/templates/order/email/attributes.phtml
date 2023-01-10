@@ -1,0 +1,47 @@
+<?php
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+?>
+<?php
+/**
+ * @var \Mageants\Orderattribute\Block\Order\Attributes $this
+ */
+$orderAttributeList = $block->getList();
+?>
+
+<?php if ($block->hasDataInList($orderAttributeList)): ?>
+    <table class="email-items">
+        <thead>
+        <tr>
+            <th class="item-info">
+                <?= $block->escapeHtml(__('Additional Information:')) ?>
+            </th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if ($orderAttributeList):
+            foreach ($orderAttributeList as $label => $value): ?>
+                <?php if ($value !== ''): ?>
+                    <tr>
+                        <td valign="top"><label><?= $block->escapeHtml(__($label)) ?></label>
+                        </td>
+                        <td>
+                            <?= /* @noEscape */ $block->prepareAttributeValueForDisplaying($value) ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <?= $block->escapeHtml(__('No attributes for this order')) ?>
+        <?php endif; ?>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        </tbody>
+    </table>
+<?php endif; ?>

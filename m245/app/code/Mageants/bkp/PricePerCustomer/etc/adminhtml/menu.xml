@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageants_PricePerCustomer::coupon_usage" title="Import/Export Customer Group Price" translate="title" module="Mageants_PricePerCustomer" parent="Magento_Backend::system_convert" sortOrder="40" action="pricepercustomer/import/index" resource="Mageants_PricePerCustomer::mageants_config" dependsOnConfig="pricepercustomer/general/enable" />
+    </menu>
+</config>

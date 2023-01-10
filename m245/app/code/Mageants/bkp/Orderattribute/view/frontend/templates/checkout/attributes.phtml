@@ -1,0 +1,19 @@
+<?php
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+?>
+<?php
+/** @var $block \Mageants\Orderattribute\Block\Checkout\Attributes */
+?>
+
+<script>
+    require([
+        'uiRegistry'
+    ], function(uiRegistry) {
+        uiRegistry.set('mageantsOrderAttributes', <?= /* @noEscape */ $block->getAttributeCodes() ?>);
+    });
+</script>

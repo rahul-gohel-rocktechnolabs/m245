@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" translate="label" sortOrder="100">
+            <label>Mageants</label>
+        </tab>
+        <section id="mageants_extrafee"  showInDefault="1" showInWebsite="1" showInStore="1">
+            <tab>mageants</tab>
+            <label>ExtraFee</label>
+            <resource>Mageants_ExtraFee::config_mageants_extrafee</resource>
+            <group id="setting"  showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Settings</label>
+				<field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                 <field id="extrafee_tax" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Tax on extra fee?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                 
+                <field id="prd_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Fee Title</label>
+                </field>
+                <field id="cat_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Fee Title</label>
+                </field>
+                <field id="shipping_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipping Fee Title</label>
+                </field>
+                <field id="ord_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Fee Title</label>
+                </field>
+                <field id="cod_fee" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cash On Delivery Fee</label>
+                </field>
+                <field id="prd_fee_qty" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Fee Apply Each Quantity</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,75 @@
+<?php
+/**
+ * @category Mageants FastOrder
+ * @package Mageants_FastOrder
+ * @copyright Copyright (c) 2018 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+
+<?php
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+$sortOrder = $block->getRequest()->getParam('sortOrder');
+?>
+
+<div class="field<?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA) {
+    echo ' textarea';
+                 } ?><?= /*@noEscape */  $class ?> mageants-options-info">
+    <label class="label" for="options_<?= /*@noEscape */  $_option->getId() ?>_text">
+        <span><?= /*@noEscape */  $block->escapeHtml($_option->getTitle()) ?></span>
+        <?= /*@noEscape */  $block->getFormatedPrice() ?>
+    </label>
+
+    <div class="control">
+        <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FIELD): ?>
+            <?php $_textValidate = null;
+            if ($_option->getIsRequire()) {
+                $_textValidate['required'] = true;
+            }
+            if ($_option->getMaxCharacters()) {
+                $_textValidate['maxlength'] = $_option->getMaxCharacters();
+            }
+            ?>
+            <input type="text"
+                   id="mageants-options_<?= /*@noEscape */ $_option->getId() ?>_text"
+                   class="input-text product-custom-option"
+                   <?php if (!empty($_textValidate)) {?>
+                   data-validate="<?= /*@noEscape */   $block->escapeHtml(json_encode($_textValidate));?>"
+                    <?php } ?>
+                   name="mageants-options[<?= /*@noEscape */ $_option->getId() ?>]"
+                   data-selector="options[<?= /*@noEscape */  $_option->getId() ?>]"
+                   value="<?= /*@noEscape */ $block->escapeHtml($block->getDefaultValue()) ?>"/>
+            <input type="hidden" class="mgantscustomoption-select" 
+            value="" name="mageants-fastorder-options[<?= /*@noEscape */
+            $sortOrder;?>][<?= /*@noEscape */ $_option->getId() ?>]" />
+        <?php elseif ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA): ?>
+            <?php $_textAreaValidate = null;
+            if ($_option->getIsRequire()) {
+                $_textAreaValidate['required'] = true;
+            }
+            if ($_option->getMaxCharacters()) {
+                $_textAreaValidate['maxlength'] = $_option->getMaxCharacters();
+            }
+            ?>
+            <textarea id="mageants-options_<?= /*@noEscape */ $_option->getId() ?>_text"
+                      class="product-custom-option"
+                    <?php if (!empty($_textAreaValidate)) {?>
+                        data-validate="<?= /*@noEscape */$block->escapeHtml(json_encode($_textAreaValidate));?>"
+                    <?php } ?>
+                      name="mageants-options[<?= /*@noEscape */ $_option->getId() ?>]"
+                      data-selector="options[<?= /*@noEscape */ $_option->getId() ?>]"
+                      rows="5"
+                      cols="25"><?= /*@noEscape */ $block->escapeHtml($block->getDefaultValue()) ?></textarea>
+            <input type="hidden" 
+            class="mgantscustomoption-select" 
+            value="" name="mageants-fastorder-options[<?= /*@noEscape */
+            $sortOrder;?>][<?= /*@noEscape */
+            $_option->getId() ?>]" />
+        <?php endif; ?>
+        <?php if ($_option->getMaxCharacters()): ?>
+            <p class="note"><?= /*@noEscape */ __('Maximum number of characters:') ?>
+                <strong><?= /*@noEscape */ $_option->getMaxCharacters() ?></strong></p>
+        <?php endif; ?>
+    </div>
+</div>

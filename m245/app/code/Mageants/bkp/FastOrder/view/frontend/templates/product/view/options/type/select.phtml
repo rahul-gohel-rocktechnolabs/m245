@@ -1,0 +1,48 @@
+<?php
+/**
+ * @category Mageants FastOrder
+ * @package Mageants_FastOrder
+ * @copyright Copyright (c) 2018 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+
+<?php
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+?>
+<div class="field<?=/*@noEscape */$class; ?> mgantsoptions-info">
+    <label class="label" for="select_<?=/*@noEscape */ $_option->getId() ?>">
+        <span><?=/*@noEscape */ $block->escapeHtml($_option->getTitle()) ?></span>
+    </label>
+    <div class="control">
+        <?=/*@noEscape */ $block->getValuesHtml() ?>
+        <?php if ($_option->getIsRequire()): ?>
+            <?php
+            $type=$_option->getType();
+            if ($type == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO || $type ==
+            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX): ?>
+                <span id="mgantscustomoption-<?=/*@noEscape */ $_option->getId() ?>-container"></span>
+                        <?php endif; ?>
+        <?php endif;?>
+    </div>
+</div>
+
+<script >
+    require(['jquery', 'jquery/ui', 'js-cookie/js.cookie'], function($, ui, cookie){
+        jQuery(document).ready( function() {
+            var custom_selected_value = $.cookie('custom_selected_value');
+            if (custom_selected_value) {
+                var $this = $(this).
+find("#mgantscontent-option-product form#mgantsfastorder- form-option .mgantsproduct-option select");
+                $($this).val(custom_selected_value).trigger('change');
+                $($this).each(function(){
+                    var option_val = $(this).val();
+                    if (option_val == custom_selected_value) {
+                        $(this).attr("selected","selected");
+                    }
+                })  
+            }
+        });
+    });  
+</script>

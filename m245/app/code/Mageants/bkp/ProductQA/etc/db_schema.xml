@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="mageants_productquestion" resource="default" engine="innodb" comment="mageants_productquestion">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="unique primary Id"/>
+    <column xsi:type="int" name="product_id" padding="11" unsigned="false" nullable="true" identity="false" comment="reference product id"/>
+    <column xsi:type="int" name="user_id" padding="11" unsigned="false" nullable="true" identity="false" comment="reference user id who create record"/>
+    <column xsi:type="int" name="user_type" padding="11" unsigned="false" nullable="true" identity="false" comment="user type [customer/admin ]"/>
+    <column xsi:type="int" name="ask_by" padding="11" unsigned="false" nullable="true" identity="false" comment="ask_by"/>
+    <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Customer name "/>
+    <column xsi:type="varchar" name="email" nullable="true" length="255" comment="customer email"/>
+    <column xsi:type="text" name="question" nullable="true" comment="Product Question"/>
+    <column xsi:type="int" name="store_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Store Id"/>
+    <column xsi:type="int" name="likes" padding="11" unsigned="false" nullable="true" identity="false" default="0" comment="likes count"/>
+    <column xsi:type="int" name="dislikes" padding="11" unsigned="false" nullable="true" identity="false" default="0" comment="dislike count"/>
+    <column xsi:type="int" name="status" padding="11" unsigned="false" nullable="true" identity="false" comment="Status"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" comment="Product Question  Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="true" comment="Product Question Updated At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <index referenceId="MAGEANTS_PRODUCTQUESTION_QUESTION_NAME_EMAIL" indexType="fulltext">
+      <column name="question"/>
+      <column name="name"/>
+      <column name="email"/>
+    </index>
+  </table>
+  <table name="mageants_productanswer" resource="default" engine="innodb" comment="mageants_productanswer">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="unique primary Id"/>
+    <column xsi:type="int" name="question_id" padding="11" unsigned="false" nullable="true" identity="false" comment="reference question id"/>
+    <column xsi:type="int" name="user_id" padding="11" unsigned="false" nullable="true" identity="false" comment="reference user id who create record"/>
+    <column xsi:type="int" name="user_type" padding="11" unsigned="false" nullable="true" identity="false" comment="user type [customer/admin]"/>
+    <column xsi:type="int" name="answer_by" padding="11" unsigned="false" nullable="true" identity="false" comment="answer_by"/>
+    <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Customer name "/>
+    <column xsi:type="varchar" name="email" nullable="true" length="255" comment="customer email"/>
+    <column xsi:type="text" name="answer" nullable="false" comment="Product Question Answer"/>
+    <column xsi:type="int" name="likes" padding="11" unsigned="false" nullable="true" identity="false" default="0" comment="likes count"/>
+    <column xsi:type="int" name="dislikes" padding="11" unsigned="false" nullable="true" identity="false" default="0" comment="dislike count"/>
+    <column xsi:type="int" name="status" padding="11" unsigned="false" nullable="true" identity="false" comment="Status"/>
+    <column xsi:type="int" name="mail_send_status" padding="11" unsigned="false" nullable="true" identity="false" comment="Mail Send Status"/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" comment="Product Question  Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="true" comment="Product Question Updated At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <index referenceId="MAGEANTS_PRODUCTANSWER_ANSWER_NAME_EMAIL" indexType="fulltext">
+      <column name="answer"/>
+      <column name="name"/>
+      <column name="email"/>
+    </index>
+  </table>
+  <table name="mageants_qa_action" resource="default" engine="innodb" comment="mageants_qa_action">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="unique primary Id"/>
+    <column xsi:type="int" name="object_id" padding="11" unsigned="false" nullable="true" identity="false" comment="reference question id or answer id"/>
+    <column xsi:type="varchar" name="object_type" nullable="true" length="50" comment="reference question id or answer id"/>
+    <column xsi:type="int" name="action_by" padding="11" unsigned="false" nullable="true" identity="false" comment="Customer id"/>
+    <column xsi:type="int" name="action" padding="11" unsigned="false" nullable="true" identity="false" comment="Action like = 1, dislike = 0 "/>
+    <column xsi:type="timestamp" name="created_at" on_update="false" nullable="true" comment="Product Question  Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="false" nullable="true" comment="Product Question Updated At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+  </table>
+</schema>

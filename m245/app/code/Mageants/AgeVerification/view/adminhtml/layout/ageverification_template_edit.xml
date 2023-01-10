@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../
+../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="left">
+			<block class="Mageants\AgeVerification\Block\Adminhtml\Template\Edit\Tabs"
+		name="mageants_ageverification_template.edit.tabs"/>
+		</referenceContainer>
+		<referenceContainer name="content">
+			<block class="Mageants\AgeVerification\Block\Adminhtml\Template\Edit"
+		name="mageants_ageverification_template.edit"/>
+		</referenceContainer>
+	</body>
+</page>

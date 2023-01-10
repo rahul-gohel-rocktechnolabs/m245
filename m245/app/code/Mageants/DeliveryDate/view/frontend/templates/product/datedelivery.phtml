@@ -1,0 +1,198 @@
+<?php
+/**
+ * Multishipping checkout shipping template
+ *
+ * @var $block \Magento\Multishipping\Block\Checkout\Shipping
+ */
+
+$data = $block->getCurrentProduct()->getId();
+$value="this is a cookies";
+?>
+<?php
+$viewModel = $block->getData('view_model');
+$helper = $viewModel->helperFunction();
+$isEnable = $helper->getPluginEnable();
+if ($isEnable) {
+    $displayAt = $block->getDisplayAt();
+    $dateFormat = $block->getDateFormatValue();
+    $disableDays = $block->getPluginInDisableDaysValue();
+    $holidays = $block->getpluginHoliDaysValue();
+    $cutofftime = $block->getpluginCutOffTimeValue();
+    $processtime = $block->pluginProcessingTimeValue();
+    $timeslot = $block->getTimesLotData();
+    $arrivalComment = $block->getArrivalCommentValue();
+    if ($displayAt == 3) { ?>
+    <div class="label">
+            <span><h3><u>Delivery Information</u></h3></span>
+        </div>
+            <label class="label">
+                <span>Delivery Date <span style="color:#e02b27;font-size:1.2rem;margin:0 0 0 5px;">*</span>
+                </span>
+            </label>
+            <input type="text" class="input-text required-entry" id="del-date-<?= (int) $data ?>" 
+            name="del-date" aria-required="true" value="" 
+            onChange="dateChange(<?=  /* @noEscape */  $data; ?>)" 
+            style="margin-top: 10px;margin-bottom: 10px" required>
+            <span id="dateerror"></span>
+            <label class="label">
+                <span>Delivery Time Slot <span style="color:#e02b27;font-size:1.2rem;margin:0 0 0 5px;">*</span>
+                </span>
+            </label>
+            <select name="delivery_timeslot" id="delivery_timeslot-<?= (int) $data ?>" 
+            aria-required="true" data-validate="{required:true}" required 
+            style="margin-top: 10px;margin-bottom: 10px">
+            <option value="">Please Select Delivery Timeslot</option></select>
+                            <?php if ($arrivalComment == 1) {?>
+            <label class="label"><span>Comment</span></label>
+            <textarea name="delivery_comment" id="delivery_comment<?= (int) $data ?>" 
+                style="margin-top: 10px"></textarea>
+        <?php } ?>
+<script>
+        var disableDays = '<?= /* @noEscape */ $disableDays ?>';
+        var cutofftime = '<?= /* @noEscape */ $cutofftime ?>';
+        var processtime = '<?= /* @noEscape */ $processtime ?>';
+        function nationalDays(date) {
+            var holidays = JSON.parse('<?= /* @noEscape */ $holidays ?>');
+            var array = jQuery.map(holidays, function(value, index) {
+                return [value.Date];
+            });
+
+            var m = ("0"+(date.getMonth() + 1)).slice(-2)  + "/" + date.getDate() + "/" + date.getFullYear();
+                    
+                if(jQuery.inArray(m,array) !== -1) {
+                    return [false,"","Holidays"];
+                }else{
+                    var cutofftime1=cutofftime.split(",");
+                    var currentdate = new Date();
+                    
+                    if(processtime==0 || processtime=="" || processtime==null){
+                        
+                        var d = new Date(
+                            currentdate.getFullYear(), currentdate.getMonth(), currentdate.getDate(),
+                            cutofftime1[0].replace(/\b0/g,''),
+                            cutofftime1[1].replace(/\b0/g,''),
+                            cutofftime1[2].replace(/\b0/g,'')
+                            );
+                        
+                        if(currentdate<d){
+                            return [true];
+                        } else {
+                            if(date<d){
+                                return [false];
+                            }else{
+                                return [true];
+                            }
+                        }
+                    } else {
+                        var dt=currentdate.setDate(currentdate.getDate() + parseInt(processtime));
+                        if(date<dt){
+                            return [false];
+                        } else {
+                            return [true];
+                        }
+                    }
+                }
+
+            // }
+            // return [true];
+        }
+        function specificDays(date) {
+            var day = date.getDay();
+            if(disableDays.indexOf(day)!==-1){
+                return [false,"","Week-off"];
+            }else{
+                return [true];
+            }
+        }
+
+        function noWeekendsOrHolidays(date) {
+            var day = date.getDay();
+            if(disableDays){
+                if(disableDays.indexOf(day)!==-1){
+                    /*console.log(specificDays(date)+' . '+ date);*/
+                    return specificDays(date);
+                }
+            }
+            // console.log(nationalDays(date)+' . '+ date);
+            return nationalDays(date);
+        }
+        function dateChange(data){
+                var dateFormat = '<?= /* @noEscape */ $dateFormat; ?>';
+                var timeslot = jQuery.parseJSON('<?= /* @noEscape */ json_encode($timeslot); ?>');
+                var day='';
+                var date=new Date();
+        
+                var weekday = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+
+                if (dateFormat == 'dd-mm-yy') {
+                    var dateValue = jQuery('#del-date-'+data).val();
+                    var a = dateValue.split("-");
+                    var date = new Date(a[2],a[1]-1,a[0]);
+                    day = weekday[date.getDay()];
+                }
+                if (dateFormat == 'mm-dd-yy') {
+                    var dateValue = jQuery('#del-date-'+data).val();
+                    var a = dateValue.split("-");
+                    var date = new Date(a);
+                    day = weekday[date.getDay()];
+                }
+                if (dateFormat == 'yy-mm-dd') {
+                     var dateValue = jQuery('#del-date-'+data).val();
+                    var a = dateValue.split("-") ;
+                    var date = new Date(a) ;
+                    day = weekday[date.getDay()];
+                }
+                jQuery('#delivery_timeslot-'+data).find('option').not(':first').remove();
+                jQuery.each(timeslot, function(key,val) {
+                   if(key == day){
+                        jQuery.each(val, function(key1,val1) {
+                            var start_hour =val1.start_hour;
+                            var start_min =val1.start_min;
+                            var end_hour =val1.end_hour;
+                            var end_min =val1.end_min;
+                            var time = start_hour+":"+start_min+" - "+end_hour+":"+end_min;
+                            var html = '<option value="'+time+'">'+time+'</option>';
+                            jQuery('#delivery_timeslot-'+data).append(html);
+                        });
+                   }
+
+                });
+                 require([
+        'jquery',
+        'jquery/jquery.cookie'
+    ], function ($) {
+        $(document).ready(function () 
+        {
+             $.cookie('delivery_date'+data, dateValue,{path:'/',domain:""}); 
+              jQuery('#delivery_timeslot-'+data).change(function() {
+                 var x=jQuery('option:selected', this).text() ;
+               $.cookie('delivery_timeslot'+data,x,{path:'/',domain:""});
+              $.cookie('loop',data,{path:'/',domain:""});
+            });
+              jQuery('#delivery_comment'+data).focusout(function()
+            {
+                  var comment=jQuery('#delivery_comment'+data).val();
+                  $.cookie('delivery_comment'+data,comment,{path:'/',domain:""});
+                 
+            });
+        });
+    });
+
+        }
+         require([
+              "jquery",
+              "mage/calendar"
+         ], function($){
+             $("#del-date-<?= (int) $data ?>").datepicker({
+                  buttonText:"<?= /* @noEscape */ __('Select Date') ?>",
+                  minDate: new Date(),
+                  dateFormat: '<?= /* @noEscape */ $dateFormat ?>',
+                  beforeShowDay:noWeekendsOrHolidays
+             });
+           });
+
+    </script>
+        <?php
+    }
+}
+?>

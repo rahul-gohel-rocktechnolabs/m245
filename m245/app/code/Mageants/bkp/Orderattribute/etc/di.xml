@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Mageants\Orderattribute\Api\Data\OrderAttributeInterface" type="Mageants\Orderattribute\Model\Order\Attribute"/>
+    <preference for="Mageants\Orderattribute\Api\Data\OrderAttributeDataInterface" type="Mageants\Orderattribute\Model\OrderAttributeData"/>
+    <preference for="Mageants\Orderattribute\Api\Data\OrderAttributeValueInterface" type="Mageants\Orderattribute\Model\Order\Attribute\Value"/>
+    <preference for="Mageants\Orderattribute\Api\RelationRepositoryInterface" type="Mageants\Orderattribute\Model\RelationRepository"/>
+    <preference for="Mageants\Orderattribute\Api\Data\RelationInterface" type="Mageants\Orderattribute\Model\Relation"/>
+    <preference for="Mageants\Orderattribute\Api\Data\RelationDetailInterface" type="Mageants\Orderattribute\Model\RelationDetails"/>
+    <preference for="Mageants\Orderattribute\Api\OrderAttributeValueRepositoryInterface" type="Mageants\Orderattribute\Model\Order\Attribute\ValueRepository"/>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mgorderattribute_relation_listing_data_source" xsi:type="string">Mageants\Orderattribute\Model\ResourceModel\Relation\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="MgorderattrSetQuoteCustomAttributes" type="Mageants\Orderattribute\Plugin\Order\AttributesList" />
+    </type>
+
+    <type name="Magento\Sales\Block\Items\AbstractItems">
+        <plugin name="Mageants_Orderattribute::OrderEmailAttributesList" type="Mageants\Orderattribute\Plugin\Order\Email\Attributes" />
+    </type>
+
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="MgorderattrSaveOrder" type="Mageants\Orderattribute\Plugin\Order\OrderSave"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Order\PrintOrder\Invoice">
+        <plugin name="Mageants_Orderattribute::PrintInvoice" type="Mageants\Orderattribute\Plugin\Order\PrintOrder" />
+    </type>
+    <type name="Magento\Sales\Block\Order\PrintOrder\Shipment">
+        <plugin name="Mageants_Orderattribute::PrintShipment" type="Mageants\Orderattribute\Plugin\Order\PrintOrder" />
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="Mageants_Orderattribute::getData" type="Mageants\Orderattribute\Plugin\Order" />
+    </type>
+
+    <!-- Save attributes start -->
+    <!-- <type name="Magento\Quote\Model\Quote\Address\CustomAttributeList">
+        <plugin name="Mageants_Orderattribute:saveCustomAttributeList" type="Mageants\Orderattribute\Plugin\Quote\Model\Quote\Address\CustomAttributeList"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="Mageants_Orderattribute:saveQuoteAddress" type="Mageants\Orderattribute\Plugin\Quote\Model\Quote\Address"/>
+    </type> -->
+    <!-- Save attributes end -->
+
+    <virtualType name="QuoteAddressRelationsComposite" type="Magento\Framework\Model\ResourceModel\Db\VersionControl\RelationComposite">
+        <arguments>
+            <argument name="relationProcessors" xsi:type="array">
+                <item name="mageants_attribute_quote_save" xsi:type="object">Mageants\Orderattribute\Model\ResourceModel\Quote\Address\Relation</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+</config>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<body>
+ <referenceContainer name="product.info.form.content">
+     <block class="Mageants\DeliveryDate\Block\DeliveryDate" name="product.info.enquiry" after="product.info.addtocart" template="Mageants_DeliveryDate::product/datedelivery.phtml">
+     <arguments>
+        <argument name="view_model" xsi:type="object">Mageants\DeliveryDate\ViewModel\ViewModel</argument>
+     </arguments>
+     </block>
+ </referenceContainer>
+ 
+  <referenceContainer name="product.info.options.wrapper.bottom">
+     <block class="Mageants\DeliveryDate\Block\DeliveryDate" name="product.info.test" after="product.info.addtocart" template="Mageants_DeliveryDate::product/view/datedelivery.phtml">
+        <arguments>
+            <argument name="view_model" xsi:type="object">Mageants\DeliveryDate\ViewModel\ViewModel</argument>
+        </arguments>
+     </block>
+ </referenceContainer>
+</body>
+</page>

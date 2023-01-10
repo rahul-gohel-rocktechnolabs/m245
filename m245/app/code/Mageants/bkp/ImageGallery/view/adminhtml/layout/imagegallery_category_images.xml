@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="root" label="Root">
+        <block class="Mageants\ImageGallery\Block\Adminhtml\Category\Edit\Tab\Images" name="imagegallery.category.edit.tab.images"/>
+        <block class="Magento\Backend\Block\Widget\Grid\Serializer" name="slides_grid_serializer">
+           <arguments>
+				<argument name="input_names" xsi:type="string">image_order</argument>
+                <argument name="grid_block" xsi:type="string">imagegallery.category.edit.tab.images</argument>
+                <argument name="callback" xsi:type="string">getSelectedCategoryImages</argument>
+                <argument name="input_element_name" xsi:type="string">category_image</argument>
+                <argument name="reload_param_name" xsi:type="string">image</argument>
+            </arguments>
+        </block>
+    </container>
+</layout>

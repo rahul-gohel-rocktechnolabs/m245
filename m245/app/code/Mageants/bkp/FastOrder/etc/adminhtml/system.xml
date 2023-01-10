@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" translate="label" sortOrder="100">
+            <label>Mageants</label>
+        </tab>
+        <section id="fastorder" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <tab>mageants</tab>
+            <label>Fast Order</label>
+            <resource>Mageants_FastOrder::mageants_fastorder_config</resource>
+            <group id="general" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>FastOrder Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>                
+                <field id="number_of_lines" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Number of lines</label>
+                </field>                
+                <field id="max_results" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max results to show</label>
+                </field>
+                <field id="max_number_of_lines" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Number of lines</label>
+                </field>
+                <field id="enable_customer_group" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Group</label>
+                    <source_model>Magento\Customer\Model\Customer\Source\Group</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,26 @@
+<?php
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+?>
+<form action="<?= /* @noEscape */ $block->getSaveUrl() ?>"
+      method="post" id="attributes-edit-form"
+      class="attributes-edit-form" enctype="multipart/form-data">
+      <?= /* @noEscape */ $block->getBlockHtml('formkey') ?>
+    <input type="hidden" name="order-ids" value="<?= /* @noEscape */ $block->getSelectedIds() ?>">
+    <div class="entry-edit form-inline">
+        <?= /* @noEscape */ $block->getFormHtml() ?>
+    </div>
+    <?= /* @noEscape */ $block->getChildHtml('form_after') ?>
+</form>
+<script>
+    require(['jquery', "mage/mage"], function(jQuery){
+
+        jQuery('#attributes-edit-form').mage('form')
+            .mage('validation', {validationUrl: '<?= /* @noEscape */ $block->getValidationUrl() ?>'});
+
+    });
+</script>

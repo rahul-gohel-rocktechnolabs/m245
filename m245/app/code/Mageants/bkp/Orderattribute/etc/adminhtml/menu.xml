@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageants_Orderattribute::order_attributes"
+             title="Mageants Order Attributes"
+             module="Mageants_Orderattribute"
+             sortOrder="20"
+             resource="Mageants_Orderattribute::order_attributes"/>
+        <add id="Mageants_Orderattribute::attributes_list"
+             title="Manage Order Attributes"
+             module="Mageants_Orderattribute"
+             sortOrder="10"
+             parent="Mageants_Orderattribute::order_attributes"
+             action="mgorderattribute/attribute/index"
+             resource="Mageants_Orderattribute::order_attributes"/>
+        <add id="Mageants_Orderattribute::attributes_relation"
+             title="Manage Order Attributes Relations"
+             module="Mageants_Orderattribute"
+             sortOrder="20"
+             parent="Mageants_Orderattribute::order_attributes"
+             action="mgorderattribute/relation/index"
+             resource="Mageants_Orderattribute::attributes_relation"/>
+        <add id="Mageants_Orderattribute::order_attributes_configuration"
+             title="Configuration"
+             module="Mageants_Orderattribute"
+             sortOrder="30"
+             parent="Mageants_Orderattribute::order_attributes"
+             action="adminhtml/system_config/edit/section/mgorderattribute/"
+             resource="Mageants_Orderattribute::config_mageants_orderattribute"/>
+    </menu>
+</config>

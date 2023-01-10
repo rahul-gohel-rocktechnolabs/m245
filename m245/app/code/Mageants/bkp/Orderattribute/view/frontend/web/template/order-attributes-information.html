@@ -1,0 +1,23 @@
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+
+<!-- ko if: (isVisible()) -->
+<div class="ship-via">
+    <table class="table-totals">
+        <tbody>
+        <!-- ko foreach: getOrderAttributes() -->
+            <tr>
+                <td width="50%"><span class="value" data-bind="text: label"></span>:&nbsp;</td>
+                <td><span class="value" data-bind="text: value"></span></td>
+            </tr>
+        <!-- /ko -->
+        </tbody>
+    </table>
+</div>
+<!--/ko-->

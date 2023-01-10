@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mageants_advancedsearch>
+          <AdvancedSearch_main>
+                <moduleenable>1</moduleenable>
+                <search_delay>1000</search_delay>
+                <popup_width>500</popup_width>
+                <autocomplete_fields>suggest,product</autocomplete_fields>
+                <minimum_number>3</minimum_number>
+                <searchbar>0</searchbar>
+            </AdvancedSearch_main>
+            <product>
+                <product_title>Product</product_title>
+                <category_title>Category</category_title>
+                <product_result_number>5</product_result_number>
+                <product_result_fields>name,image,reviews_rating,description,price,category</product_result_fields>
+                <decription_length>70</decription_length>
+                <url_redirect>1</url_redirect>
+            </product>
+            <bestseller>
+                 <enable>0</enable>
+                <bestseller_title>BestSeller Product</bestseller_title>
+                <bestseller_result_number>3</bestseller_result_number>
+            </bestseller>
+            <suggestion>
+                <Sugestion_Title>Suggestion</Sugestion_Title>
+                <suggested_result_number>3</suggested_result_number>
+            </suggestion>
+            <Recentsearch>
+                <recent_title>Recent Searched</recent_title>
+                <recent_result_number>5</recent_result_number>
+                <recent_enabled>1</recent_enabled>
+                <firstclick>1</firstclick>
+            </Recentsearch>
+        </mageants_advancedsearch>
+    </default>
+</config>

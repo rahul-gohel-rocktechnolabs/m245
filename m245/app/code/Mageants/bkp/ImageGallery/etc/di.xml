@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+				<item name="image_grid_listing_data_source" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Gallery\Grid\Collection</item>
+                <item name="category_grid_listing_data_source" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Category\Grid\Collection</item>
+                <item name="video_grid_listing_data_source" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Video\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="ImageGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+     <virtualType name="VideoGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CategoryGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+   <virtualType name="ImageGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\ImageGallery\Model\ResourceModel\Gallery\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">ImageGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="VideoGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\ImageGallery\Model\ResourceModel\Video\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">VideoGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CategoryGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\ImageGallery\Model\ResourceModel\Category\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">ImageGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+     <virtualType name="Mageants\ImageGallery\Model\ResourceModel\Gallery\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">imagegallery_gallery</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Gallery</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mageants\ImageGallery\Model\ResourceModel\Video\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">imagegallery_video</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Video</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Mageants\ImageGallery\Model\ResourceModel\Category\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">imagegallery_category</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Category</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                
+                 <item name="cat_source" xsi:type="string">Mageants\ImageGallery\Model\ResourceModel\Category\Collection</item>
+            </argument>
+        </arguments>
+    </type> -->
+
+</config>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+     <head>
+        <css src="Mageants_AgeVerification::css/popup.css" media="all" />        
+    </head>
+    <body>
+       <referenceContainer name="content">
+            <block class="Mageants\AgeVerification\Block\Popup"  template="Mageants_AgeVerification::popupcss.phtml" ifconfig="age_verification/general/enable"/>
+            <block class="Mageants\AgeVerification\Block\Popup"  template="Mageants_AgeVerification::popup.phtml" ifconfig="age_verification/general/enable"/>
+        </referenceContainer>
+    </body>
+</page>
+
+

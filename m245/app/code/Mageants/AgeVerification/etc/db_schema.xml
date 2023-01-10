@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="popup_template" resource="default" engine="innodb" comment="Popup Template">
+    <column xsi:type="int" name="template_id" padding="11" unsigned="false" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="text" name="template_name" nullable="false" comment="Template Name"/>
+    <column xsi:type="int" name="status" padding="11" unsigned="false" nullable="false" identity="false" comment="Status"/>
+    <column xsi:type="int" name="store_views" padding="11" unsigned="false" nullable="false" identity="false" comment="Store Views"/>
+    <column xsi:type="text" name="content" nullable="false" comment="Content"/>
+    <column xsi:type="text" name="popup_css" nullable="false" comment="Popup Css"/>
+    <column xsi:type="text" name="popup_script" nullable="false" comment="Popup Script"/>
+    <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="template_id"/>
+    </constraint>
+  </table>
+</schema>

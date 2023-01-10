@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+    	<tab id="mageants" translate="label" sortOrder="10">
+            <label>Mageants</label>
+        </tab>
+        <section id="mageants_datedelivery" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Delivery Date</label>
+            <tab>mageants</tab>
+            <resource>Mageants_DeliveryDate::config</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <!-- <comment>Version 2.0.0</comment> -->
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="displayat" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display At</label>
+                    <comment>Choose at which step delivery step should be captured.</comment>
+                    <source_model>Mageants\DeliveryDate\Model\Config\Source\Displayat</source_model>
+                </field>
+                <field id="processingtime" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processing Time</label>
+                    <comment>Delivery will be taken after(x) day(s) upon the date order(s) made.</comment>
+                </field>
+                <field id="cutofftime" translate="label" type="time" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cut Off Time</label>
+                    <comment>If customer place order after this time the date when order will be counted as the following day</comment>
+                </field>
+                <!-- <field id="holidays" type="text" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+	                    <label>Holidays/Exclude Days/Blckout Days</label>
+                        
+                        <validate>required-entry</validate>
+                        <comment>You can add holidays or exclude days or blackout certain dates from your deliver calendar</comment>
+	                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\Holidays</frontend_model>
+                        <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Holidays</backend_model>
+	                    
+	            </field> -->
+                <!-- <validate>validate-data</validate> -->
+                <!-- For DatePicker -->
+                <!-- <field id="mydate" translate="label" sortOrder="1" type="date" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>My Date Field</label>
+                    Magento\Config\Block\System\Config\Form\Field\Datetime
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\System\Config\Date</frontend_model>
+                </field> -->
+                
+                <!-- <field id="timeslot" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Time Slots</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\Timeslot</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <comment>You can add time slots and customer only select one of selection.</comment>
+                </field> -->
+                <field id="holidays" type="text" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Holidays/Exclude Days/Blackout Days</label>
+                        
+                        <validate>required-entry</validate>
+                        <comment>You can add holidays or exclude days or blackout certain dates from your deliver calendar</comment>
+                        <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\Holidays</frontend_model>
+                        <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Holidays</backend_model>
+                </field>
+                <field id="shippingarrivalcomment" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Shipping Arrival Comment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>                
+                <field id="disabledeliverydate" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Disable Delivery Date</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale\Weekdays</source_model>
+                    <can_be_empty>0</can_be_empty>
+                    <comment>Choose days on which shipping will not be available.</comment>
+                </field>
+                <field id="datefields" type="select" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Date Fields</label>
+                    <source_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\DateField</source_model>
+                </field>
+                <!-- <field id="iconcalendar" type="image" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Icon Calendar</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">catalog/product/placeholder</upload_dir>
+                    <base_url type="media" scope_info="1">catalog/product/placeholder</base_url>
+                    <comment>Allowed file types: jpeg,gif,png.</comment>
+                </field> -->
+                <field id="includeinto" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Include Into</label>
+                    <source_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\IncludeInto</source_model>
+                    <can_be_empty>0</can_be_empty>
+                </field>
+            </group>
+
+            <!-- For Timeslot -->
+            <group id="timeslot" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Timeslot</label>
+
+                <field id="monday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Monday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\MondayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+                <field id="tuesday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Tuesday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\TuesdayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+                <field id="wednesday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Wednesday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\WednesdayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+                <field id="thursday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Thursday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\ThursdayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+                <field id="friday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Friday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\FridayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+                <field id="saturday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Saturday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\SaturdayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+                <field id="sunday" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sunday</label>
+                    <frontend_model>Mageants\DeliveryDate\Block\Adminhtml\Form\Field\SundayTimeslot</frontend_model>
+                    <backend_model>Mageants\DeliveryDate\Model\Config\Backend\Timeslot</backend_model>
+                    <!-- <comment>You can add time slots and customer only select one of selection.</comment> -->
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,113 @@
+<div id="searchsuite-autocomplete" class="searchsuite-autocomplete" data-bind="visible: showPopup()">
+    <div data-bind="visible: anyResultCount()">
+        <div class="suggest" data-bind="visible: result.suggest.data().length > 0">
+            <div class="title" data-bind="html:suggestiontitle"></div>
+            <ul id="suggest" role="listbox" data-bind="foreach: result.suggest.data">
+                <li >
+                    <a data-bind="attr: { href: url, title: title }">
+                        <span data-bind="text: title"></span> (<span data-bind="text: num_results"></span>)
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+ <ul>
+    <li>
+      <div data-bind="foreach:recentsearch" >  
+         <div class="title" data-bind="html:recenttitle ,visible:$index() < 1" ></div>
+            <a data-bind="attr: { href: $data['url'] }">
+              <span data-bind=" text:$data['name']" style="padding: 10px;"> </span>
+            </a>
+        </div>
+   </li>
+</ul>
+
+<ul data-bind="foreach: cate" class="bestover">
+   <div class="title" data-bind="html:bestsellertitle , visible: $index() < 1 "></div>
+   <li>
+           <div  class="qs-option-image" > <a data-bind="attr: { href: productUrl }">
+                    <img data-bind="attr: { src: image_url }" style="width: 100px;height: 100px;" />
+                 </a> 
+            </div>
+
+            <div class="qs-option-info">
+                <div class="qs-option-title">
+                            <a data-bind="attr:{ href: productUrl } ,text: name  "></a>
+                </div>
+                <div class="qs-option-price" data-bind="text: price"></div>
+            </div>
+   </li> 
+
+</ul>
+
+
+<ul data-bind="foreach: result.product.data" >
+  <li>
+     <div data-bind="foreach: category ,visible:$index() <1">
+        <div class="title" data-bind="html:category_title ,visible:$index() <1" >
+</div>
+        <a data-bind="attr: { href: $data['url']}">
+              &nbsp;<span data-bind = "text:$data['name']"></span> 
+    </a> 
+    </div>
+ </li>
+</ul>
+
+
+        <div class="product" data-bind="visible: result.product.data().length > 0">
+             <div class="title" data-bind="html:producttitle"> </div>
+                <a class="see-all" data-bind="attr: {href: result.product.url}">
+                   <span data-bind="i18n: 'See All'"></span>
+                    <span data-bind="text: result.product.size"></span>
+                </a>
+            
+            <ul id="product" role="listbox" data-bind="foreach: result.product.data">
+                <li>
+                    <div class="qs-option-image" data-bind="visible: image">
+                        <a data-bind="attr: { href: url, title: name }">
+                            <img data-bind="attr: { src: image, title: name }" />
+                        </a>
+                    </div>
+
+                    <div class="qs-option-info" data-bind="css: {noimage: !image}">
+                        <div class="qs-option-title" data-bind="visible: name">
+                            <a data-bind="attr: { href: url, title: name }, text: name"></a>
+                        </div>
+                        <div class="qs-option-reviews" data-bind="html: reviews_rating, visible: reviews_rating"></div>
+                        <div class="qs-option-sku" data-bind="visible: sku"><!-- ko i18n: 'SKU'--><!-- /ko -->: <span data-bind="text: sku"></span></div>
+                        <div class="qs-option-shortdescription" data-bind="text: short_description, visible: short_description"></div>
+                        <div class="qs-option-description" data-bind="text: description, visible: description"></div>
+                        <div class="qs-option-price" data-bind="html: price, visible: price"></div>
+                                                     
+                      <div class="qs-option-addtocart" data-bind="with: add_to_cart, visible: add_to_cart">
+                        <div title="my cart" class="action tocart primary"  data-bind="attr: {value: productId}" id="mycart" ><span> <!-- ko i18n: 'Add to Cart'--><!-- /ko --> </span></div>
+                      </div>
+                  </div>
+                </li>
+            </ul>
+            <div class="belowseeall">  
+              <a class="see-all" data-bind="attr: {href: result.product.url}">
+                   <span data-bind="i18n: 'See All'"></span>
+                    <span data-bind="text: result.product.size"></span>
+              </a>
+            </div>
+        </div>
+    </div>
+
+    
+     <div class="no-result" data-bind="visible: !anyResultCount()">
+      <div style="background-color: white; height: 200px;">
+         <div data-bind="foreach:Recentserachnoptfound" style="width: 40%;float: left; margin: 10px">
+             <div class="title" data-bind="html:recenttitle ,visible:$index() < 1" ></div>
+             <div>
+            <a data-bind="attr: { href: $data['url'] }">
+              <span data-bind=" text:$data['name']" style="line-height: 2em; float: left; padding: 15px; font-weight: 600;"> </span>
+            </a>
+        </div>
+        </div>
+    <div style="width: 60%;font-weight: 700; font-size: 16px;position: relative;left: 62px;
+    top: 10px;"><!-- ko i18n: 'No Result Founds'--><!-- /ko --></div>
+     <div>
+    </div>
+
+</div>

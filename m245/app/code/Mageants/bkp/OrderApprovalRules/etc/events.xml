@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_place_before">
+        <observer name="mageants_sales_order_place_before" instance="Mageants\OrderApprovalRules\Observer\QuoteSubmitBefore" />
+    </event>
+    <event name="sales_order_place_after">
+      	<observer name="mageants_orderapprovalrules_event_email_stopper" instance="Mageants\OrderApprovalRules\Observer\EmailStopper\Order\Email" />
+  	</event>
+</config>

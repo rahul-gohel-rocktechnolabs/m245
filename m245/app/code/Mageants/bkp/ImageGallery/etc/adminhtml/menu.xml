@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Mageants. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Mageants_ImageGallery::imagegallery" title="ImageGallery" module="Mageants_ImageGallery" sortOrder="20" resource="Mageants_ImageGallery::imagegallery" />
+		<add id="Mageants_ImageGallery::mageants_category_index" title="Gallery Category" module="Mageants_ImageGallery"  sortOrder="20" parent="Mageants_ImageGallery::imagegallery" dependsOnModule="Mageants_ImageGallery" action="imagegallery/category/index" resource="Mageants_ImageGallery::mageants_category_index"/>
+		<add id="Mageants_ImageGallery::mageants_gallery_index" title="Image Gallery" module="Mageants_ImageGallery"  sortOrder="10" parent="Mageants_ImageGallery::imagegallery" dependsOnModule="Mageants_ImageGallery" action="imagegallery/gallery/index" resource="Mageants_ImageGallery::mageants_gallery_index"/>
+		<add id="Mageants_ImageGallery::mageants_video_index" title="Video Gallery" module="Mageants_ImageGallery"  sortOrder="10" parent="Mageants_ImageGallery::imagegallery" dependsOnModule="Mageants_ImageGallery" action="imagegallery/video/index" resource="Mageants_ImageGallery::mageants_video_index"/>
+		<add id="Mageants_ImageGallery::imagegallery_configuration" title="Configuration" module="Mageants_ImageGallery" sortOrder="30" parent="Mageants_ImageGallery::imagegallery" action="adminhtml/system_config/edit/section/mageants_imagegallery/" resource="Mageants_ImageGallery::config_mageants_imagegallery"/>
+    </menu>
+</config>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+		<add id="Mageants_ExtraFee::extrafee_content" title="ExtraFees" module="Mageants_ExtraFee" sortOrder="11" resource="Mageants_ExtraFee::extrafee_content"/>
+		<add id="Mageants_ExtraFee::extrafee_grid" title="ExtraFee" module="Mageants_ExtraFee" sortOrder="10" parent="Mageants_ExtraFee::extrafee_content" action="extrafee/extrafee" resource="Mageants_ExtraFee::extrafee_grid"/> 
+		<add id="Mageants_ExtraFee::extrafee_request" title="Configuration" module="Mageants_ExtraFee" sortOrder="10" parent="Mageants_ExtraFee::extrafee_content" action="adminhtml/system_config/edit/section/mageants_extrafee/" resource="Mageants_ExtraFee::extrafee_request"/> 
+    </menu>
+</config>

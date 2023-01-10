@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <dataSource name="sales_order_view_invoice_grid_data_source">
+        <aclResource>Mageants_OrderArchive::invoices</aclResource>
+        <dataProvider class="Mageants\OrderArchive\Ui\InvoiceDataProvider" name="order_order_view_invoice_grid_data_source" />
+    </dataSource>
+</listing>

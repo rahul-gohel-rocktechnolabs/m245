@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants ProductQA
+ * @package   Mageants_ProductQA
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<update handle="editor"/>
+	<head>
+		 <css src="Mageants_ProductQA::css/style.css" />
+	</head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestion\Edit" name="mageants_productqa_productquestion_edit"/> 
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestion\Edit\Tabs" name="mageants_productqa_productquestion_tabs">
+                <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestion\Edit\Tab\ProductQuestion" name="mageants_productqa_productquestion_edit_tab_productquestion"/>
+				<block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestion\Edit\Tab\QuestionAnswer" name="mageants_productqa_productquestion_edit_tab_answers"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">productquestion</argument>
+                    <argument name="block" xsi:type="string">mageants_productqa_productquestion_edit_tab_productquestion</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">answers</argument>
+                    <argument name="block" xsi:type="string">mageants_productqa_productquestion_edit_tab_answers</argument>
+                </action>
+            </block>
+        </referenceContainer> 
+    </body>
+</page>

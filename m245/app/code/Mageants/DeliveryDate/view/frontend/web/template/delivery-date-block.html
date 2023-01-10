@@ -1,0 +1,23 @@
+	<div class="label">
+		<span><h3><u>Delivery Information</u></h3></span>
+	</div>
+	<div style="margin-top: 10px"> 
+	<label class="label"><span>Delivery Date <span style="color:#e02b27;font-size:1.2rem;margin:0 0 0 5px;">*</span></span></label>
+	<div class="control">
+	    <input class="input-text" type="text" name="delivery_date" id="delivery_date" data-bind="datepicker: myDate, datepickerOptions: {minDate: new Date(),dateFormat: 'dd-mm-yy'}" readonly="readonly" style="margin-top: 10px">
+	</div>
+	</div>
+
+	<div style="margin-top: 10px">
+	<label class="label"><span>Delivery Time Slot <span style="color:#e02b27;font-size:1.2rem;margin:0 0 0 5px;">*</span></span></label>
+	<div class="control">
+		<select name="delivery_timeslot" id="delivery_timeslot" data-bind='options: myOptions,optionsCaption: "Please Select Delivery Timeslot"' style="margin-top: 10px"></select>
+	</div>
+	</div>
+
+	<div data-bind="if: displayComment" style="margin-top: 10px">
+	<label class="label"><span>Comment</span></label>
+	<div class="control">
+	    <textarea name="delivery_comment" id="delivery_comment" style="margin-top: 10px"></textarea>
+	</div>
+	</div>

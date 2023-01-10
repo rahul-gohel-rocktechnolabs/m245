@@ -1,0 +1,21 @@
+ {
+  "name": "mageants/orderapprovalrules",
+  "description": "Order Approval Rules Extension",
+  "require": {
+     "php": "~7.0.13||~7.1.0||~7.2.0||~7.3.0||~7.4.0||~8.1.0"
+  },
+  "type": "magento2-module",
+  "version": "2.0.1",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Mageants\\OrderApprovalRules\\": ""
+    }
+  }
+}

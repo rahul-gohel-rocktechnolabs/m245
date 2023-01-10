@@ -1,0 +1,24 @@
+<?php
+/**
+ * @category Mageants FastOrder
+ * @package Mageants_FastOrder
+ * @copyright Copyright (c) 2018 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+
+<?php $_options = $block->decorateArray($block->getOptions()) ?>
+<?php if (count($_options)): ?>
+    <?php foreach ($_options as $_option): ?>
+        <?= /*@noEscape */$block->getOptionHtml($_option) ?>
+    <?php endforeach; ?>
+<?php endif; ?>
+<script>
+    require(["jquery", "jquery/ui", 'Magento_Catalog/js/price-options'], function ($) {
+        $('#mgantsfastorder-form-option').priceOptions({
+            optionConfig: <?= /*@noEscape */$block->getJsonConfig(); ?>,
+            controlContainer: ".field",
+            priceHolderSelector: "[data-role-fastorder=priceBox]"
+        });
+    });
+</script>

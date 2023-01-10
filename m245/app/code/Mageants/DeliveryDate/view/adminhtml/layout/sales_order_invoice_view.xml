@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceBlock name="sales_invoice_view">
+                <referenceBlock name="form">
+                    <action method="setTemplate">
+                        <argument name="template" xsi:type="string">Mageants_DeliveryDate::view/invoice_form.phtml</argument>
+                    </action>
+                    <arguments>
+                         <argument name="view_model" xsi:type="object">Mageants\DeliveryDate\ViewModel\ViewModel</argument>
+                    </arguments>
+                </referenceBlock>
+            </referenceBlock>
+        </referenceContainer>
+    </body>
+</page>

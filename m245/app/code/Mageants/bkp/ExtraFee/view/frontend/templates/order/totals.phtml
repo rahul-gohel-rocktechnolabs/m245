@@ -1,0 +1,40 @@
+<?php
+/**
+ * @category Mageants ExtraFee
+ * @package Mageants_ExtraFee
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+<?php $_order = $block->getOrder() ?>
+<?php foreach ($block->getTotals() as $_code => $_total): ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?= /* @noEscape */ $block->getChildHtml($_total->getBlockName(), false); ?>
+    <?php else:?>
+    <tr class="<?= /* @noEscape */ $_code?>">
+        <th <?= /* @noEscape */ $block->getLabelProperties()?> scope="row">
+            <?php if ($_total->getStrong()):?>
+            <strong><?= /* @noEscape */ $block->escapeHtml($_total->getLabel());?></strong>
+            <?php else:?>
+                <?= /* @noEscape */ $block->escapeHtml($_total->getLabel());?>
+                <?php if ($_code == 'fee') {
+                    echo "<br><small>";
+                    ?>
+                    <?= /* @noEscape */ __($_order->getExtrafeecomment());
+                    echo "</small>";
+                }
+                ?>
+            <?php endif?>
+        </th>
+        <td <?= /* @noEscape */ $block->getValueProperties()?> 
+            data-th="<?= /* @noEscape */
+            $block->escapeHtml($_total->getLabel());?>">
+            <?php if ($_total->getStrong()):?>
+            <strong><?= /* @noEscape */ $block->formatValue($_total) ?></strong>
+            <?php else:?>
+                <?= /* @noEscape */ $block->formatValue($_total) ?>
+            <?php endif?>
+        </td>
+    </tr>
+    <?php endif?>
+<?php endforeach?>

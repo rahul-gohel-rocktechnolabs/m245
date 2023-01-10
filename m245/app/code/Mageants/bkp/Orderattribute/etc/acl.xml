@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Mageants_Orderattribute::order_attributes" title="Mageants Order Attributes" sortOrder="10" >
+                    <resource id="Mageants_Orderattribute::attributes_list" title="Manage Order Attributes" sortOrder="0" />
+                    <resource id="Mageants_Orderattribute::attributes_relation" title="Manage Order Attributes Relations" sortOrder="0" />
+                    <resource id="Mageants_Orderattribute::order_attributes_configuration" title="Configuration" sortOrder="100" />
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Mageants_Orderattribute::attribute"
+                                      title="Mageants Order Attributes"
+                                      sortOrder="20" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

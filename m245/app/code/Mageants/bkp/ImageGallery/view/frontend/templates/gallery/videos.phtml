@@ -1,0 +1,59 @@
+<div class="zoom-gallery">    
+    <div id="mygallery" class="video-gallery">
+        <?php
+        $blockObj = $block->getLayout()->createBlock(\Mageants\ImageGallery\Block\Gallery::class);
+        $helper = $blockObj->helper();
+        if (filter_input(INPUT_POST, 'categoryid')) {
+            $Id=filter_input(INPUT_POST, 'categoryid');
+            $collection=$helper->getCategoryById($Id);
+            if ($collection) {
+                foreach ($collection as $category) {
+                    if (!empty($category['video_id'])) {
+                            
+                        $videoids=$helper->getCategorieVideoIds($category['category_id']);
+                            
+                        foreach ($videoids as $videoId) {
+                            if ($helper->getGalleryVideoUrl($videoId)) { ?>
+                                <?php $result=$helper->getGalleryVideoUrl($videoId);
+                                ?>
+                                <div class="video-list">
+                                    <a class="popup-youtube" href="<?= /* @noEscape */ $result['url'] ; ?>" 
+                                        data-source="<?= /* @noEscape */ $result['url'] ; ?>" 
+                                        title="<?= /* @noEscape */ $result['title'] ; ?>">
+                                        <video controls>
+                                              <source src="<?= /* @noEscape */ $result['url'] ; ?>" type="video/mp4">
+                                              <source src="mov_bbb.ogg" type="video/ogg">
+                                          Your browser does not support HTML5 video.
+                                        </video>
+                                        <span><?= /* @noEscape */ $result['title'] ; ?></span>
+                                    </a>
+                                </div>                    
+                    <?php	}
+                        }
+                    } else { ?>
+                        <span
+                        class="error-msg">
+                        <?= /* @noEscape */ __("Sorry !! We don't have any selected Videos for this video gallery.");?>
+                        </span>
+                        <?php }
+                }
+            }
+        } ?>    
+    </div>
+</div>
+<script>
+    require(['jquery','justifiedGallery','magnificpopup'],function($){
+        $(document).ready(function(){
+            $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+                disableOn: 700,
+                type: 'iframe',
+                mainClass: 'mfp-fade',
+                removalDelay: 160,
+                preloader: false,
+                fixedContentPos: false,
+                enableEscapeKey: true 
+               });    
+            
+        });    
+    });
+</script>

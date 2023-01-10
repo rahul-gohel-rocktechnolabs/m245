@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Mageants OrderArchive
+ * @package Mageants OrderArchive
+ * @copyright Copyright (c) 2019 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */ 
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageants_OrderArchive::sales_archive" title="Archive" translate="title" module="Mageants_OrderArchive" sortOrder="20" parent="Magento_Sales::sales" dependsOnConfig="mageantssalesarchive/general/active" resource="Mageants_OrderArchive::archive"/>
+        <add id="Mageants_OrderArchive::sales_archive_orders" title="Orders" translate="title" module="Mageants_OrderArchive" sortOrder="10" parent="Mageants_OrderArchive::sales_archive" action="sales/archive/orders" resource="Mageants_OrderArchive::orders"/>
+    </menu>
+</config>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+     <update handle="editor"/>
+    <body>
+	   <referenceContainer name="content">
+            <block class="Mageants\ImageGallery\Block\Adminhtml\Category\Edit" name="imagegallery_category_edit"/>
+        </referenceContainer>
+		 <referenceContainer name="left">
+            <block class="Mageants\ImageGallery\Block\Adminhtml\Category\Edit\Tabs" name="imagegallery_category_edit_tabs">
+				<block class="Mageants\ImageGallery\Block\Adminhtml\Category\Edit\Tab\Category" name="imagegallery_category_edit_tab_category"/>
+				 <action method="addTab">
+                    <argument name="name" xsi:type="string">category_section</argument>
+                    <argument name="block" xsi:type="string">imagegallery_category_edit_tab_category</argument>
+                </action>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">Images_section</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Select Images</item>
+                        <item name="title" xsi:type="string">select Images</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\ImageGallery\Helper\Data::getImagesGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">Video_section</argument>
+                    <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Select Videos</item>
+                        <item name="title" xsi:type="string">select Videos</item>
+                        <item name="url" xsi:type="helper" helper="Mageants\ImageGallery\Helper\Data::getVideosGridUrl"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action>
+			</block>
+			 
+        </referenceContainer>
+    </body>
+</page>

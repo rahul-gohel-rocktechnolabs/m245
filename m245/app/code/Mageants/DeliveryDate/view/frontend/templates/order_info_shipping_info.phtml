@@ -1,0 +1,25 @@
+<div id="delivery-date">
+    <strong>
+        Delivery Date
+    </strong>
+    <span class="price"><?= /* @noEscape */ $block->getDeliveryDate() ?></span>
+</div>
+<div id="delivery-comment">
+    <strong>
+        Comment
+    </strong>
+    <br>
+    <span class="price"><?= /* @noEscape */ $block->getDeliveryComment() ?></span>
+</div>
+
+<script>
+    require(
+        ['jquery'],
+        function($) {
+            var element = $('#delivery-date').detach();
+            $('.box-order-shipping-method').append(element);
+            var element = $('#delivery-comment').detach();
+            $('.box-order-shipping-method').append(element);
+        }
+    );
+</script>

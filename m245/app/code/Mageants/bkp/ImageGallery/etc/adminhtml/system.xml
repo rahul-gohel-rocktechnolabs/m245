@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" translate="label">
+            <label>Mageants</label>
+        </tab>
+         <section id="mageants_imagegallery"  showInDefault="1" showInWebsite="1" showInStore="1">
+            <tab>mageants</tab>
+            <label>ImageGallery</label>
+            <resource>Mageants_ImageGallery::config_mageants_imagegallery</resource>
+            <group id="imagegallery"  showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled ImageGallery Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="header_title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Header Title </label>
+                </field>
+                <field id="header_bgcolor" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Background color of header</label>
+                    <comment><![CDATA[Background color of header]]></comment>
+                    <frontend_model>Mageants\ImageGallery\Block\Adminhtml\ColorPicker</frontend_model> 
+                </field>
+
+                <field id="header_forecolor" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Foreground color of header</label>
+                    <comment><![CDATA[Foreground color of header]]></comment>
+                    <frontend_model>Mageants\ImageGallery\Block\Adminhtml\ColorPicker</frontend_model> 
+                </field>
+
+                 <field id="image_bottom_bgcolor" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Background Color of Image Title </label>
+                    <comment><![CDATA[Background color of Image title]]></comment>
+                    <frontend_model>Mageants\ImageGallery\Block\Adminhtml\ColorPicker</frontend_model> 
+                </field>
+
+                <field id="image_bottom_forecolor" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Foreground Color of Image Title </label>
+                    <comment><![CDATA[Foreground color of Image title]]></comment>
+                    <frontend_model>Mageants\ImageGallery\Block\Adminhtml\ColorPicker</frontend_model> 
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

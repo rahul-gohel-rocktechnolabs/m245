@@ -1,0 +1,18 @@
+<?php
+/**
+ * @category Mageants FastOrder
+ * @package Mageants_FastOrder
+ * @copyright Copyright (c) 2018 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+
+<?php
+/**  @var  Mageants\FastOrder\ViewModel\Custom $viewModel */
+ /** @var \Magento\Framework\View\Element\Template $block */
+
+$viewModel = $block->getData("viewModel");
+$cust_group_conf = explode(',', $viewModel->getFastOrderConfig('fastorder/general/enable_customer_group'));
+if (in_array($viewModel->getSessionData(), $cust_group_conf) || in_array(32000, $cust_group_conf)): ?>
+    <li><a href="<?= /*@noEscape */ $block->getBaseUrl().'fastorder/'?>"><?= /*@noEscape */ __('Fast Order')?></a></li>
+<?php endif; ?>

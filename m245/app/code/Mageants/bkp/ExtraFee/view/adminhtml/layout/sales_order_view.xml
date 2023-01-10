@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="column_name">
+            <action method="setTemplate">
+                <argument name="template" translate="true" xsi:type="string">Mageants_ExtraFee::items/column/name.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="viewModel" xsi:type="object">
+                    Mageants\ExtraFee\ViewModel\ViewHelperData
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="order_tab_info">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Mageants_ExtraFee::order/view/tab/info.phtml</argument>
+            </action>
+            
+            <block class="Magento\Sales\Block\Adminhtml\Order\Totals" name="order_totals" template="Mageants_ExtraFee::order/totals.phtml">
+                <block class="Mageants\ExtraFee\Block\Adminhtml\Sales\Totals" name="fee"/>
+                <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Tax" name="tax" template="order/totals/tax.phtml"/>
+            <arguments>
+                <argument name="viewModel" xsi:type="object">
+                    Mageants\ExtraFee\ViewModel\ViewHelperData
+                </argument>
+            </arguments>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="order_items">
+            <block class="Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable\Name" name="column_name_downloadable" template="Mageants_ExtraFee::sales/items/column/downloadable/name.phtml" group="column">
+            <arguments>
+                <argument name="viewModel" xsi:type="object">
+                    Mageants\ExtraFee\ViewModel\ViewHelperData
+                </argument>
+            </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

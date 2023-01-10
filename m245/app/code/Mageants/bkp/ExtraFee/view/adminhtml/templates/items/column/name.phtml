@@ -1,0 +1,107 @@
+<?php
+/**
+ * @category Mageants ExtraFee
+ * @package Mageants_ExtraFee
+ * @copyright Copyright (c) 2017 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+
+/**  @var  Mageants\ExtraFee\ViewModel\ViewHelperData $viewModel */
+ /** @var \Magento\Framework\View\Element\Template $block */
+$viewModel = $block->getData("viewModel");
+?>
+<?php
+/**
+ * @see \Magento\Sales\Block\Adminhtml\Items\Column\Name
+ */
+if ($_item = $block->getItem()):  ?>
+    <div id="order_item_<?= /* @noEscape */ $_item->getId() ?>_title"
+         class="product-title">
+        <?= /* @noEscape */ $block->escapeHtml($_item->getName()) ?>
+        
+    </div>
+
+    <div class="product-sku-block">
+        <span><?= /* @noEscape */ __('SKU') ?>:</span> 
+        <?= /* @noEscape */
+            $viewModel->getCatalogdata($block->getSku());
+        ?>
+    </div>
+    <?php $feesIds = $_item->getBuyRequest()->getFeesname();
+    if (empty($feesIds)) {
+                $productId = $_item->getProductId();
+                $product = $viewModel->getByid($productId);
+                $overrideCat = $product->getOverrideCat();
+                $feesIds =$viewModel->overrideCategory($productId, $overrideCat, $product);
+    }
+            $price = $_item->getPrice();
+    if (count($feesIds)>0) { ?>
+                <div class="extrafee-option">
+                <?php foreach ($feesIds as $fee) {
+                    $feeData=$viewModel->getFeeData($fee); ?>
+                <br/>
+                <span class="feesname">
+                    <?= /* @noEscape */ __($feeData['feesname']); ?></span>: 
+                    <span><?php if ($feeData['type'] == 'Percentage') {
+                        $amount=(($price*$feeData['amount'])/100); ?>
+                        <?= /* @noEscape */
+                            $viewModel->getCurrency($amount);
+                          } else { ?>
+                              <?= /* @noEscape */
+                                $viewModel->getCurrency(
+                                    $feeData['amount'],
+                                    true,
+                                    false
+                                );
+                          } ?> </span>    
+            <?php } ?>
+                </div>
+        <?php  } ?>
+
+    <?php if ($block->getOrderOptions()): ?>
+        <dl class="item-options">
+            <?php foreach ($block->getOrderOptions() as $_option): ?>
+                <dt><?= /* @noEscape */ $_option['label'] ?>:</dt>
+                <dd>
+                    <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
+                        <?= /* @noEscape */ $block->getCustomizedOptionValue($_option); ?>
+                    <?php else: ?>
+                        <?php $_option = $block->getFormattedOption($_option['value']); ?>
+                        <?= /* @noEscape */ $_option['value']; ?>
+                        <?php if (isset($_option['remainder']) && $_option['remainder']): ?>
+                            <span id="<?= /* @noEscape */ $_dots = 'dots' . uniqid()?>"> ...</span>
+                            <span id="<?= /* @noEscape */ $_id = 'id' . uniqid()?>">
+                                <?= /* @noEscape */ $_option['remainder'] ?></span>
+                            <script>
+                                require(['prototype'], function() {
+                                    $('<?= /* @noEscape */ $_id ?>').hide();
+                                    $('<?= /* @noEscape */ $_id ?>').up().observe(
+                                        'mouseover', function(){
+                                            $('<?= /* @noEscape */ $_id ?>').show();
+                                        }
+                                        );
+                                    $('<?= /* @noEscape */ $_id ?>').up().observe(
+                                        'mouseover', function(){
+                                            $('<?= /* @noEscape */ $_dots?>').hide()
+                                            ;
+                                        });
+                                    $('<?= /* @noEscape */ $_id ?>').up().observe(
+                                        'mouseout',  function(){
+                                            $('<?= /* @noEscape */ $_id ?>').hide();
+                                        }
+                                        );
+                                    $('<?= /* @noEscape */ $_id ?>').up().observe(
+                                        'mouseout',  function(){
+                                            $('<?= /* @noEscape */ $_dots ?>').show();
+                                        }
+                                        );
+                                });
+                            </script>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
+    <?php endif; ?>
+    <?= /* @noEscape */ $block->escapeHtml($_item->getDescription()) ?>
+<?php endif; ?>

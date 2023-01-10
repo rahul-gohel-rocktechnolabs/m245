@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <googlecustomerreviews>
+            <general>
+                <enable>1</enable>
+                <language>en_US</language>
+            </general>
+            <survey>
+            	<customer_group>0,1,2,3</customer_group>
+            </survey>
+            <badge>
+            	<show>1</show>
+            </badge>
+        </googlecustomerreviews>
+    </default>
+</config>

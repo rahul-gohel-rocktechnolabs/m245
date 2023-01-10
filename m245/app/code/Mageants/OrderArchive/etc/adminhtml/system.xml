@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" sortOrder="999" translate="label">
+            <label>Mageants</label>
+        </tab>
+        <section id="mageantssalesarchive" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>Order Archive</label>
+            <tab>mageants</tab>                          
+            <resource>Mageants_OrderArchive::Mageants_OrderArchive</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Orders Archive</label>
+                <field id="active" translate="label" sortOrder="5" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Archiving</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <backend_model>Mageants\OrderArchive\Model\System\Config\Backend\Active</backend_model>
+                </field>
+                <field id="age" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Archive Orders Purchased</label>
+                    <validate>validate-zero-or-greater validate-digits</validate>
+                    <comment>Days ago.</comment>
+                </field>
+                <field id="order_statuses" translate="label" sortOrder="15" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Statuses to be Archived</label>
+                    <source_model>Mageants\OrderArchive\Model\Order\Status\Source</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

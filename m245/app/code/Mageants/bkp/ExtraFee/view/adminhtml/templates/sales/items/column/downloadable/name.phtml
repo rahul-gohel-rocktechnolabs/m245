@@ -1,0 +1,85 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**  @var  Mageants\ExtraFee\ViewModel\ViewHelperData $viewModel */
+/** @var \Magento\Framework\View\Element\Template $block */
+$viewModel = $block->getData("viewModel");
+?>
+<?php if ($_item = $block->getItem()): ?>
+    <div class="product-title"><?= /* @noEscape */ $_item->getName() ?></div>
+    <div class="product-sku-block">
+        <span><?= /* @noEscape */ __('SKU') ?>:</span>
+        <?= /* @noEscape */
+            $viewModel->getCatalogdata($block->getSku());
+        ?>
+    </div>
+    <?php if ($block->getOrderOptions()): ?>
+        <dl class="item-options">
+        <?php foreach ($block->getOrderOptions() as $_option): ?>
+            <dt><?= $block->escapeHtml($_option['label']) ?>:</dt>
+            <dd>
+            <?php if (isset($_option['custom_view']) && $_option['custom_view']): ?>
+                <?= /* @noEscape */ $_option['value'] ?>
+            <?php else: ?>
+                <?= /* @noEscape */ $block->truncateString($_option['value'], 55, '', $_remainder) ?>
+                <?php if ($_remainder):?>
+                    ... <span 
+                            id="<?= /* @noEscape */ $_id = 'id' . uniqid() ?>">
+                            <?= /* @noEscape */ $_remainder ?></span>
+                    <script>
+require(['prototype'], function(){
+
+    $('<?= /* @noEscape */ $_id ?>').hide();
+    $('<?= /* @noEscape */ $_id ?>').up().observe('mouseover', function(){$('<?= /* @noEscape */ $_id ?>').show();});
+    $('<?= /* @noEscape */ $_id ?>').up().observe('mouseout',  function(){$('<?= /* @noEscape */ $_id ?>').hide();});
+
+});
+</script>
+                <?php endif;?>
+            <?php endif;?>
+            </dd>
+        <?php endforeach; ?>
+        </dl>
+    <?php endif; ?>
+    <?php if ($block->getLinks()): ?>
+        <dl class="item-options">
+            <dt><?= $block->escapeHtml($block->getLinksTitle()) ?>:</dt>
+            <?php foreach ($block->getLinks()->getPurchasedItems() as $_link): ?>
+                <dd><?= $block->escapeHtml($_link->getLinkTitle()) ?> (
+                    <?= /* @noEscape */ $_link->getNumberOfDownloadsUsed() . ' / ' . (
+                        $_link->getNumberOfDownloadsBought() ? $_link->getNumberOfDownloadsBought() : __('U')) ?>
+                    )</dd>
+            <?php endforeach; ?>
+        </dl>
+    <?php endif; ?>
+    <!-- ExtraFee Block Start -->
+    <?php $feesIds=$_item->getBuyRequest()->getFeesname();
+    if (empty($feesIds)) {
+        $productId = $_item->getProductId();
+        $product=$viewModel->getByid($productId);
+        $overrideCat=$product->getOverrideCat();
+        $feesIds =$viewModel->overrideCategory($productId, $overrideCat, $product);
+        
+    }
+        $price=$_item->getPrice();
+    if (count($feesIds)>0) { ?>
+            <div class="extrafee-option">
+            <?php foreach ($feesIds as $fee) {
+                $feeData=$viewModel->getFeeData($fee); ?>
+            <br/>
+            <span class="feesname">
+                <?= /* @noEscape */ __($feeData['feesname']); ?></span>:
+                <span><?php if ($feeData['type']=='Percentage') {
+                    $amount=(($price*$feeData['amount'])/100); ?>
+                    <?= /* @noEscape */ $viewModel->getCurrency($amount);
+                      } else {?>
+                <?= /* @noEscape */ $viewModel->getCurrency($feeData['amount'], true, false);} ?> </span>    
+        <?php } ?>
+            </div>
+    <?php  } ?>
+    <!-- ExtraFee Block End -->
+    <?= $block->escapeHtml($_item->getDescription()) ?>
+<?php endif; ?>

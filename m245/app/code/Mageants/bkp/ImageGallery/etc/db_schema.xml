@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="imagegallery_category" resource="default" engine="innodb" comment="Mageants ImageGalley imagegallery_category">
+    <column xsi:type="smallint" name="category_id" padding="6" unsigned="false" nullable="false" identity="true" comment="Category ID"/>
+    <column xsi:type="varchar" name="image_id" nullable="false" length="255" comment="Attached Image id"/>
+    <column xsi:type="varchar" name="category_name" nullable="false" length="255" comment="Category Name"/>
+    <column xsi:type="text" name="image" nullable="true" comment="image"/>
+    <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Category Active?"/>
+    <column xsi:type="text" name="url_key" nullable="true" comment="url key"/>
+    <column xsi:type="text" name="video_id" nullable="true" comment="Video Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="category_id"/>
+    </constraint>
+    <index referenceId="IMAGEGALLERY_CATEGORY_CATEGORY_NAME" indexType="fulltext">
+      <column name="category_name"/>
+    </index>
+  </table>
+  <table name="imagegallery_gallery" resource="default" engine="innodb" comment="Mageants ImageGallery imagegalley_gallery">
+    <column xsi:type="smallint" name="image_id" padding="6" unsigned="false" nullable="false" identity="true" comment="Image ID"/>
+    <column xsi:type="varchar" name="image_title" nullable="false" length="255" comment="Image Title"/>
+    <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Image Active?"/>
+    <column xsi:type="text" name="image" nullable="true" comment="image"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="image_id"/>
+    </constraint>
+    <index referenceId="IMAGEGALLERY_GALLERY_IMAGE_TITLE" indexType="fulltext">
+      <column name="image_title"/>
+    </index>
+  </table>
+  <table name="imagegallery_video" resource="default" engine="innodb" comment="Mageants VideoGallery imagegalley video">
+    <column xsi:type="smallint" name="video_id" padding="6" unsigned="false" nullable="false" identity="true" comment="Video ID"/>
+    <column xsi:type="varchar" name="video_title" nullable="false" length="255" comment="Video Title"/>
+    <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Video Active?"/>
+    <column xsi:type="text" name="video" nullable="true" comment="video"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="video_id"/>
+    </constraint>
+    <index referenceId="IMAGEGALLERY_VIDEO_VIDEO_TITLE" indexType="fulltext">
+      <column name="video_title"/>
+    </index>
+  </table>
+</schema>

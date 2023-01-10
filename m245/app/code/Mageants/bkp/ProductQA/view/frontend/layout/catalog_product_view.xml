@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Product360Image
+ * @package   Mageants_Product360Image
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!-- <head>
+		 <css src="Mageants_ProductQA::css/style.css" />
+	</head> -->
+	<body>
+        <referenceBlock name="product.info.details">
+          <block class="Mageants\ProductQA\Block\ProductQA" name="product.question" after="additional" template="productqa/product_question.phtml" group="detailed_info" ifconfig="mageants_productqa/general/enable">
+				<block class="Mageants\ProductQA\Block\ProductQAnswer" name="product.question.answers" as="answer" template="productqa/product_question_answer.phtml" />
+				<arguments>
+					<argument translate="true" name="title" xsi:type="string">Product Question</argument>
+				</arguments>
+				<container name="form.additional.info" label="Form Additional Info">
+                    <block class="Magento\Captcha\Block\Captcha" name="captcha1" after="-" cacheable="false">
+                        <action method="setFormId">
+                            <argument name="formId" xsi:type="string">custom_form</argument>
+                        </action>
+                        <action method="setImgWidth">
+                            <argument name="width" xsi:type="string">230</argument>
+                        </action>
+                        <action method="setImgHeight">
+                            <argument name="width" xsi:type="string">50</argument>
+                        </action>
+                    </block>
+                </container>
+				<container name="qacaptcha" label="Captcha">
+                    <block class="Magento\Captcha\Block\Captcha" name="captcha2" after="-" cacheable="false">
+                        <action method="setFormId">
+                            <argument name="formId" xsi:type="string">qa_captcha_form_1</argument>
+                        </action>
+                        <action method="setImgWidth">
+                            <argument name="width" xsi:type="string">230</argument>
+                        </action>
+                        <action method="setImgHeight">
+                            <argument name="width" xsi:type="string">50</argument>
+                        </action>
+                    </block>
+                </container>
+          </block>
+        </referenceBlock>
+		<referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="captcha_page_head_components" template="Magento_Captcha::js/components.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

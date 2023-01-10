@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Mageants_AgeVerification:etc/menu.xsd">
+    <menu>
+        <add id="Mageants_AgeVerification::ageverification" title="Age Verification" translate="title" module="Mageants_AgeVerification" sortOrder="20" parent="Magento_Backend::content" resource="Mageants_AgeVerification::ageverification"/>
+        <add id="Mageants_AgeVerification::template" title="Templates" translate="title" module="Mageants_AgeVerification" sortOrder="0" parent="Mageants_AgeVerification::ageverification" action="ageverification/template" resource="Mageants_AgeVerification::template"/>        
+    </menu>
+</config>

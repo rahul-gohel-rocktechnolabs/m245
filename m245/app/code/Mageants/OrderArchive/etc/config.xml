@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Mageants OrderArchive
+ * @package Mageants OrderArchive
+ * @copyright Copyright (c) 2019 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */ 
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <sales>
+            <Mageants_OrderArchive>
+                <active>0</active>
+                <age>30</age>
+                <order_statuses>closed,complete</order_statuses>
+            </Mageants_OrderArchive>
+        </sales>
+    </default>
+</config>

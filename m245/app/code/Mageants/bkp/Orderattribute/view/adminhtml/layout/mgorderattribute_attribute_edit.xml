@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Attribute\Edit\Tabs"
+                   name="attribute_edit_tabs">
+                <container label="Main" name="main">
+                    <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Attribute\Edit\Tab\Main" as="base"/>
+                </container>
+                <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Attribute\Edit\Tab\Options" as="options"/>
+                <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Attribute\Edit\Tab\Conditions" as="conditions"/>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Mageants\Orderattribute\Block\Adminhtml\Order\Attribute\Edit"
+                   name="attribute_edit_content"/>
+        </referenceContainer>
+        <referenceContainer name="js">
+            <block class="Magento\Backend\Block\Template" name="attribute_edit_js"
+                   template="Mageants_Orderattribute::attribute/js.phtml">
+         <arguments>
+            <argument name="view_model" xsi:type="object">Mageants\Orderattribute\ViewModel\ViewModel</argument>
+        </arguments>
+               </block>
+        </referenceContainer>
+    </body>
+</page>

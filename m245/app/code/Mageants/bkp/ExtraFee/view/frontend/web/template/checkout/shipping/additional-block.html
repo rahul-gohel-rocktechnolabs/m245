@@ -1,0 +1,12 @@
+<div>
+   	<strong><span data-bind="visible: shouldShowMessage, html: getCheckoutFeeLabel()"></span></strong>
+   	<span data-bind="html: getShippingMadatoryFeeLabel()"></span>
+   	<select id="shippingFee" class="shipping-extra-fees" data-bind="
+   		visible: shouldShowField,
+   		options: getCustomFeeAmount,
+	    optionsText: 'feesname',
+	    optionsValue: 'price',
+	    optionsCaption: 'Select Additional shipping',
+	    event:{ change:removePlace} ">
+	</select>
+</div>

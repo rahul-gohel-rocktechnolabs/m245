@@ -1,0 +1,107 @@
+@color0: #000;
+@width1: 100%;
+@height2: 100%;
+@chinese-color: #ccc;
+
+.loader {
+    height: @height2;
+    left: 0;
+    opacity: .7;
+    position: fixed;
+    top: 0;
+    width: @width1;
+    z-index: 9999;
+}
+.displayval {
+    display: none !important;
+}
+.uniq {
+    border: 1px @color-black solid;
+    display: inline-block;
+    padding: 2px;
+    img {
+        border-radius: 5px;
+        cursor: pointer;
+        height: 240px !important;
+        transition: .3s;
+        &:hover {
+            filter: alpha(opacity=50);
+            opacity: .5;
+        }
+    }
+    h2 {
+        background: lightgrey;
+        margin: 0;
+        padding: 10px;
+        text-align: center;
+    }
+}
+.page-title {
+    span {
+        h3 {
+            background: @color-black;
+            color: @color-white;
+            padding: 1%;
+            text-align: center;
+        }
+    }
+}
+.gallery-action {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 10px;
+    width: @width1;
+    a {
+        background: @color0;
+        border-radius: 5px;
+        color: @color-white;
+        cursor: pointer;
+        display: block;
+        padding: 4px 10px;
+        text-decoration: none;
+        margin-left: 10px;
+    }
+}
+.video-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+    span.error-msg {
+        display: block;
+        padding: 0 15px;
+        width: @width1;
+    }
+    .video-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0 0 15px;
+        padding: 0 15px;
+        width: 22.63%;
+        a {
+            border: 1px solid @chinese-color;
+            display: flex;
+            flex-wrap: wrap;
+            height: auto;
+            justify-content: center;
+            padding: 10px;
+            text-decoration: none;
+            width: @width1;
+            video {
+                height: 150px;
+                max-height: @height2;
+                max-width: @width1;
+                width: @width1;
+            }
+            span {
+                color: @color0;
+                display: block;
+                margin: 10px 0 0;
+                text-align: center;
+                text-decoration: none;
+                width: @width1;
+            }
+        }
+    }
+}

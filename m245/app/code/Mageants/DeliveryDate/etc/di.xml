@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="sr_save_delivery_date_in_quote" type="Mageants\DeliveryDate\Plugin\Checkout\Model\ShippingInformationManagement" sortOrder="1"/>
+    </type>
+    <!-- <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="sr_save_delivery_date_in_quote1" type="Mageants\DeliveryDate\Plugin\Checkout\Model\PaymentInformationManagement" sortOrder="2"/>
+    </type> -->
+     <preference for="Magento\Multishipping\Model\Checkout\Type\Multishipping" type="Mageants\DeliveryDate\Model\Checkout\Type\Multishipping" />
+    <preference for="Magento\Sales\Model\Order\Pdf\Invoice" type="Mageants\DeliveryDate\Model\order\pdf\Invoice" />
+    <preference for="Magento\Sales\Model\Order\Pdf\Shipment" type="Mageants\DeliveryDate\Model\order\pdf\Shipment" />
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="delivery_date" xsi:type="string">sales_order.delivery_date</item>
+                <item name="delivery_timeslot" xsi:type="string">sales_order.delivery_timeslot</item>
+                <item name="delivery_comment" xsi:type="string">sales_order.delivery_comment</item>
+            </argument>
+        </arguments>
+	</virtualType>
+    <preference for="Magento\Sales\Block\Order\Info" type="Mageants\DeliveryDate\Block\Order\Info" />
+    <virtualType name="Mageants\DeliveryDate\Model\ResourceModel\OrderSave\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mageants_order_info</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\DeliveryDate\Model\ResourceModel\OrderSave</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="grid_record_data_source" xsi:type="string">Mageants\DeliveryDate\Model\ResourceModel\OrderSave\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- <preference for="Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save" type="Mageants\DeliveryDate\Controller\Adminhtml\Order\Shipment\Save" /> -->
+   
+</config>

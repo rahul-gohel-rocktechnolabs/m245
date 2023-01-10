@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+  /**
+ * @category  Mageants Product Question Answer
+ * @package   Mageants_ProductQA
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="productqa_email_template"
+              label="Product QA Email Template"
+              file="productqa_email_template.html"
+              type="html"
+              module="Mageants_ProductQA" 
+              area="frontend" />
+
+    <template id="mageants_productqa_user_email_template"
+              label="Product Question Email Template Customer"
+              file="productque_customer_notification.html"
+              type="html"
+              module="Mageants_ProductQA" 
+              area="frontend" />
+   
+    <template id="mageants_productqa_admin_email_template"
+              label="Product Question Email Template Admin"
+              file="productque_admin_notification.html" 
+              type="html"
+              module="Mageants_ProductQA"
+              area="frontend" />
+    <template id="mageants_productqa_admin_email_template_foranswer"
+              label="Product Answer Email Template Admin"
+              file="productque_admin_notification_answer.html" 
+              type="html"
+              module="Mageants_ProductQA"
+              area="frontend" />
+    <template id="mageants_productqa_email_to_answered_users_template"
+              label="Answered Users Email Template"
+              file="productque_admin_notification.html" 
+              type="html"
+              module="Mageants_ProductQA"
+              area="frontend" />
+    
+</config>

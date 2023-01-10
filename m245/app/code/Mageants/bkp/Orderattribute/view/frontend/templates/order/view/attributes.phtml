@@ -1,0 +1,39 @@
+<?php
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+?>
+<?php
+/**
+ * @var \Mageants\Orderattribute\Block\Order\Attributes $this
+ */
+$orderAttributeList = $block->getList();
+?>
+
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Additional Info')) ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if ($orderAttributeList): ?>
+            <?php foreach ($orderAttributeList as $label => $value):?>
+                <strong class="box-title">
+                    <span><?= $block->escapeHtml(__($label)) ?></span>
+                </strong>
+                <div class="box-content">
+                    <?= /* @noEscape */ $block->prepareAttributeValueForDisplaying($value) ?>
+                </div>
+            <?php endforeach;?>
+        <?php else: ?>
+            <strong class="box-title">
+                <span>&nbsp;</span>
+            </strong>
+            <div class="box-content">
+                <?= $block->escapeHtml(__('No attributes for this order')) ?>
+            </div>
+        <?php endif;?>
+    </div>
+</div>

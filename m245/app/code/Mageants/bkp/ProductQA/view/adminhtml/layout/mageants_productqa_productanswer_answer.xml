@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * @category  MageantsAdvancesizechart
+ * @package   Mageants_Advancesizechart
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+	
+	<container name="root" label="Root">
+        <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestion\Edit\Tab\QAnswer" name="productqa.answer.all" template="Mageants_ProductQA::productqa/answers.phtml"/>
+    </container>
+</layout>

@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mageants" sortOrder="15">
+            <label>Mageants</label>
+        </tab>
+        <section id="mageants_advancedsearch" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>AdvancedSearch</label>
+            <tab>mageants</tab>
+            <resource>Mageants_AdvancedSearch::config_AdvancedSearch</resource>
+            <group id="AdvancedSearch_main" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Autocomplete Configuration</label>
+                 <field id="moduleenable" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                   showInWebsite="1" showInStore="1">
+                  <label>Inquiry Enable</label>
+                  <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+               </field>
+                <field id="search_delay" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Search Delay]]></label>
+                    <validate>validate-zero-or-greater integer</validate>
+                </field>
+               <field id="popup_width" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Popup Width (px)]]></label>
+                    <validate>validate-zero-or-greater integer</validate>
+                </field>
+                <field id="autocomplete_fields" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Show Fields In Popup]]></label>
+                    <source_model>Mageants\AdvancedSearch\Model\Source\AutocompleteFields</source_model>
+                </field>
+                 <field id="minimum_number" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                     <label><![CDATA[Minimum Search Number]]></label>
+                    <validate>validate-zero-or-greater integer</validate>
+                    <comment><![CDATA[The number of characters that customers should type in to start search process.The recommended value is 3 or higher.]]></comment>
+                </field>
+        
+              <field id="searchbar" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Search Field Width</label>
+                    <comment>If Customer Choose 'Default' to keep the original size of the search field during the searching process.</comment>
+                    <source_model>Mageants\AdvancedSearch\Model\Config\Source\Displayat</source_model>
+                </field>
+            </group>
+
+          <group id="product" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product</label>
+
+                 <field id="product_title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Title]]></label>
+                    <validate>required-entry</validate> 
+                   
+               </field>
+                 <field id="category_title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label><![CDATA[Category_Title]]></label>
+                       <validate>required-entry</validate> 
+                </field>
+
+                <field id="product_result_number" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Number Of Results Product Search]]></label>
+                    <validate>required-entry validate-zero-or-greater integer</validate>
+                    <comment><![CDATA[Empty or 0 value displays all search results.]]></comment>
+                </field>
+                <field id="product_result_fields" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Product Search Result Fields]]></label>
+                    <source_model>Mageants\AdvancedSearch\Model\Source\ProductFields</source_model>
+                </field>
+                <field id="decription_length" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Length Of Description]]></label>
+                    <validate>validate-zero-or-greater integer</validate>
+                
+            </field>
+             <field id="url_redirect" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+               <label> Redirect To Product Page</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                 <comment><![CDATA[ redirect to Product page on click product name or image.]]></comment>
+             </field>
+
+              <field id="addtocart_redirect" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+               <label> Redirect To Shopping Cart Page</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                 <comment><![CDATA[ redirect to shopping cart page on click add to cart button.]]></comment>
+             </field>
+
+            </group>
+
+          <group id="bestseller" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>BestSeller</label>
+            <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+               <label> Enable</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+             </field>
+
+            <field id="bestseller_title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Title]]></label>
+                    <validate>required-entry</validate>                   
+            </field>
+           <field id="bestseller_result_number" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Number Of Results Product Search]]></label>
+                    <validate>validate-zero-or-greater integer</validate>
+                   
+            </field>      
+            
+         </group>
+         <group id="suggestion" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Suggestion</label>
+                <field id="Sugestion_Title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Title]]></label>
+                    <validate>required-entry</validate> 
+                   
+                </field>
+                <field id="suggested_result_number" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label><![CDATA[Number Of Results Suggested Search]]></label>
+                        <validate>validate-zero-or-greater integer</validate>
+                </field>
+           
+          </group>
+
+            <group id="Recentsearch" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Recent Search</label>
+
+            <field id="recent_title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Title]]></label>
+                    <validate>required-entry</validate> 
+                   
+            </field>
+             <field id="recent_result_number" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Number Of Results Show ]]></label>
+                    <validate>validate-zero-or-greater integer</validate>
+            </field>
+
+            <field id="recent_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+               <label>Enabled</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+             </field>
+
+             <field id="firstclick" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+               <label>Show On First Click</label>
+                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+             </field>
+
+            </group>
+
+             <group id="custom_layout" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Custom Layout</label>             
+
+            <field id="custom_layout_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+               <label>Enabled</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+             </field>
+
+             <field id="border" translate="label" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Border</label>
+                  <frontend_model>Mageants\AdvancedSearch\Block\Color</frontend_model>
+             </field>
+
+            <field id="hover" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label> Hover</label>
+                    <frontend_model>Mageants\AdvancedSearch\Block\Color</frontend_model>
+            </field>
+
+            <field id="background" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Background</label>
+                       <frontend_model>Mageants\AdvancedSearch\Block\Color</frontend_model>
+            </field>
+
+                 <field id="text" translate="label" type="text" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Text </label>
+                    <frontend_model>Mageants\AdvancedSearch\Block\Color</frontend_model>
+                </field>
+
+                 <field id="hover_text" translate="label" type="text" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Hover Text</label>
+                    <frontend_model>Mageants\AdvancedSearch\Block\Color</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

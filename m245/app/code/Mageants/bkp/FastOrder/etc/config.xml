@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <fastorder>
+        	<general>
+                <enable>1</enable>
+                <number_of_lines>2</number_of_lines>
+                <max_results>15</max_results>
+                <enable_customer_group>32000</enable_customer_group>
+            </general>
+        </fastorder>
+    </default>
+</config>

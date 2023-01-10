@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_before">
+        <observer name="set_order_delivery_date" instance="Mageants\DeliveryDate\Observer\SaveDeliveryDateToOrderObserver" />
+        <observer name="set_order_delivery_date_billing_address" instance="Mageants\DeliveryDate\Observer\SalesOrderSave"/>
+    </event>
+    <event name="checkout_cart_save_after">
+       <observer name="add_custom_data" instance="Mageants\DeliveryDate\Observer\Checkout\AfterAddtoCart" />
+   </event>
+   <event name="checkout_onepage_controller_success_action">
+    <observer name="mymodule_controller_success_action" instance="Mageants\DeliveryDate\Observer\CheckoutOrderSave"  />
+  </event> 
+  <event name="multishipping_checkout_controller_success_action">
+    <observer name="save_data_to_multishipping"
+     instance="Mageants\DeliveryDate\Observer\CheckoutOrderSaveMultishipping"  />
+  </event> 
+</config>

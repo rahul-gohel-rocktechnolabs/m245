@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Mageants OrderArchive
+ * @package Mageants OrderArchive
+ * @copyright Copyright (c) 2019 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */ 
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="Mageants_OrderArchive_archive_orders" instance="Mageants\OrderArchive\Cron\ArchiveOrdersByCron" method="execute">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
+</config>

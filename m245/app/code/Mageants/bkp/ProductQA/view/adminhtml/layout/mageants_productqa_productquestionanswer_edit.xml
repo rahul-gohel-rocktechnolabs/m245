@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants ProductQA
+ * @package   Mageants_ProductQA
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <info@mageants.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestionAnswer\Edit" name="mageants_productqa_productquestionanswer_edit"/> 
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestionAnswer\Edit\Tabs" name="mageants_productqa_productquestionanswer_tabs">
+                <block class="Mageants\ProductQA\Block\Adminhtml\ProductQuestionAnswer\Edit\Tab\ProductQuestionAnswer" name="mageants_productqa_productquestionanswer_edit_tab_productquestionanswer"/>
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">productquestionanswer</argument>
+                    <argument name="block" xsi:type="string">mageants_productqa_productquestionanswer_edit_tab_productquestionanswer</argument>
+                </action>
+            </block>
+        </referenceContainer> 
+    </body>
+</page>

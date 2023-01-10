@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="extrafee_grid_data_source" xsi:type="string">Mageants\ExtraFee\Model\ResourceModel\ExtraFee\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Quote\Model\Quote\Address\Total\Shipping" type="Mageants\ExtraFee\Model\Quote\Address\Total\Shipping" />
+
+    <preference for="Magento\Sales\Block\Order\Totals" type="Mageants\ExtraFee\Block\Order\Totals" />
+    
+    <preference for="Magento\Sales\Block\Order\Info" type="Mageants\ExtraFee\Block\Order\Info" />
+    
+    <preference for="Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items\Renderer" type="Mageants\ExtraFee\Block\Adminhtml\Sales\Order\View\Items\Renderer" />
+    
+    <preference for="Magento\Sales\Model\Order\Pdf\Invoice" type="Mageants\ExtraFee\Model\Order\Pdf\Invoice" />
+    
+    <type name="Mageants\ExtraFee\Model\ResourceModel\ExtraFee\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mageants_extrafee</argument>
+            <argument name="eventPrefix" xsi:type="string">mageants_extrafee_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">mageants_extrafee_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Mageants\ExtraFee\Model\ResourceModel\ExtraFee</argument>
+        </arguments>
+    </type>
+    
+    <virtualType name="ExtraFeeGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Mageants\ExtraFee\Model\ResourceModel\ExtraFee\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">ExtraFeeGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    
+    <virtualType name="ExtraFeeGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <preference for="Magento\Tax\Model\Sales\Total\Quote\Tax" type="Mageants\ExtraFee\Model\Sales\Total\Quote\Tax" />
+    
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+            <plugin name="Extrafee_to_order_item" type="Mageants\ExtraFee\Model\Plugin\Quote\ExtraFeeToOrderItem"/>
+    </type>
+    
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <script src="Mageants_PricePerCustomer::js/product.js"/> 
+	</head>
+    <body>
+        <referenceBlock name="customer_form">
+            <block class="Mageants\PricePerCustomer\Block\Adminhtml\Customer\Edit\Tab\Customerpriceview" name="customertab_panel" ifconfig="pricepercustomer/general/enable">
+                <arguments>
+                    <argument name="tab_label" xsi:type="string" translate="true">Customer Price</argument>
+                    <argument name="sort_order" xsi:type="number">100</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

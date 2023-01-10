@@ -1,0 +1,82 @@
+<?php
+/**
+ * @category Mageants FastOrder
+ * @package Mageants_FastOrder
+ * @copyright Copyright (c) 2018 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+
+<?php
+    $_linksPurchasedSeparately = $block->getLinksPurchasedSeparately();
+    $sortOrder = $block->getSortOrder();
+?>
+<?php if ($block->getProduct()->isSaleable() && $block->hasLinks()):?>
+    <?php $_links = $block->getLinks(); ?>
+    <?php $_linksLength = 0; ?>
+    <?php $_isRequired = $block->getLinkSelectionRequired(); ?>
+   <div class="field downloads<?php if ($_isRequired) { echo ' required'; } ?>
+    <?php if (!$_linksPurchasedSeparately) { echo ' downloads-no-separately'; } ?>">
+        <label class="label mageants-required-label"><span><?= /*@noEscape */ $block->getLinksTitle() ?></span></label>
+        <div class="control" id="mageants-fastorder-downloadable-links-list" data-container-for="downloadable-links">
+            <?php foreach ($_links as $_link): ?>
+                <?php $_linksLength++;?>
+                <div class="field choice" data-role="link">
+                    <?php if ($_linksPurchasedSeparately): ?>
+                        <input type="checkbox"
+                               name="mageants_fastorder_links[<?= /*@noEscape */ $sortOrder;?>][]"
+                               id="mageants_fastorder_links_<?= /*@noEscape */ $_link->getId() ?>"
+                               value="<?= /*@noEscape */ $_link->getId(); ?>" 
+                               <?= /*@noEscape */ $block->getLinkCheckedValue($_link); ?> />
+                        <input type="hidden" class="mageants-attribute-select" 
+                        name="mageants_fastorder_links[<?= /*@noEscape */
+                        $sortOrder;?>][]" value="">
+                    <?php endif; ?>
+                    <label class="label" for="mageants_fastorder_links_<?= /*@noEscape */ $_link->getId() ?>">
+                        <span><?= /*@noEscape */ $block->escapeHtml($_link->getTitle()); ?></span>
+                        <?php if ($_link->getSampleFile() || $_link->getSampleUrl()): ?>
+                            <a class="sample link"
+                               href="<?= /*@noEscape */
+                                $block->getLinkSampleUrl($_link) ?>"
+                                <?= /*@noEscape */ $block->getIsOpenInNewWindow() ? 'target="_blank"' : ''; ?>>
+                                <?= /*@noEscape */ __('sample') ?>
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($_linksPurchasedSeparately): ?>
+                            <?= /*@noEscape */ $block->getLinkPrice($_link); ?>
+                        <?php endif; ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+            <?php if ($_linksPurchasedSeparately && $_linksLength > 1): ?>
+                <div class="field choice downloads-all">
+                    <input type="checkbox"
+                           data-notchecked="<?= /*@noEscape */ __('Select all')?>"
+                           data-checked="<?= /*@noEscape */ __('Unselect all')?>"
+                           id="mageants-fastorder-mageants_fastorder_links_all" />
+                    <label class="label" for="mageants-fastorder-mageants_fastorder_links_all"> 
+                    <span><?= /*@noEscape */ __('Select all')?>
+                    </span></label>
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php if ($_isRequired): ?>
+            <span id="mageants-links-advice-container">
+                <div generated="true" class="mageants-mage-error" style="display: block;">
+                    <?= /*@noEscape */ __('Please select one of the options.'); ?>
+                </div>
+            </span>
+        <?php endif;?>
+    </div>
+<?php endif; ?>
+<script>
+  require(["jquery", "jquery/ui", "mgants/fastorder_downloadable"], function ($) {
+    $('#mageants-fastorder-downloadable-links-list').fastorder_downloadable({
+        "mageantslinkElement":"input:checkbox[value]",
+        "mageantsallElements":"#mageants-fastorder-mageants_fastorder_links_all",
+        "mageantsconfig":<?= /*@noEscape */ $block->getJsonConfig() ?>,
+        "sortOrder":'<?= /*@noEscape */ $sortOrder ?>',
+        "defaultPrice": "<?= /*@noEscape */ $block->getProduct()->getFinalPrice()?>"
+    });
+  });
+</script>

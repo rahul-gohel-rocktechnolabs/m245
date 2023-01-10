@@ -1,0 +1,47 @@
+<?php
+/**
+ * @category  Mageants Orderattribute
+ * @package   Mageants_Orderattribute
+ * @copyright Copyright (c) 2020 Mageants
+ * @author    Mageants Team <support@Mageants.com>
+ */
+?>
+<?php
+/**
+ * @var \Mageants\Orderattribute\Block\Adminhtml\Order\View\Attributes $this
+ */
+$orderAttributeList = $block->getList();
+?>
+
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Custom Attributes')) ?></span>
+       <!--  <div class="actions"><?= $block->escapeHtml(__($block->getOrderAttributeEditLink())) ?></div> -->
+       <div class="actions"><?= /* @noEscape */ $block->getOrderAttributeEditLink(); ?></div>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                    <?php if ($orderAttributeList): ?>
+                        <?php foreach ($orderAttributeList as $label => $value):?>
+                            <tr>
+                                <th><?= $block->escapeHtml(__($label)) ?></th>
+                                <td>
+                                    <strong>
+                                    <?= $block->escapeHtml(__($block->prepareAttributeValueForDisplaying($value))) ?>
+                                    </strong>
+                                </td>
+                            </tr>
+                        <?php endforeach;?>
+                    <?php else: ?>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <td><?= $block->escapeHtml(__('No attributes for this order')) ?></td>
+                        </tr>
+                    <?php endif;?>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

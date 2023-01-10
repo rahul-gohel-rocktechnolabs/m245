@@ -1,0 +1,188 @@
+<?php
+$helper= $block->getLayout()
+->createBlock(\Mageants\DeliveryDate\Helper\Data::class);
+$isEnable = $helper->getPluginEnable();
+if ($isEnable) {
+    $displayAt = $helper->getPluginDisplayAt();
+    $dateFormat = $helper->getPluginDateFormat();
+    $disableDays = $helper->getPluginDisableDays();
+    $holidays = $helper->getPluginHolidays();
+    $cutofftime = $helper->getPluginCutoffTime();
+    $processtime = $helper->getPluginProcessTime();
+    $timeslot = $helper->getTimeSlot();
+    $arrivalComment = $helper->getPluginArrivalComment();
+    if ($displayAt == 0 || $displayAt == 1 || $displayAt == 2 || $displayAt == 3) { ?>
+       <form  action="#" id="delivery_date" method="post" >
+        <label class="label">
+                <span>Delivery Date <span style="color:#e02b27;font-size:1.2rem;margin:0 0 0 5px;">*</span>
+                </span>
+            </label>
+            <input type="text" class="input-text required-entry" id="del-date" 
+            name="del-date" aria-required="true" value="" 
+            onChange="dateChange()" 
+            style="margin-top: 10px;margin-left: 30px;margin-bottom: 10px;" >
+            <span id="dateerror"></span><br/>
+            <label class="label">
+                <span>Delivery Time Slot <span style="color:#e02b27;font-size:1.2rem;margin:0 0 0 5px;">*</span>
+                </span>
+            </label>
+            <select name="delivery_timeslot" id="delivery_timeslot" 
+            aria-required="true" data-validate="{required:true}" 
+            style="margin-top: 10px;margin-bottom: 10px">
+            <option value="">Please Select Delivery Timeslot</option></select><br/>
+            <?php if ($arrivalComment == 1) {?>
+            <label class="label"><span style="margin-top: -40px;">Comment</span></label>
+            <textarea name="delivery_comment" id="delivery_comment"
+             style="margin-top: 10px;margin-left:68px;" rows="1"></textarea>
+            </form>
+            <?php } ?>
+    <script>
+        var disableDays = '<?= /* @noEscape */ $disableDays ?>';
+        var cutofftime = '<?= /* @noEscape */ $cutofftime ?>';
+        var processtime = '<?= /* @noEscape */ $processtime ?>';
+        function nationalDays(date) {
+            var holidays = JSON.parse('<?= /* @noEscape */ $holidays ?>');
+            var array = jQuery.map(holidays, function(value, index) {
+                return [value.Date];
+            });
+
+            var m = ("0"+(date.getMonth() + 1)).slice(-2)  + "/" + date.getDate() + "/" + date.getFullYear();
+                    
+                if(jQuery.inArray(m,array) !== -1) {
+                    return [false,"","Holidays"];
+                }else{
+                    var cutofftime1=cutofftime.split(",");
+                    var currentdate = new Date();
+                    
+                    if(processtime==0 || processtime=="" || processtime==null){
+                        
+                        var d = new Date(
+                            currentdate.getFullYear(), currentdate.getMonth(), currentdate.getDate(),
+                            cutofftime1[0].replace(/\b0/g,''),
+                            cutofftime1[1].replace(/\b0/g,''),
+                            cutofftime1[2].replace(/\b0/g,'')
+                            );
+                        
+                        if(currentdate<d){
+                            return [true];
+                        } else {
+                            if(date<d){
+                                return [false];
+                            }else{
+                                return [true];
+                            }
+                        }
+                    } else {
+                        var dt=currentdate.setDate(currentdate.getDate() + parseInt(processtime));
+                        if(date<dt){
+                            return [false];
+                        } else {
+                            return [true];
+                        }
+                    }
+                }
+
+            // }
+            // return [true];
+        }
+        function specificDays(date) {
+            var day = date.getDay();
+            if(disableDays.indexOf(day)!==-1){
+                return [false,"","Week-off"];
+            }else{
+                return [true];
+            }
+        }
+
+        function noWeekendsOrHolidays(date) {
+            var day = date.getDay();
+            if(disableDays){
+                if(disableDays.indexOf(day)!==-1){
+                    /*console.log(specificDays(date)+' . '+ date);*/
+                    return specificDays(date);
+                }
+            }
+            // console.log(nationalDays(date)+' . '+ date);
+            return nationalDays(date);
+        }
+        function dateChange(){
+
+                var dateFormat = '<?= /* @noEscape */ $dateFormat; ?>';
+                var timeslot = jQuery.parseJSON('<?= /* @noEscape */ json_encode($timeslot); ?>');
+                var day='';
+                var date=new Date();
+        
+                var weekday = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+
+                if (dateFormat == 'dd-mm-yy') {
+                    var dateValue = jQuery('#del-date').val();
+                    var a = dateValue.split("-") ;
+                    var date = new Date(a[2],a[1]-1,a[0]);
+                    day = weekday[date.getDay()];
+                }
+                if (dateFormat == 'mm-dd-yy') {
+                    var dateValue = jQuery('#del-date').val();
+                    var a = dateValue.split("-");
+                    var date = new Date(a);
+                    day = weekday[date.getDay()];
+                }
+                if (dateFormat == 'yy-mm-dd') {
+                    var dateValue = jQuery('#del-date').val();
+                    var a = dateValue.split("-") ;
+                    var date = new Date(a) ;
+                    day = weekday[date.getDay()];
+                }
+                jQuery('#delivery_timeslot').find('option').not(':first').remove();
+                jQuery.each(timeslot, function(key,val) {
+                   if(key == day){
+                        jQuery.each(val, function(key1,val1) {
+                            var start_hour =val1.start_hour;
+                            var start_min =val1.start_min;
+                            var end_hour =val1.end_hour;
+                            var end_min =val1.end_min;
+                            var time = start_hour+":"+start_min+" - "+end_hour+":"+end_min;
+                            var html = '<option value="'+time+'">'+time+'</option>';
+                            jQuery('#delivery_timeslot').append(html);
+                        });
+                   }
+                });
+                 require([
+        'jquery',
+        'jquery/jquery.cookie'
+    ], function ($) {
+        $(document).ready(function () {
+            $.cookie('delivery_date', dateValue,{path:'/',domain:""}); 
+             
+                 jQuery('#delivery_timeslot').change(function() {
+                 var x=jQuery('option:selected', this).text() ;
+                 $.cookie('delivery_timeslot',x,{path:'/',domain:""});          
+            });
+            jQuery('#delivery_comment').focusout(function()
+            {
+                  var comment=jQuery('#delivery_comment').val();
+                  $.cookie('delivery_comment',comment,{path:'/',domain:""});
+                 
+            });
+
+        });
+    });
+                
+
+        }
+         require([
+              "jquery",
+              "mage/calendar"
+         ], function($){
+             $("#del-date").datepicker({
+                  buttonText:"<?= /* @noEscape */ __('Select Date') ?>",
+                  minDate: new Date(),
+                  dateFormat: '<?= /* @noEscape */ $dateFormat ?>',
+                  beforeShowDay:noWeekendsOrHolidays
+             });
+           });
+
+    </script>
+        <?php
+    }
+}
+?>

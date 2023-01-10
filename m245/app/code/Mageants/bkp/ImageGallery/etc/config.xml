@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mageants_imagegallery>
+        	<imagegallery>
+                <enabled>0</enabled>
+                <header_title>Image Gallery</header_title>
+                <header_bgcolor>#080808</header_bgcolor>
+                <header_forecolor>#faf2fa</header_forecolor>
+                <image_bottom_bgcolor>#0a0a0a</image_bottom_bgcolor>
+                <image_bottom_forecolor>#f7f5f4</image_bottom_forecolor>
+            </imagegallery>
+        </mageants_imagegallery>
+    </default>
+</config>

@@ -1,0 +1,155 @@
+<?php
+/**
+ * @category Mageants FastOrder
+ * @package Mageants_FastOrder
+ * @copyright Copyright (c) 2018 Mageants
+ * @author Mageants Team <support@mageants.com>
+ */
+?>
+<?php $product = $block->getProduct() ?>
+<?php $Attributes = $block->getProductAttributes() ?>
+<?php
+    $sortOrder = $block->getSortOrder();
+    $blockObj = $block->getLayout()->createBlock(\Mageants\FastOrder\Block\FastOrder::class);
+    $_helper = $blockObj->helperData();
+    $displayBothPrices = $blockObj->displayBothPrices();
+?>
+ 
+<input type="hidden" class="mgantsrow-select" value="<?= /*@noEscape */ $block->getSortOrder() ?>">
+<div class="mgantsproduct-info">
+    <img class="photo image" 
+    src="<?= /*@noEscape */
+    $block->getStoreMediaUrl() .'catalog/product'. $product->getData('thumbnail'); ?>" width="100" height="100">
+    <div class="product-name">
+          <strong class="product name"><?= /*@noEscape */ $product->getName() ?></strong>
+    </div>
+    <?php
+    if ($product->getTypeId()=='configurable') {
+        ?>
+    <div></div>
+        <div class="mgantsproduct-info-price">
+          <div class="price-box" data-role-fastorder="priceBox">
+            <span class="price-container">
+                <span id="mgantsproduct-price-<?=
+                /*@noEscape */ $product->getId() ?>" 
+                data-price-amount="<?php $product->getPrice() ?>" 
+                data-price-type="finalPrice" class="price-wrapper">
+                <span class="price">
+                <?= /*@noEscape */ $product->getPrice() ?>
+                </span></span>
+            </span>
+            <span class="mgantsprice-tier_price"></span>
+          </div>
+        </div>
+        <?php
+    } else {
+        ?>
+            <div class="mgantsproduct-info-price">
+                <div class="price-box" data-role-fastorder="priceBox">
+                    <span class="price-container">
+                        <span id="mgantsproduct-price-<?= /*@noEscape */ $product->getId(); ?>"
+                              data-price-amount="<?= /*@noEscape */
+                                $product->getFinalPrice(); ?>" 
+                              data-price-type="finalPrice"
+                              class="price-wrapper final-price">
+                        </span>
+
+                        <?php
+                        if ($displayBothPrices): ?>
+                            <p><?= /*@noEscape */ __('Excl. Tax: ') ?>
+                                <span id="mgantsproduct-price-excl-tax-<?=
+                                /*@noEscape */ $product->getId(); ?>"
+                                data-price-amount="<?= /*@noEscape */
+                                $product->getFinalPrice(); ?>" 
+                                data-price-type="basePrice"
+                                class="price-wrapper base-price">
+                                </span>
+                            </p>
+                        <?php endif; ?>
+                    </span>
+                </div>
+            </div>
+        <?php
+    }
+    ?>
+</div>
+
+<form id="mgantsfastorder-form-option" method="post" data-hasrequired="* Required Fields" novalidate="novalidate">
+  <div class="mgantsproduct-option">
+    <input type="hidden" class="mgantsproduct-child-id" value="<?= /*@noEscape */ $product->getId() ?>">
+    <input type="hidden" class="mgantsproduct-id" value="<?= /*@noEscape */ $product->getId() ?>">
+    <?php
+    if ($product->getTypeId()=='configurable') {
+        ?>
+            <div class="mgantsswatch-opt-<?= /*@noEscape */ $product->getId() ?>"></div>
+            <?php $viewModel = $block->getData("viewModel"); ?>
+            <script>
+              require(["jquery", "jquery/ui", "mgants/swatch"], function ($) {
+                var fastorderRow = $('.mgantsrow-select').val();
+                $('.mgantsswatch-opt-<?= /*@noEscape */ $product->getId() ?>').FastOrderSwatch({
+                    jsonConfig: <?= /*@noEscape */ $block->getJsonConfig(); ?>,
+                    jsonSwatchConfig: <?= /*@noEscape */ $block->getJsonSwatchConfig(); ?>,
+                    fastorderRow: fastorderRow,
+                    formatPrice: <?= /*@noEscape */$_helper->getFomatPrice(); ?>,
+                });
+              });
+            </script>
+        <?php
+    } elseif ($product->getTypeId()=='downloadable') {
+            echo $block->getLayout()->createBlock(
+                \Magento\Downloadable\Block\Catalog\Product\Links::class,
+                '',
+                [
+                    'data' => [
+                        'sort_order' => $sortOrder
+                    ]
+                ]
+            )
+                ->setTemplate('Mageants_FastOrder::downloadable.phtml')->setProduct($product)->toHtml();
+    } elseif ($product->getTypeId()=='grouped') {
+            echo $block->getLayout()->createBlock(
+                \Magento\GroupedProduct\Block\Product\View\Type\Grouped::class,
+                '',
+                [
+                    'data' => [
+                        'sort_order' => $sortOrder
+                    ]
+                ]
+            )
+                ->setTemplate('Mageants_FastOrder::grouped.phtml')
+                ->setProduct($product)->toHtml();
+    } else {
+            echo $block->getLayout()->getBlock('product.info.options')
+            ->setProduct($product)
+            ->toHtml();
+    }
+    ?>
+    <div class="mgantsbox-button">
+      <div class="fieldset"></div>
+      <div class="actions">
+        <button type="button" title="Cancel" class="action" id="mgantscancel-option">
+          <span>Cancel</span>
+        </button>
+        <button type="submit" title="Select" class="action primary" id="mgantsselect-option">
+          <span>Select</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+    require(["jquery", 
+             "jquery/ui", 
+             'Magento_Catalog/js/price-box', 
+             'Magento_Catalog/product/view/validation'], 
+    function ($) {
+        var priceBoxesFastOrder = $('[data-role-fastorder=priceBox]');
+        priceBoxesFastOrder.priceBox({
+            'priceConfig': <?= /*@noEscape */ $_helper->getJsonConfigPrice($product);?>,
+        });
+        priceBoxesFastOrder.trigger('reloadPrice');
+        $('.loading-mask').show();
+        $('#mgantsfastorder-form-option').validation({});
+    });
+</script>

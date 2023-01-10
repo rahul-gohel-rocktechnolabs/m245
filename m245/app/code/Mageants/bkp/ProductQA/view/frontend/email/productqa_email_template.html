@@ -1,0 +1,42 @@
+<!--@subject New Question Post@-->
+<!--@vars {
+"var product_image":"Product image ",	
+"var product_url":"Product url ",	
+"var product_name":"Product name ",	
+"var question":"Question ",
+"var question_username":"Customer Name",
+"var question_date":"Question date",
+"var new_answer":"New answer",
+"var new_answer_username":"New anser username",
+"var new_answer_date":"New Answer date"
+} @-->
+<div id="productquestion" class="productquestion">
+	<div class="product">
+		<div class="pimage"><img src='{{var product_image}}'></div>
+		<div class="title"><a href="{{var product_url}}">{{var product_name}}</a></div>
+	</div>
+	<div class="qheader">
+		<div class="qtitle">
+			<h3><a href="#">{{var question}}</a></h3>
+		</div>
+		<div class="date-n-customer-name">
+			<div class="name"><span>{{var question_username}}</span></div>
+			<div class="date"><span>{{var question_date}}</span></div>
+		</div>
+	</div>
+	<div class="answers">
+		<ul>
+			<li>
+			<div class="amswer ">
+				<div class="ansheader">
+					<div class="anstitle">{{var new_answer}}</div>
+					<div class="date-n-customer-name">
+						<div class="name"><span>{{var new_answer_username}}</span></div>
+						<div class="date"><span>{{var new_answer_date}}</span></div>
+					</div>
+				</div>
+			</div>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="before.body.end">
+			<block class="Magento\Framework\View\Element\Template" name="facebook_chat_block" template="Mageants_FacebookChat::facebookchat.phtml" before="before.body.end" />
+			<arguments>
+				<argument name="helperdata" xsi:type="object">Mageants\FacebookChat\ViewModel\Facebookdata</argument>
+			</arguments>
+		</referenceContainer>
+	</body>
+</page>
